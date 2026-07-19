@@ -1,7 +1,7 @@
 {
-  "name": "Norðurljós — islandština hravě",
-  "short_name": "Norðurljós",
-  "description": "Gamifikovaná výuka islandštiny A1–C1 s rozřazovacím testem, XP a streaky.",
+  "name": "Íslenska — learn Icelandic / islandština hravě",
+  "short_name": "Íslenska",
+  "description": "Gamified Icelandic course A1–C2 (Czech & English). Gamifikovaná výuka islandštiny.",
   "lang": "cs",
   "start_url": "./",
   "scope": "./",

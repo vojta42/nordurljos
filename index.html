@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0E7C66">
-<meta name="description" content="Norðurljós — gamifikovaná výuka islandštiny A1–C2, česky.">
+<meta name="description" content="Íslenska — gamified Icelandic course A1–C2, in Czech and English.">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
-<title>Norðurljós — islandština hravě</title>
+<title>Íslenska — learn Icelandic / islandština hravě</title>
 <style>
 :root{
   --paper:#F3F7FA; --card:#FFFFFF; --ink:#1C2733; --muted:#5B6B7A;
@@ -623,6 +623,206 @@ const PLACEMENT=[
  {lvl:'c2',q:'Formálně „schůze začíná“: <span class="is">Fundurinn ___ klukkan níu.</span>',opts:['hefst','byrjar sig','hefjar','startar'],a:'hefst',optIs:true}
 ];
 
+/* ---- English overlay: lessons ---- */
+const EN={
+'a1-1':{title:'Greetings & introductions',tip:'<b>Ég heiti…</b> = my name is… Question: <b>Hvað heitir þú?</b> (What is your name?). Icelandic almost never uses formal address — <b>þú</b> works for nearly everyone.',
+ v:['hello','good day','good evening','goodbye','thank you','yes','no','excuse me'],
+ ex:[{cs:'My name is Anna.'},{cs:'My name is Vojta.'},{q:'What does <span class="is">“Hvað heitir þú?”</span> mean?',opts:['What is your name?','Where are you from?','How old are you?','How are you?'],a:'What is your name?'},{cs:'Good day, thank you.'},{q:'Write in Icelandic: <b>“yes”</b>'}]},
+'a1-2':{title:'Numbers 1–10',tip:'Numbers 1–4 <b>decline by gender</b> in Icelandic (einn/ein/eitt). For now we learn the masculine form — the one used for counting.',
+ v:['one','two','three','four','five','six','seven','eight','nine','ten'],
+ ex:[{q:'Which number comes after <span class="is">“sjö”</span>?'},{q:'How much is <span class="is">tveir + þrír</span>?'},{q:'Write the number <b>10</b> in Icelandic'},{cs:'I have two children.'}]},
+'a1-3':{title:'Family',tip:'<b>Ég á…</b> = I have (literally “I own”). The verb <b>eiga</b> is used for family and possessions: <i>Ég á systur</i> = I have a sister.',
+ v:['mum','dad','brother','sister','child','family','grandma','grandpa'],
+ ex:[{cs:'Grandma is old.'},{cs:'I have a big family.'},{q:'Who is your mum’s <span class="is">“bróðir”</span>?',opts:['uncle','grandpa','cousin','dad'],a:'uncle'},{q:'Write in Icelandic: <b>“sister”</b>'}]},
+'a1-4':{title:'Food & drink',tip:'Ordering politely: <b>Ég ætla að fá…</b> (I’ll have…) or simply <b>…, takk</b>. Drinking: <b>að drekka</b>, eating: <b>að borða</b>.',
+ v:['bread','milk','water','coffee','tea','fish','cheese','apple'],
+ ex:[{cs:'I would like water, please.'},{cs:'I drink coffee in the morning.'},{q:'Icelanders eat a lot of <span class="is">“fiskur”</span>. What is it?',opts:['fish','lamb','bread','cheese'],a:'fish'},{q:'Write in Icelandic: <b>“milk”</b>'}]},
+'a1-5':{title:'The verb “vera” & pronouns',tip:'Conjugation of <b>vera</b> (to be): <i>ég er, þú ert, hann/hún/það er, við erum, þið eruð, þeir/þær/þau eru</i>. The most important verb in Icelandic — learn it by heart.',
+ v:['I','you','he','she','we','you (plural)','they','it'],
+ ex:[{cs:'We are from Czechia.'},{cs:'You are kind.'},{cs:'She is a teacher.'},{cs:'They are at home.'}]},
+'a1-6':{title:'Days & time',tip:'Weekdays end in <b>-dagur</b> (day). <b>Í dag</b> = today, <b>á morgun</b> = tomorrow, <b>í gær</b> = yesterday.',
+ v:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday','today','tomorrow'],
+ ex:[{q:'Which day comes after <span class="is">“föstudagur”</span>?'},{cs:'Today is Monday.'},{q:'Write in Icelandic: <b>“today”</b>'},{q:'<span class="is">“Laugardagur”</span> literally means…',opts:['bath (washing) day','sun day','rest day','market day'],a:'bath (washing) day'}]},
+'a1-7':{title:'Colours',tip:'Colours are adjectives and <b>agree in gender</b>: <i>rauður bíll</i> (m), <i>rauð peysa</i> (f), <i>rautt hús</i> (n). For now we learn the masculine form.',
+ v:['red','blue','green','yellow','black','white','pink','brown'],
+ ex:[{cs:'The sky is blue. (himinn is masculine)'},{cs:'The car is red.'},{q:'What colour is grass?'},{q:'Write in Icelandic: <b>“black”</b>'}]},
+'a1-8':{title:'Animals',tip:'<b>Lundi</b> (puffin) is Iceland’s unofficial mascot — over half the world’s population nests there. Sheep (<b>kind</b>) outnumber people in Iceland.',
+ v:['dog','cat','sheep','bird','cow','mouse','whale','puffin'],
+ ex:[{cs:'The dog is big.'},{cs:'The cat drinks milk.'},{q:'Which animals outnumber the inhabitants of Iceland?',opts:['kindur (sheep)','hundar (dogs)','kýr (cows)','mýs (mice)'],a:'kindur (sheep)'},{q:'Write in Icelandic: <b>“dog”</b>'}]},
+'a1-9':{title:'Clothes',tip:'“To be wearing” = <b>vera í</b> + dative: <i>Ég er í peysu</i>. The <b>lopapeysa</b> — the Icelandic sweater with a circular yoke — is a national treasure.',
+ v:['sweater','jacket','trousers','shoes','cap','mittens','socks','t-shirt'],
+ ex:[{cs:'I am wearing a sweater.'},{cs:'It’s cold outside — take a cap!'},{q:'What is a <span class="is">“lopapeysa”</span>?',opts:['an Icelandic wool sweater with a circular pattern','a waterproof jacket','a wool hat with a pompom','hiking boots'],a:'an Icelandic wool sweater with a circular pattern'},{q:'Write in Icelandic: <b>“shoes”</b>'}]},
+'a1-10':{title:'At the restaurant',tip:'A polite request: <b>Get ég fengið…?</b> (can I get…?). The Icelandic hot dog is ordered <i>“ein með öllu”</i> — one with everything. <b>Skyr</b> is an Icelandic dairy product similar to yogurt.',
+ v:['menu','hot dog','soup','chicken','vegetables','fruit','bill','skyr (Icelandic yogurt)'],
+ ex:[{cs:'Can I get the menu?'},{cs:'One hot dog with everything, please!'},{q:'You want to pay. What do you ask for?'},{q:'Write in Icelandic: <b>“soup”</b>'}]},
+'a2-1':{title:'Weather',tip:'Weather is impersonal, via <b>það</b>: <i>Það er rigning</i> (it’s raining), <i>Það er kalt</i> (it’s cold). Icelandic saying: don’t like the weather? Wait five minutes.',
+ v:['weather','rain','snow','wind','sun','cold','hot','cloud'],
+ ex:[{cs:'It is raining today.'},{cs:'It is cold outside.'},{q:'How does an Icelander say it is snowing?'},{q:'Write in Icelandic: <b>“sun”</b>'}]},
+'a2-2':{title:'Travel & transport',tip:'Direction “to” = <b>til</b> + genitive: <i>til Reykjavíkur</i>. Town names in -vík add -ur in the genitive.',
+ v:['airplane','coach (bus)','car','bicycle','airport','ticket','trip','to drive'],
+ ex:[{cs:'I am driving to Reykjavík.'},{cs:'Where is the airport? (the definite article attaches to the end of the word)'},{q:'You want to buy a ticket. What do you say?'},{q:'Write in Icelandic: <b>“airplane”</b>'}]},
+'a2-3':{title:'Shopping',tip:'<b>Hvað kostar þetta?</b> = how much does it cost? The Icelandic currency is the <b>króna</b> (ISK). <b>Dýr</b> = expensive — a word you will need often in Iceland.',
+ v:['to buy','to pay','money','crown (ISK)','expensive','cheap','shop','price'],
+ ex:[{cs:'How much does it cost?'},{cs:'I am going to buy it.'},{q:'You see a 9,900 kr price tag on a sweater. You say…'},{q:'Write in Icelandic: <b>“cheap”</b>'}]},
+'a2-4':{title:'Housing',tip:'<b>Að búa</b> = to live: <i>Ég bý í Reykjavík</i>. The preposition <b>í</b> takes the dative for location, accusative for motion. The definite article attaches at the end: <i>eldhús → eldhúsið</i>.',
+ v:['flat','room','kitchen','bathroom','bed','table','chair','window'],
+ ex:[{cs:'I live in a small flat.'},{cs:'The table is in the kitchen. (í + dative)'},{q:'Where do you find a <span class="is">“rúm”</span>?',opts:['in the bedroom','in the kitchen','in the bathroom','in the hallway'],a:'in the bedroom'},{q:'Write in Icelandic: <b>“window”</b>'}]},
+'a2-5':{title:'Past tense — weak verbs',tip:'Weak verbs form the past with <b>-aði / -ði / -ti</b>: <i>tala → talaði</i>, <i>læra → lærði</i>, <i>kaupa → keypti</i>. “We” (-um): <i>við töluðum</i>.',
+ v:['spoke','ate','studied','watched','played','cooked','bought','yesterday'],
+ ex:[{cs:'I studied Icelandic yesterday.'},{cs:'We ate fish yesterday.'},{cs:'She bought a new car.'},{q:'What is the past tense of <span class="is">“að horfa á”</span> (to watch)?'}]},
+'a2-6':{title:'Work & free time',tip:'<b>Ég vinn sem…</b> = I work as… Free-time verbs: <i>að lesa</i> (to read), <i>að synda</i> (to swim — a national sport; every village has a pool).',
+ v:['doctor','teacher','work','job','to read','to swim','music','swimming pool'],
+ ex:[{cs:'She works in a hospital.'},{cs:'I read books in the evening.'},{q:'Where is an Icelander going when saying <span class="is">“Ég er að fara í sund”</span>?',opts:['to the pool','to work','to school','to a concert'],a:'to the pool'},{q:'Write in Icelandic: <b>“music”</b>'}]},
+'a2-7':{title:'Directions',tip:'Asking: <b>Hvar er…?</b> (where is…?), <b>Hvernig kemst ég…?</b> (how do I get…?). Answers: <i>til hægri/vinstri</i> (right/left), <i>beint áfram</i> (straight ahead).',
+ v:['right','left','straight ahead','near','far away','corner','map','to find one’s way'],
+ ex:[{cs:'Turn right at the corner.'},{cs:'The pool is near the hotel. (nálægt + dative)'},{q:'A tourist asks for directions and you say “go straight ahead”:'},{q:'Write in Icelandic: <b>“map”</b>'}]},
+'a2-8':{title:'Sports & hobbies',tip:'National sports: <b>handbolti</b> (handball — “strákarnir okkar”, our boys) and football. And a surprise: Icelanders <b>prjóna</b> — knit. Men too.',
+ v:['football','handball','skis / skiing','mountain hiking','fishing / hunting','to knit','team','match / game'],
+ ex:[{cs:'Handball is popular in Iceland.'},{cs:'We watched the match yesterday.'},{q:'Grandma sits with needles and wool. What is she doing?'},{q:'Write in Icelandic: <b>“team”</b>'}]},
+'a2-9':{title:'School & learning',tip:'<b>Að læra</b> = to learn/study, <b>að kenna</b> = to teach. <b>Ég man (ekki)</b> = I (don’t) remember — from the verb <i>muna</i>.',
+ v:['school','student','exam / test','assignment','dictionary','grammar','to practise','to remember'],
+ ex:[{cs:'I have to study for the exam.'},{cs:'I don’t remember the word — where is the dictionary?'},{q:'<span class="is">“Málfræði”</span> is…',opts:['grammar','mathematics','composition','literature'],a:'grammar'},{q:'Write in Icelandic: <b>“school”</b>'}]},
+'a2-10':{title:'Holidays & traditions',tip:'Iceland has no single Santa but <b>13 jólasveinar</b> — Yule Lads, one each night. Wishes: <i>Gleðileg jól!</i> (merry Christmas), <i>Til hamingju með afmælið!</i> (happy birthday).',
+ v:['Christmas','Easter','birthday','gift','party / feast','New Year’s Eve','fireworks','Yule Lads'],
+ ex:[{q:'How many Icelandic <span class="is">jólasveinar</span> (Yule Lads) are there?'},{cs:'Happy birthday!'},{cs:'Around New Year’s Eve there are fireworks everywhere.'},{q:'Write in Icelandic: <b>“gift”</b>'}]},
+'b1-1':{title:'Strong verbs in the past',tip:'Strong verbs take no suffix but <b>change the stem vowel</b>: <i>fara → fór</i>, <i>koma → kom</i>, <i>sjá → sá</i>, <i>taka → tók</i>. Learn them by heart — they are the most common verbs.',
+ v:['went / drove','came','saw','took','gave','found','walked','stood'],
+ ex:[{cs:'I went to Iceland last year.'},{cs:'She came home late.'},{cs:'We saw the northern lights.'},{q:'What is the past tense of <span class="is">“að gefa”</span> (to give)?'}]},
+'b1-2':{title:'Cases in practice',tip:'Icelandic has 4 cases. The verb governs the object case: <b>sjá + accusative</b> (<i>Ég sé hundinn</i>), <b>hjálpa + dative</b> (<i>Ég hjálpa honum</i>), <b>sakna + genitive</b> (<i>Ég sakna þín</i>).',
+ v:['man / person','woman','horse','book','to miss (someone)','to help','to give','to find'],
+ ex:[{cs:'I see the dog. — sjá + accusative'},{cs:'I give the dog food. — gefa + dative'},{cs:'I miss you. — sakna + genitive'},{cs:'Can you help me? — hjálpa + dative'}]},
+'b1-3':{title:'Health & body',tip:'Pain uses a dative construction: <b>Mér er illt í</b> + dative — <i>Mér er illt í höfðinu</i> (I have a headache, literally “to me is bad in the head”). The subject is dative!',
+ v:['head','stomach','heart','sick','medicine','pain','hand / arm','foot / leg'],
+ ex:[{cs:'I have a headache.'},{cs:'I am sick today, I am not coming to work.'},{q:'The pharmacist hands you <span class="is">“lyf”</span>. What are you getting?',opts:['medicine','a prescription','a bandage','advice'],a:'medicine'},{cs:'My stomach hurts. (í + dative)'}]},
+'b1-4':{title:'Expressing opinions',tip:'<b>Mér finnst…</b> = I find / it seems to me (dative construction). <b>Ég held að…</b> = I think that… — <i>að</i> is followed by the subjunctive: <i>Ég held að það <b>sé</b> rétt</i>.',
+ v:['I find / it seems to me','I think that','maybe','certainly','in agreement','in disagreement','of course','great'],
+ ex:[{cs:'I find Icelandic beautiful.'},{cs:'I think it is correct. (subjunctive after “held að”)'},{q:'A colleague states an opinion and you agree. You say…'},{q:'Write in Icelandic: <b>“maybe”</b>'}]},
+'b1-5':{title:'Prepositions & cases',tip:'<b>í</b> and <b>á</b> take the <b>accusative for motion</b> (where to?) and <b>dative for location</b> (where?): <i>Ég fer í búð<b>ina</b></i> vs. <i>Ég er í búð<b>inni</b></i>. <b>til</b> + gen., <b>frá</b> + dat., <b>án</b> + gen.',
+ v:['in / into','on','to','from','with','without','under','over / across'],
+ ex:[{cs:'I am going to the shop. (motion → accusative)'},{cs:'I am in the shop. (location → dative)'},{cs:'Coffee without milk, please. (án + genitive)'},{cs:'I am going from Reykjavík to Akureyri.'}]},
+'b1-6':{title:'Telling a story',tip:'Icelandic keeps the <b>V2 rule — the verb is always second</b>. When a sentence opens with an adverb, subject and verb invert: <i>Í gær <b>fór ég</b> í sund</i> (yesterday I went swimming).',
+ v:['first','then','afterwards','finally','suddenly','story','to say','to happen'],
+ ex:[{cs:'First we went swimming.'},{cs:'Yesterday I was at home. (V2: verb second!)'},{q:'What does <span class="is">“skyndilega”</span> mean?',opts:['suddenly','slowly','finally','luckily'],a:'suddenly'},{cs:'Then something strange happened.'}]},
+'b1-7':{title:'Future & plans',tip:'The future is expressed with: <b>ætla að</b> + infinitive (intent), <b>munu</b> (more formal “will”), or the simple present with a time phrase: <i>Ég fer á morgun</i>.',
+ v:['future','to be going to','will (auxiliary)','hopefully','to hope','to plan','dream','goal'],
+ ex:[{cs:'I am going to study Icelandic this summer.'},{cs:'I will never forget this.'},{cs:'Hopefully the weather will be nice at the weekend.'},{q:'Write in Icelandic: <b>“dream”</b>'}]},
+'b1-8':{title:'Comparison',tip:'Comparative <b>-ri/-ari</b>, superlative <b>-astur/-stur</b>. The most common ones are irregular: <i>góður → betri → bestur</i>, <i>slæmur → verri → verstur</i>, <i>mikill → meiri → mestur</i>. Comparison: <b>en</b> = than.',
+ v:['bigger','biggest','better','best','worse','older','younger','most'],
+ ex:[{cs:'Iceland is bigger than Czechia. (Ísland is neuter)'},{cs:'This is the best day of my life.'},{cs:'The weather today is worse than yesterday. (veður = neuter)'},{q:'Your brother is 40, you are 30. He is…'}]},
+'b1-9':{title:'Feelings & emotions',tip:'Feelings use <b>vera</b> + adjective (agreeing with the speaker’s gender): <i>Ég er glaður/glöð</i>. “To look forward to” = <b>vera spenntur fyrir</b> + dative.',
+ v:['happy','sad','tired','excited','scared','angry','proud','lonely'],
+ ex:[{cs:'I am really looking forward to the trip.'},{cs:'She is proud of you.'},{q:'A friend yawns with dark circles under his eyes. He is…'},{q:'Write in Icelandic: <b>“angry”</b>'}]},
+'b1-10':{title:'Icelandic nature',tip:'Icelandic place names are descriptive: <b>Vatnajökull</b> = “water glacier”, <b>Gullfoss</b> = “golden waterfall”. The word <b>geysir</b> came to the world from Icelandic — after the spring Geysir.',
+ v:['glacier','volcano','waterfall','hot spring','lava / lava field','fjord','sand plain','eruption'],
+ ex:[{q:'<span class="is">“Vatnajökull”</span> is Europe’s largest…',opts:['glacier','waterfall','fjord','volcanic crater'],a:'glacier'},{cs:'That waterfall is very beautiful.'},{cs:'There is an eruption on Reykjanes.'},{q:'Write in Icelandic: <b>“glacier”</b>'}]},
+'b2-1':{title:'The subjunctive',tip:'The subjunctive expresses <b>unreality and reported speech</b>. Condition: <i>Ef ég <b>væri</b> ríkur, <b>myndi</b> ég kaupa hús</i>. Reported speech: <i>Hún segir að hann <b>sé</b> heima</i>.',
+ v:['would be','would have (if)','would (do)','could','would like','is (subjunctive)','if','to wish'],
+ ex:[{cs:'If I were rich, I would buy a house.'},{cs:'I wish I were in Iceland.'},{cs:'She says he is at home. (reported speech → present subjunctive)'},{cs:'I would have come if I had known.'}]},
+'b2-2':{title:'The middle voice',tip:'The suffix <b>-st</b> gives a verb a reflexive or reciprocal meaning: <i>sjá → sjá<b>st</b></i> (to see each other), <i>hitta → hitta<b>st</b></i> (to meet). <b>Sjáumst!</b> = see you — the most common farewell.',
+ v:['see you','to meet','to travel','to sit down','to happen','to get married','to be called','to open (itself)'],
+ ex:[{cs:'We meet tomorrow.'},{q:'You are saying goodbye to a friend. Write: <b>“See you!”</b>'},{cs:'I travelled around Iceland a lot last year.'},{q:'<span class="is">“Þau giftust í júní”</span> means…',opts:['They got married in June','They met in June','They broke up in June','They moved away in June'],a:'They got married in June'}]},
+'b2-3':{title:'The passive voice',tip:'Passive = <b>vera + participle</b>, agreeing in gender: <i>Húsið var byggt</i>, <i>bókin var skrifuð</i>, <i>bíllinn var seldur</i>. Impersonally: <i>Hér er töluð íslenska</i>.',
+ v:['to build','to write','to open','to close','nation','language','century','famous'],
+ ex:[{cs:'The house was built in 1920.'},{cs:'Icelandic is spoken in Iceland.'},{cs:'The book was written in Icelandic.'},{q:'How do you say “The shop was closed”? (<span class="is">verslun</span> is feminine)'}]},
+'b2-4':{title:'Idioms & colloquial Icelandic',tip:'<b>Þetta reddast</b> (“it will all work out”) is Iceland’s unofficial motto. Colloquial Icelandic has its own slang too: <i>geggjað</i> = awesome, <i>næs</i> = nice (from English).',
+ v:['it will all work out','to be clueless (come from the mountains)','the cherry on top','to think hard','absolutely','awesome (slang)','nice (slang)','exciting'],
+ ex:[{q:'A colleague answers <span class="is">“Ég kem alveg af fjöllum”</span>. What are they saying?',opts:['They have no idea what you are talking about','They just came back from the mountains','They are tired','They agree with you'],a:'They have no idea what you are talking about'},{cs:'It will all work out in the end.'},{q:'<span class="is">“Rúsínan í pylsuendanum”</span> — literally “the raisin at the end of the sausage” — matches…',opts:['the cherry on top','the last straw','the stumbling block','the heart of the matter'],a:'the cherry on top'},{q:'Write in Icelandic: <b>“absolutely”</b>'}]},
+'b2-5':{title:'Formal style & the news',tip:'<b>Alþingi</b> — the Icelandic parliament, founded in 930, the oldest in the world. Formal texts love <b>samkvæmt</b> (according to) + dative and verbs like <b>að tilkynna</b> (to announce).',
+ v:['government','president','Icelandic parliament','news item','according to','to announce','elections','contract / agreement'],
+ ex:[{cs:'According to the news it will be cold tomorrow.'},{cs:'The president announced a new agreement.'},{q:'What makes the <span class="is">Alþingi</span> unique worldwide?',opts:['It is the world’s oldest parliament (since 930)','It is the world’s largest','It still meets outdoors','It has only 10 members'],a:'It is the world’s oldest parliament (since 930)'},{q:'Write in Icelandic: <b>“news item”</b>'}]},
+'b2-6':{title:'Clauses & word order',tip:'<b>þótt</b> (although) requires the subjunctive: <i>þótt það rigni</i>. <b>hvort</b> = whether. And V2 still applies — after an opening adverb, subject and verb invert.',
+ v:['although','because / since','on the other hand','besides','still / nevertheless','whether','while','therefore'],
+ ex:[{cs:'I went out although it was raining.'},{cs:'I don’t know whether he is coming.'},{cs:'Yesterday I went swimming.'},{cs:'It was expensive; still, I bought it.'}]},
+'b2-7':{title:'Relative clauses',tip:'The universal relative pronoun is <b>sem</b> (who/which — it never changes form): <i>maðurinn <b>sem</b> býr hér</i>. “That which…” = <b>það sem</b>, “everything that…” = <b>allt sem</b>.',
+ v:['who / which','that which','everything that','to explain','to describe','opinion','point / aspect','example'],
+ ex:[{cs:'The man who lives here is a doctor.'},{cs:'Everything I said is true.'},{cs:'Can you explain this better? (geta + participle)'},{q:'Write in Icelandic: <b>“example”</b>'}]},
+'b2-8':{title:'Economy & society',tip:'<b>Verðbólga</b> (inflation, literally “price bubble”) is an eternal Icelandic topic — the króna (ISK) is a small currency. <b>Laun</b> (salary) is plural: <i>launin mín eru…</i>',
+ v:['economy','inflation','salary / wages','tax','company','unemployment','interest (rates)','housing (real estate)'],
+ ex:[{cs:'Inflation has risen a lot this year.'},{cs:'I pay high taxes.'},{q:'You are taking out a mortgage. What will interest you the most?'},{q:'Write in Icelandic: <b>“company”</b>'}]},
+'b2-9':{title:'Media & technology',tip:'Even in the digital world Icelandic stays purist: <b>netið</b> (the internet, “the net”), <b>lykilorð</b> (password, “key word”), <b>samfélagsmiðlar</b> (social media, “society media”).',
+ v:['media','newspaper','radio','television','the internet','social media','password','privacy'],
+ ex:[{cs:'I read it on the internet.'},{cs:'Remember to change your password regularly. (breyta + dative)'},{q:'<span class="is">“Sjónvarp”</span> literally means…',opts:['throwing of images','sound wave','seeing field','light frame'],a:'throwing of images'},{q:'Write in Icelandic: <b>“newspaper”</b>'}]},
+'b2-10':{title:'The environment',tip:'Iceland heats ~90 % of homes with <b>jarðhiti</b> (geothermal energy) and produces nearly all electricity from renewables. <b>Sjálfbær</b> = sustainable (literally “self-carrying”).',
+ v:['environment','climate change','pollution','recycling','energy','geothermal heat','sustainable','nature conservation'],
+ ex:[{q:'How does Iceland heat ~90 % of its homes?',opts:['with geothermal energy (jarðhiti)','with coal','with gas','with wood'],a:'with geothermal energy (jarðhiti)'},{cs:'Iceland uses a lot of geothermal heat.'},{cs:'Pollution is a big global problem.'},{q:'Write in Icelandic: <b>“energy”</b>'}]},
+'c1-1':{title:'Phrasal verbs',tip:'Phrasal verbs change meaning with the particle — and often take a dative subject: <i><b>Mér datt í hug</b></i> = it occurred to me (literally “it fell into my mind”).',
+ v:['to occur to (someone)','to continue','to point out / take out','to happen','to look (like)','to give up','to do well','to take part'],
+ ex:[{cs:'A good idea occurred to me.'},{cs:'Don’t give up, keep going!'},{q:'<span class="is">“Hún stóð sig vel í prófinu”</span> means…',opts:['She did well in the exam','She queued for the exam for a long time','She gave up on the exam','She stood at the back during the exam'],a:'She did well in the exam'},{cs:'I am going to take part in the competition.'}]},
+'c1-2':{title:'Neologisms & purism',tip:'Icelandic coins words <b>from native roots instead of borrowing</b>: <i>tölva</i> (computer) = <i>tala</i> (number) + <i>völva</i> (prophetess), <i>gervigreind</i> = artificial intelligence (gervi- artificial + greind intelligence).',
+ v:['computer','telephone','screen','program / app','helicopter','electricity','web address','artificial intelligence'],
+ ex:[{q:'The word <span class="is">“tölva”</span> (computer) was coined from…',opts:['tala (number) + völva (prophetess)','tal (speech) + va (machine)','töl (tool) + va (power)','it is a loanword from English'],a:'tala (number) + völva (prophetess)'},{q:'Write in Icelandic: <b>“telephone”</b>'},{cs:'Artificial intelligence is changing the world.'},{cs:'I need to install a program on the computer. (hlaða + dative)'}]},
+'c1-3':{title:'Formal writing & work',tip:'Applying for a job: <b>umsókn</b> + <b>ferilskrá</b> (CV, literally “career record”). A formal letter opens <i>Ágæti viðtakandi</i> (dear recipient) and closes <i>Með bestu kveðju</i>.',
+ v:['application','CV','job interview','experience','education','qualification / skill','applicant','hiring'],
+ ex:[{cs:'I am sending an application and a CV.'},{cs:'She has a lot of experience with project management. (hafa + accusative)'},{q:'You are waiting for a <span class="is">“starfsviðtal”</span>. Where are you going?',opts:['to a job interview','to a meeting','to a training session','to lunch with the boss'],a:'to a job interview'},{q:'Write in Icelandic: <b>“education”</b>'}]},
+'c1-4':{title:'Speculation & certainty',tip:'Degrees of certainty: <b>hlýtur að vera</b> (must be) → <b>virðist vera</b> (seems to be) → <b>gæti verið</b> (could be). Past regret: <b>hefði átt að</b> = should have…',
+ v:['must (surely)','seems','should','may have','should have','probably','hardly','undoubtedly'],
+ ex:[{cs:'He must be home — the car is outside.'},{cs:'I should have studied more.'},{q:'<span class="is">“Hann kemur varla í dag”</span> means…',opts:['He will hardly come today','He will definitely come today','He will come early today','He will come late today'],a:'He will hardly come today'},{cs:'You seem to be right.'}]},
+'c1-5':{title:'Discourse particles',tip:'<b>Jæja</b> is the most universal Icelandic word — depending on intonation it means “well”, “all right”, “I must go” or “well well”. <b>Sko</b> = “you see” (filler), <b>nefnilega</b> = “namely / you see”.',
+ v:['well / so','you see (filler)','um / er (hesitation)','namely / you see','so / in short','exactly','naturally','anyway'],
+ ex:[{q:'A guest stands up, stretches and says <span class="is">“Jæja…”</span>. What are they most likely signalling?',opts:['They are about to leave','They want more coffee','They disagree with you','They are starting a story'],a:'They are about to leave'},{cs:'I will be late — you see, I don’t have a car.'},{q:'You agree with every word your colleague says. You reply…'},{q:'Write in Icelandic: <b>“anyway”</b>'}]},
+'c1-6':{title:'Sagas & cultural heritage',tip:'<b>Íslendingasögur</b> — the 13th-century Sagas of Icelanders — can be read by today’s Icelanders in the original; the language has changed surprisingly little. <b>Snorri Sturluson</b> wrote the Edda, the key source of Norse mythology.',
+ v:['saga / story','manuscript','poet','poem','mythology','viking','heritage','old sagas'],
+ ex:[{q:'Why can Icelanders read 13th-century sagas in the original?',opts:['Icelandic has changed very little since then','They must study Old Norse at school','The sagas were translated into modern Icelandic','They read them with a dictionary'],a:'Icelandic has changed very little since then'},{cs:'Snorri was a poet and a chieftain.'},{cs:'The manuscripts are the nation’s heritage.'},{q:'Write in Icelandic: <b>“manuscript”</b>'}]},
+'c1-7':{title:'Proverbs',tip:'Icelandic proverbs (<b>málshættir</b>) draw on the sea and fishing. <i>Þeir fiska sem róa</i> — “those who row, catch fish” = no pain, no gain.',
+ v:['He who rows catches fish (no pain, no gain)','Misfortune seldom comes alone','Blind is a bookless man','Slow but steady gets there','A bad rower blames the oar','No one becomes a bishop unbeaten (success has its price)'],
+ ex:[{q:'A colleague blames “bad tools” for a mistake. Which proverb fits?'},{cs:'He who rows catches fish.'},{q:'<span class="is">“Sjaldan er ein báran stök”</span> matches…',opts:['Misfortune seldom comes alone','He who digs a pit for others…','No pain, no gain','Too late for regrets'],a:'Misfortune seldom comes alone'},{q:'Which proverb praises reading and education?'}]},
+'c1-8':{title:'Word formation & prefixes',tip:'Prefixes change meaning systematically: <b>ó-</b> negation (<i>óhamingja</i>), <b>endur-</b> again (<i>endurtaka</i>), <b>sam-</b> together (<i>samvinna</i>), <b>van-</b> lack (<i>vanmeta</i>), <b>auð-</b> easily, <b>tor-</b> with difficulty.',
+ v:['unhappiness','to repeat','cooperation','to underestimate','to overestimate','easy','hard to understand','background / prehistory'],
+ ex:[{q:'What does the prefix <span class="is">“endur-”</span> mean?',opts:['again (repetition)','negation','together','lack of'],a:'again (repetition)'},{cs:'Don’t underestimate the opponent!'},{q:'A text is <span class="is">“torskilinn”</span> — that is…',opts:['hard to understand','easy to read','unfinished','translated'],a:'hard to understand'},{q:'Write in Icelandic: <b>“cooperation”</b>'}]},
+'c1-9':{title:'Bureaucracy',tip:'<b>Kennitala</b> — the ten-digit national ID — is needed for everything in Iceland: from the bank to the video rental. <b>Þjóðskrá</b> = the national registry.',
+ v:['national ID number','form','permit','certificate','institution / agency','deadline','regulation','national registry'],
+ ex:[{q:'Without what can you not even open a bank account in Iceland?'},{cs:'The deadline expires tomorrow!'},{cs:'I have to fill in a form.'},{q:'Write in Icelandic: <b>“permit”</b>'}]},
+'c1-10':{title:'Shades of meaning',tip:'Subtle pairs: <b>heyra</b> (to hear) × <b>hlusta á</b> (to listen to), <b>sjá</b> (to see) × <b>skoða</b> (to examine), <b>glápa á</b> (to gawk — colloquially at TV), <b>ræða</b> (to discuss).',
+ v:['to discuss','to listen to','to hear','to glance at','to stare at','to gawk at (colloq.)','to examine','to utter (literary) / measure'],
+ ex:[{cs:'I listen to music every day. (active listening = hlusta á)'},{q:'The neighbour’s TV is loud and through the wall you…'},{cs:'Stop gawking at the TV and go outside!'},{cs:'We need to discuss this.'}]},
+'c2-1':{title:'Registers of style',tip:'Formal Icelandic picks different verbs: <b>hefja</b> instead of <i>byrja</i> (to begin), <b>ljúka</b> instead of <i>klára</i> (to finish), <b>óska eftir</b> instead of <i>vilja</i> (to request). A letter closes with <b>Virðingarfyllst</b> (respectfully yours).',
+ v:['to commence (formal)','to conclude (formal)','to request (formal)','to require (formal)','respectfully yours','matter / request','recipient','the undersigned'],
+ ex:[{cs:'The meeting commences at nine. (hefja in the middle voice: hefst)'},{cs:'I request a reply as soon as possible.'},{q:'Which word closes a formal letter?'},{q:'The colloquial counterpart of <span class="is">“að ljúka”</span> is…'}]},
+'c2-2':{title:'Etymology & old literature',tip:'A <b>kenning</b> is an Old Norse poetic circumlocution: the sea = <i>hvalvegur</i> (“whale road”), gold = <i>eldur ægis</i>. Skaldic poetry is built on <b>kennings</b> and alliteration.',
+ v:['etymology','runes','kenning (poetic circumlocution)','Edda','old language','rhyme-list poem','poetry','legacy'],
+ ex:[{q:'The kenning <span class="is">“hvalvegur”</span> (whale road) denotes…',opts:['the sea','a whale','a ship','the coast'],a:'the sea'},{q:'<span class="is">“Rúnir”</span> are…',opts:['an old Germanic script','Icelandic poems','stone cairns','Norse deities'],a:'an old Germanic script'},{cs:'Icelandic has changed little from the old language.'},{q:'Write in Icelandic: <b>“etymology”</b>'}]},
+'c2-3':{title:'Academic & legal language',tip:'<b>Lög</b> (law) is a neuter plural: <i>samkvæmt lögum</i> = according to the law. An academic text: <b>tilgáta</b> (hypothesis) → <b>rannsókn</b> (research) → <b>niðurstaða</b> (conclusion), all with <b>heimildir</b> (sources).',
+ v:['law(s)','court','provision','research / investigation','conclusion / result','hypothesis','source','thesis / essay'],
+ ex:[{cs:'According to the law this is forbidden. (samkvæmt + dative)'},{cs:'The results of the research were clear.'},{q:'What does a scientist test with research?'},{q:'Write in Icelandic: <b>“source”</b>'}]},
+'c2-4':{title:'Advanced idioms',tip:'<b>Að hafa bein í nefinu</b> (“to have a bone in the nose”) = to have backbone. <b>Að vera úti að aka</b> (“to be out driving”) = to be completely lost.',
+ v:['to kill two birds with one stone','to have backbone / guts','to take decisive action','to chip in (to a discussion)','to be completely lost','to carry coals to Newcastle','to go directly against','to not care'],
+ ex:[{q:'The boss hesitated for a long time, then <span class="is">“tók af skarið”</span>. What did she do?',opts:['Decided decisively','Left the meeting','Took a holiday','Split the team'],a:'Decided decisively'},{q:'<span class="is">“Hann er alveg úti að aka”</span> means…',opts:['He is completely lost','He is out for a drive','He is very busy','He has left'],a:'He is completely lost'},{cs:'I killed two flies with one blow.'},{q:'Explaining to an Icelander what snow is = <span class="is">…</span>'}]},
+'c2-5':{title:'Poetry & metaphors',tip:'Icelandic poetry still keeps <b>stuðlar</b> — alliteration (repeating initial sounds), a rule over a thousand years old. Even modern rap and song lyrics alliterate.',
+ v:['poem','imagery','simile / metaphor','alliteration','rhythm','stanza','contrast','interpretation'],
+ ex:[{q:'<span class="is">“Stuðlar”</span> — a mandatory element of Icelandic verse — is…',opts:['alliteration (matching initial sounds)','end rhyme','syllable count','a refrain'],a:'alliteration (matching initial sounds)'},{cs:'The poem can be interpreted in many ways.'},{cs:'Light and darkness are opposites.'},{q:'Write in Icelandic: <b>“poem”</b>'}]},
+'c2-6':{title:'Slang & spoken language',tip:'The most useful colloquial verb: <b>nenna</b> — “to feel like”: <i>Ég nenni ekki</i> = I can’t be bothered. Anglicisms creep into Icelandic too: <b>meika sens</b> = to make sense.',
+ v:['to feel like / be bothered','dude / guy','party','insanely (intensifier)','awesome','cute','crazy','to make sense (slang)'],
+ ex:[{cs:'I don’t feel like cooking tonight.'},{cs:'That was an insanely good party.'},{q:'A friend shows you a photo of a puppy. You say…'},{q:'<span class="is">“Þetta meikar engan sens”</span> is…',opts:['an Anglicism: “it makes no sense”','an old proverb','a formal phrase','wrong — nobody says that'],a:'an Anglicism: “it makes no sense”'}]}
+};
+
+/* ---- English overlay: placement ---- */
+const PEN=[
+ {q:'How do you say <b>“good day”</b> in Icelandic?'},
+ {q:'Fill in: <span class="is">Ég ___ Vojta.</span> (My name is Vojta.)'},
+ {q:'What does <span class="is">“takk”</span> mean?',opts:['thank you','please','hello','excuse me'],a:'thank you'},
+ {q:'Fill in: <span class="is">Við ___ frá Tékklandi.</span> (We are from Czechia.)'},
+ {q:'Fill in: <span class="is">Það er ___ úti.</span> (It is cold outside.)'},
+ {q:'What is the past tense of <span class="is">“að læra”</span> (to study)?'},
+ {q:'What does <span class="is">“Hvað kostar þetta?”</span> mean?',opts:['How much does it cost?','What is this?','Where is it?','Whose is it?'],a:'How much does it cost?'},
+ {q:'Fill in: <span class="is">Borðið er í ___.</span> (The table is in the kitchen.)'},
+ {q:'Fill in: <span class="is">Ég gef ___ mat.</span> (I give the dog food.)'},
+ {q:'What is the past tense of <span class="is">“að fara”</span> (to go)?'},
+ {q:'How do you say <b>“I have a headache”</b> in Icelandic?'},
+ {q:'Fill in (going <b>into</b> the shop — motion): <span class="is">Ég fer í ___.</span>'},
+ {q:'Fill in: <span class="is">Ef ég ___ ríkur, myndi ég kaupa hús.</span>'},
+ {q:'What does <span class="is">“Þetta reddast”</span> express?',opts:['It will all work out','It is broken','It is settled','It cannot be done in time'],a:'It will all work out'},
+ {q:'Fill in: <span class="is">Húsið ___ byggt árið 1920.</span>'},
+ {q:'Fill in: <span class="is">Ég veit ekki ___ hann kemur.</span> (I don’t know whether he is coming.)'},
+ {q:'Fill in: <span class="is">Mér ___ í hug góð hugmynd.</span> (A good idea occurred to me.)'},
+ {q:'Fill in: <span class="is">Hann ___ að vera heima — bíllinn er fyrir utan.</span>'},
+ {q:'What was the Icelandic word <span class="is">“tölva”</span> (computer) coined from?',opts:['tala (number) + völva (prophetess)','a Danish loanword','töl (tool) + va (power)','short for “tölvutækni”'],a:'tala (number) + völva (prophetess)'},
+ {q:'A guest stands up and says <span class="is">“Jæja…”</span>. What are they signalling?',opts:['They are about to leave','They are hungry','They disagree','They want to turn on the TV'],a:'They are about to leave'},
+ {q:'<span class="is">“Ég nenni ekki að fara út”</span> means…',opts:['I don’t feel like going out','I cannot go out','I am not allowed out','I don’t have time to go out'],a:'I don’t feel like going out'},
+ {q:'The Old Norse kenning <span class="is">“hvalvegur”</span> (whale road) denotes…',opts:['the sea','the sky','a fjord','a glacier'],a:'the sea'},
+ {q:'<span class="is">“Að slá tvær flugur í einu höggi”</span> matches…',opts:['to kill two birds with one stone','to make a mountain out of a molehill','to have flies galore','to twiddle your thumbs'],a:'to kill two birds with one stone'},
+ {q:'Formally, “the meeting begins”: <span class="is">Fundurinn ___ klukkan níu.</span>'}
+];
+
 /* ================= STORAGE ================= */
 const LS='nordurljos.v1';
 let store=load();
@@ -644,6 +844,96 @@ if('speechSynthesis'in window){const pick=()=>{voiceIS=speechSynthesis.getVoices
 function speak(t){if(!voiceIS)return;const u=new SpeechSynthesisUtterance(t);u.voice=voiceIS;u.lang='is-IS';u.rate=.9;speechSynthesis.speak(u);}
 function speakBtn(t){return voiceIS?`<button class="speak" title="Přehrát výslovnost" onclick="speak('${esc(t).replace(/'/g,"\\'")}')">🔊</button>`:'';}
 
+/* ================= I18N ================= */
+function lang(){return store.lang||'cs';}
+function setLang(l){store.lang=l;save();render();}
+const STR={
+cs:{
+ tagline:'Islandština hravě — od A1 po C2',newProfile:'＋ Nový profil',npTitle:'Nový profil',
+ name:'Jméno',goal:'Denní cíl',goal20:'V pohodě — 20 XP denně',goal50:'Pravidelně — 50 XP denně',goal100:'Intenzivně — 100 XP denně',
+ whereStart:'Kde začít?',stTest:'Rozřazovací test (doporučeno)',stA1:'Od úplného začátku (A1)',stFrom:'Rovnou od',create:'Vytvořit profil',
+ ptest:'Rozřazovací test',dontknow:'Nevím — přeskočit',yourLevel:'Vaše úroveň:',toMap:'Na mapu kurzu',
+ unlockNote:l=>`Úrovně pod ${l} máte odemčené — můžete se k nim kdykoli vrátit.`,
+ dailyGoal:'Denní cíl',goalDone:'· splněno ✅',review:'🔄 Procvičování',board:'🏆 Žebříček',quests:'🎯 Dnešní výzvy',
+ grammar:'Gramatika',newVocab:'Nová slovíčka',letsgo:'Jdeme na to →',check:'Zkontrolovat',skip:'Přeskočit',
+ correct:'Rétt! Správně ✓',almostType:'Téměř — pozor na délky a znaky',almostMatch:'Spojeno — s pár přehmaty',skipped:'Přeskočeno',wrong:'Rangt — špatně',
+ correctIs:'Správně:',exactIs:'Přesně:',cont:'Pokračovat',chars:'Znaky',typePH:'Odpověď islandsky…',
+ orderTask:'Sestavte větu:',fillTask:'Doplňte:',matchTask:'Spojte dvojice',matchHint:'(vlevo islandsky, vpravo česky)',
+ heartsOut:'Došla srdíčka',heartsOutSub:'Nevadí — zkuste lekci znovu, opakování je základ.',retry:'Zkusit znovu',toMapShort:'Na mapu',
+ lessonDone:'Lekce hotová!',practiced:'Procvičeno!',perfectMsg:'Fullkomið! Bez jediné chyby',accuracy:'úspěšnost',streakDays:'dní v řadě',
+ newBadge:'Nový odznak:',questDone:'Výzva splněna:',quitConfirm:'Opustit lekci? Postup v ní se ztratí.',
+ profStats:'Statistiky',totalXp:'Celkem XP',todayXp:'Dnešní XP',streakW:'Streak',doneL:'Dokončené lekce',weakW:'Slabá slovíčka',
+ badgesT:'Odznaky',dataT:'Data',exportB:'⬇︎ Export progresu (JSON)',importB:'⬆︎ Import progresu',switchP:'Přepnout profil',delP:'Smazat tento profil',
+ aboutB:'ℹ️ O aplikaci',langT:'Jazyk / Language',days:'dní',
+ boardTitle:'🏆 Žebříček přátel',boardIntro:'Propojte se s přáteli a porovnávejte XP a streaky. Žebříček vidí <b>jen členové vaší skupiny</b> — kdo nezná kód, nevidí nic.',
+ createGroup:'Vytvořit novou skupinu',joinPH:'Kód skupiny od kamaráda (NL-…)',join:'Připojit se',
+ boardPrivacy:'Vyžaduje připojení k internetu. Sdílí se jen přezdívka, XP, streak a počet lekcí.',
+ groupCode:'Kód skupiny',copy:'Kopírovat kód',copied:'Zkopírováno ✓',leaveG:'Opustit skupinu',loadingLb:'Načítám žebříček…',
+ emptyG:'Skupina je zatím prázdná.',weekRace:'⚡ Týdenní závod',colName:'jméno',colWeek:'týden',colTotal:'celkem',colLevel:'úroveň',lessonsW:'lekcí',
+ raceNote:'Pořadí podle XP získaných tento týden — v pondělí se závod restartuje.',
+ lbFail:'Žebříček se nepodařilo načíst — zkontrolujte připojení k internetu.',
+ boardFoot:'Kód pošlete kamarádům — zadají ho v „Připojit se“. Pokrok se odesílá po každé dokončené lekci.',
+ welcomeFoot:'Profily se ukládají jen v tomto prohlížeči. Progres lze přenést přes export/import v profilu.',
+ courseFoot:'Obsah kurzu je původní autorská práce.',
+ aJoinShort:'Kód skupiny je moc krátký — zkontrolujte ho.',aJoinFail:'Připojení se nepovedlo. Zkontrolujte kód a připojení k internetu.',
+ aReviewFirst:'Nejdřív dokončete aspoň jednu lekci.',aImportFail:'Soubor se nepodařilo načíst — není to export z této aplikace.',
+ aDelConfirm:n=>`Opravdu smazat profil „${n}“ včetně veškerého progresu?`,aLeaveConfirm:'Opustit skupinu? Zmizíte z žebříčku ostatních.',
+ agoToday:'dnes',agoYest:'včera',agoDays:n=>`před ${n} dny`,
+ lvlNames:{a1:'A1 — začátky',a2:'A2 — mírně pokročilý',b1:'B1 — pokročilý',b2:'B2 — velmi pokročilý',c1:'C1 — zkušený mluvčí',c2:'C2 — mistrovská úroveň'},
+},
+en:{
+ tagline:'Learn Icelandic the fun way — A1 to C2',newProfile:'＋ New profile',npTitle:'New profile',
+ name:'Name',goal:'Daily goal',goal20:'Easy — 20 XP a day',goal50:'Regular — 50 XP a day',goal100:'Intense — 100 XP a day',
+ whereStart:'Where to start?',stTest:'Placement test (recommended)',stA1:'From the very beginning (A1)',stFrom:'Straight from',create:'Create profile',
+ ptest:'Placement test',dontknow:'I don’t know — skip',yourLevel:'Your level:',toMap:'To the course map',
+ unlockNote:l=>`Levels below ${l} are unlocked — you can revisit them anytime.`,
+ dailyGoal:'Daily goal',goalDone:'· done ✅',review:'🔄 Practice',board:'🏆 Leaderboard',quests:'🎯 Daily quests',
+ grammar:'Grammar',newVocab:'New vocabulary',letsgo:'Let’s go →',check:'Check',skip:'Skip',
+ correct:'Rétt! Correct ✓',almostType:'Almost — mind the special characters',almostMatch:'Matched — with a few slips',skipped:'Skipped',wrong:'Rangt — wrong',
+ correctIs:'Correct answer:',exactIs:'Exactly:',cont:'Continue',chars:'Characters',typePH:'Answer in Icelandic…',
+ orderTask:'Build the sentence:',fillTask:'Fill in:',matchTask:'Match the pairs',matchHint:'(Icelandic left, English right)',
+ heartsOut:'Out of hearts',heartsOutSub:'No worries — try the lesson again, repetition is key.',retry:'Try again',toMapShort:'To map',
+ lessonDone:'Lesson complete!',practiced:'Practice complete!',perfectMsg:'Fullkomið! Not a single mistake',accuracy:'accuracy',streakDays:'day streak',
+ newBadge:'New badge:',questDone:'Quest complete:',quitConfirm:'Leave the lesson? Progress will be lost.',
+ profStats:'Statistics',totalXp:'Total XP',todayXp:'Today’s XP',streakW:'Streak',doneL:'Lessons completed',weakW:'Weak words',
+ badgesT:'Badges',dataT:'Data',exportB:'⬇︎ Export progress (JSON)',importB:'⬆︎ Import progress',switchP:'Switch profile',delP:'Delete this profile',
+ aboutB:'ℹ️ About',langT:'Jazyk / Language',days:'days',
+ boardTitle:'🏆 Friends leaderboard',boardIntro:'Connect with friends and compare XP and streaks. The leaderboard is visible <b>only to members of your group</b> — without the code, nobody sees anything.',
+ createGroup:'Create a new group',joinPH:'Group code from a friend (NL-…)',join:'Join',
+ boardPrivacy:'Requires an internet connection. Only your nickname, XP, streak and lesson count are shared.',
+ groupCode:'Group code',copy:'Copy code',copied:'Copied ✓',leaveG:'Leave group',loadingLb:'Loading leaderboard…',
+ emptyG:'The group is empty so far.',weekRace:'⚡ Weekly race',colName:'name',colWeek:'week',colTotal:'total',colLevel:'level',lessonsW:'lessons',
+ raceNote:'Ranked by XP earned this week — the race resets on Monday.',
+ lbFail:'Could not load the leaderboard — check your internet connection.',
+ boardFoot:'Send the code to friends — they enter it under “Join”. Progress is sent after every completed lesson.',
+ welcomeFoot:'Profiles are stored only in this browser. Progress can be moved via export/import in the profile.',
+ courseFoot:'The course content is original work.',
+ aJoinShort:'The group code is too short — please check it.',aJoinFail:'Joining failed. Check the code and your internet connection.',
+ aReviewFirst:'Finish at least one lesson first.',aImportFail:'Could not read the file — it is not an export from this app.',
+ aDelConfirm:n=>`Really delete profile “${n}” including all progress?`,aLeaveConfirm:'Leave the group? You will disappear from others’ leaderboards.',
+ agoToday:'today',agoYest:'yesterday',agoDays:n=>`${n} days ago`,
+ lvlNames:{a1:'A1 — beginner',a2:'A2 — elementary',b1:'B1 — intermediate',b2:'B2 — upper-intermediate',c1:'C1 — advanced',c2:'C2 — mastery'},
+}};
+function T(k){const d=STR[lang()]||STR.cs;return d[k]!==undefined?d[k]:STR.cs[k];}
+const LVL_EN={a1:['Level A1','Fyrstu skrefin — first steps'],a2:['Level A2','Á ferðinni — on the road'],b1:['Level B1','Dýpra í málið — deeper into the language'],b2:['Level B2','Að ná tökum — mastering it'],c1:['Level C1','Blæbrigði málsins — nuances of the language'],c2:['Level C2','Fullkomnun — towards perfection']};
+function lvlTag(lv){return lang()==='en'?LVL_EN[lv.id][0]:lv.tag;}
+function lvlName(lv){return lang()==='en'?LVL_EN[lv.id][1]:lv.name;}
+function qMean(w){return lang()==='en'?`What does <span class="is">“${esc(w)}”</span> mean?${speakBtn(w)}`:`Co znamená <span class="is">„${esc(w)}“</span>?${speakBtn(w)}`;}
+function qSay(c){return lang()==='en'?`How do you say <b>“${esc(c)}”</b> in Icelandic?`:`Jak se islandsky řekne <b>„${esc(c)}“</b>?`;}
+function qWrite(c){return lang()==='en'?`Write in Icelandic: <b>“${esc(c)}”</b>`:`Napište islandsky: <b>„${esc(c)}“</b>`;}
+function locLesson(l){
+  if(lang()!=='en')return l;
+  const o=EN[l.id]||{};
+  return {...l,title:o.title||l.title,tip:o.tip||l.tip,
+    vocab:(l.vocab||[]).map((p,i)=>[p[0],(o.v&&o.v[i])||p[1]]),
+    ex:(l.ex||[]).map((e,i)=>({...e,...((o.ex&&o.ex[i])||{})}))};
+}
+function langSwitch(){
+  return `<div class="row" style="justify-content:center;gap:6px;margin-top:8px">
+    <button class="btn quiet" style="${lang()==='cs'?'outline:2px solid var(--accent)':''}" onclick="setLang('cs')">🇨🇿 Česky</button>
+    <button class="btn quiet" style="${lang()==='en'?'outline:2px solid var(--accent)':''}" onclick="setLang('en')">🇬🇧 English</button></div>`;
+}
+
 /* ================= LEADERBOARD (Supabase) ================= */
 const SB_URL='https://iegyfnvvdagjpmppupza.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImllZ3lmbnZ2ZGFnanBtcHB1cHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0NTg3MjksImV4cCI6MjEwMDAzNDcyOX0.Sf5t7AWl33Y-U_WQ_d84I1cZsDTWqq-fyLuHGZsVlUU';
@@ -656,19 +946,22 @@ async function rpc(fn,args){
 }
 function randCode(pfx,n){const c='abcdefghijklmnopqrstuvwxyz0123456789';const a=new Uint32Array(n);crypto.getRandomValues(a);return pfx+Array.from(a,x=>c[x%36]).join('');}
 function doneLessons(p){return Object.keys(p.lessons).filter(k=>p.lessons[k].stars>0).length;}
-async function joinGroup(code){
+async function joinGroup(code,isNew){
   code=(code||'').trim();
-  if(code.length<10){alert('Kód skupiny je moc krátký — zkontrolujte ho.');return;}
+  if(code.length<10){alert(T('aJoinShort'));return;}
   const secret=randCode('',24);
   const btns=document.querySelectorAll('.btn');btns.forEach(b=>b.disabled=true);
   try{
     const pid=await rpc('join_group',{p_group:code,p_name:P().name,p_secret:secret});
     P().social={group:code,pid,secret};save();
+    if(isNew)track('group');
     pushProgress();
     render();
-  }catch(e){btns.forEach(b=>b.disabled=false);alert('Připojení se nepovedlo. Zkontrolujte kód a připojení k internetu.');}
+  }catch(e){btns.forEach(b=>b.disabled=false);alert(T('aJoinFail'));}
 }
-function createGroup(){joinGroup(randCode('NL-',12));}
+function createGroup(){joinGroup(randCode('NL-',12),true);}
+function track(kind,meta){try{rpc('track',{p_kind:kind,p_meta:meta||''}).catch(()=>{});}catch(e){}}
+if(window.matchMedia&&!window.__nlInstHook){window.__nlInstHook=1;window.addEventListener('appinstalled',()=>track('install'));}
 async function pushProgress(){
   const p=P();if(!p||!p.social)return;
   const base={p_id:p.social.pid,p_secret:p.social.secret,p_name:p.name,
@@ -678,29 +971,29 @@ async function pushProgress(){
   catch(e){try{await rpc('push_progress',base);}catch(e2){}}
 }
 async function leaveGroup(){
-  if(!confirm('Opustit skupinu? Zmizíte z žebříčku ostatních.'))return;
+  if(!confirm(T('aLeaveConfirm')))return;
   const p=P();
   try{await rpc('leave_group',{p_id:p.social.pid,p_secret:p.social.secret});}catch(e){}
   p.social=null;save();render();
 }
 function ago(ts){
   const d=Math.floor((Date.now()-new Date(ts).getTime())/86400000);
-  return d<=0?'dnes':d===1?'včera':'před '+d+' dny';
+  return d<=0?T('agoToday'):d===1?T('agoYest'):T('agoDays')(d);
 }
 
 /* ================= GAMIFICATION ================= */
 const BADGES=[
- {id:'first',ico:'🥾',name:'Fyrsta skrefið',desc:'první dokončená lekce'},
- {id:'perfect',ico:'💎',name:'Fullkomið!',desc:'lekce bez chyby'},
- {id:'streak7',ico:'🔥',name:'Vika!',desc:'7 dní v řadě'},
- {id:'xp1000',ico:'🌋',name:'Þúsund',desc:'1 000 XP'},
- {id:'ten',ico:'🐑',name:'Deset lekcí',desc:'10 dokončených lekcí'},
- {id:'lvlA1',ico:'❄️',name:'A1 hotovo',desc:'celá úroveň A1'},
- {id:'lvlA2',ico:'🌊',name:'A2 hotovo',desc:'celá úroveň A2'},
- {id:'lvlB1',ico:'🌌',name:'B1 hotovo',desc:'celá úroveň B1'},
- {id:'lvlB2',ico:'🏔️',name:'B2 hotovo',desc:'celá úroveň B2'},
- {id:'lvlC1',ico:'📜',name:'C1 hotovo',desc:'celá úroveň C1'},
- {id:'lvlC2',ico:'👑',name:'C2 hotovo',desc:'celá úroveň C2'},
+ {id:'first',ico:'🥾',name:'Fyrsta skrefið',desc:'první dokončená lekce',descEn:'first completed lesson'},
+ {id:'perfect',ico:'💎',name:'Fullkomið!',desc:'lekce bez chyby',descEn:'a flawless lesson'},
+ {id:'streak7',ico:'🔥',name:'Vika!',desc:'7 dní v řadě',descEn:'7 days in a row'},
+ {id:'xp1000',ico:'🌋',name:'Þúsund',desc:'1 000 XP',descEn:'1,000 XP'},
+ {id:'ten',ico:'🐑',name:'Deset lekcí',desc:'10 dokončených lekcí',descEn:'10 completed lessons'},
+ {id:'lvlA1',ico:'❄️',name:'A1 hotovo',desc:'celá úroveň A1',descEn:'all of level A1'},
+ {id:'lvlA2',ico:'🌊',name:'A2 hotovo',desc:'celá úroveň A2',descEn:'all of level A2'},
+ {id:'lvlB1',ico:'🌌',name:'B1 hotovo',desc:'celá úroveň B1',descEn:'all of level B1'},
+ {id:'lvlB2',ico:'🏔️',name:'B2 hotovo',desc:'celá úroveň B2',descEn:'all of level B2'},
+ {id:'lvlC1',ico:'📜',name:'C1 hotovo',desc:'celá úroveň C1',descEn:'all of level C1'},
+ {id:'lvlC2',ico:'👑',name:'C2 hotovo',desc:'celá úroveň C2',descEn:'all of level C2'},
 ];
 function grantBadges(p,perfect){
   const got=[];const add=id=>{if(!p.badges.includes(id)){p.badges.push(id);got.push(BADGES.find(b=>b.id===id));}};
@@ -718,17 +1011,19 @@ function streakLive(p){return p.streak.last===today()||p.streak.last===yesterday
 function xpToday(p){return p.daily&&p.daily.date===today()?p.daily.xp:0;}
 function addXp(p,n){p.xp+=n;if(!p.daily||p.daily.date!==today())p.daily={date:today(),xp:0};p.daily.xp+=n;if(!p.weekly||p.weekly.key!==weekKey())p.weekly={key:weekKey(),xp:0};p.weekly.xp+=n;}
 function weekKey(){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+3-((d.getDay()+6)%7));const w1=new Date(d.getFullYear(),0,4);return d.getFullYear()+'-W'+String(1+Math.round(((d-w1)/86400000-3+((w1.getDay()+6)%7))/7)).padStart(2,'0');}
-function migrateP(p){p.seen=p.seen||{};p.weekly=p.weekly||{key:'',xp:0};if(!('quests'in p))p.quests=null;if(!('social'in p))p.social=null;return p;}
+function migrateP(p){p.seen=p.seen||{};p.weekly=p.weekly||{key:'',xp:0};if(!('quests'in p))p.quests=null;if(!('social'in p))p.social=null;p.stats=p.stats||{lvl:{}};return p;}
 
 /* ---- denní výzvy ---- */
 const QUESTS=[
- {id:'xp50',txt:'Získej 50 XP z lekcí',goal:50,reward:15},
- {id:'lesson1',txt:'Dokonči lekci',goal:1,reward:15},
- {id:'perfect',txt:'Dokonči lekci bez chyby',goal:1,reward:25},
- {id:'review1',txt:'Dokonči procvičování',goal:1,reward:20},
- {id:'type10',txt:'Napiš správně 10 odpovědí',goal:10,reward:20},
- {id:'combo5',txt:'Dosáhni comba ×5',goal:1,reward:20},
+ {id:'xp50',txt:'Získej 50 XP z lekcí',txtEn:'Earn 50 XP from lessons',goal:50,reward:15},
+ {id:'lesson1',txt:'Dokonči lekci',txtEn:'Finish a lesson',goal:1,reward:15},
+ {id:'perfect',txt:'Dokonči lekci bez chyby',txtEn:'Finish a lesson with no mistakes',goal:1,reward:25},
+ {id:'review1',txt:'Dokonči procvičování',txtEn:'Finish a practice session',goal:1,reward:20},
+ {id:'type10',txt:'Napiš správně 10 odpovědí',txtEn:'Type 10 answers correctly',goal:10,reward:20},
+ {id:'combo5',txt:'Dosáhni comba ×5',txtEn:'Reach a ×5 combo',goal:1,reward:20},
 ];
+function qTxt(d){return lang()==='en'?d.txtEn:d.txt;}
+function bDesc(b){return lang()==='en'?b.descEn:b.desc;}
 let QDONE=[];
 function todayQuests(p){
   if(!p.quests||p.quests.date!==today()){
@@ -751,28 +1046,28 @@ function genFromVocab(lesson,allVocab){
   const ex=[];const v=lesson.vocab;
   for(const [is,cs] of sample(v,Math.min(3,v.length))){
     const wrong=sample([...new Set(allVocab.filter(q=>q[0]!==is).map(q=>q[1]).filter(x=>x!==cs))],3);
-    ex.push({t:'mc',q:`Co znamená <span class="is">„${esc(is)}“</span>?${speakBtn(is)}`,opts:shuffle([cs,...wrong]),a:cs,word:is});
+    ex.push({t:'mc',q:qMean(is),opts:shuffle([cs,...wrong]),a:cs,word:is});
   }
   for(const [is,cs] of sample(v,Math.min(3,v.length))){
     const wrong=sample([...new Set(allVocab.filter(q=>q[1]!==cs).map(q=>q[0]).filter(x=>x!==is))],3);
-    ex.push({t:'mc',q:`Jak se islandsky řekne <b>„${esc(cs)}“</b>?`,opts:shuffle([is,...wrong]),a:is,word:is,optIs:true});
+    ex.push({t:'mc',q:qSay(cs),opts:shuffle([is,...wrong]),a:is,word:is,optIs:true});
   }
   if(v.length>=4)ex.push({t:'match',pairs:sample(v,4)});
   const seen=P().seen||{};
   for(const [is,cs] of sample(v.filter(q=>q[0].length<=14&&!q[0].includes(' ')&&(seen[q[0]]||0)>=2),2)){
-    ex.push({t:'type',q:`Napište islandsky: <b>„${esc(cs)}“</b>`,a:is,word:is});
+    ex.push({t:'type',q:qWrite(cs),a:is,word:is});
   }
   return ex;
 }
 function buildQueue(lesson){
   const p=P();
-  const allVocab=COURSE.flatMap(lv=>lv.lessons).flatMap(l=>l.vocab);
+  const allVocab=COURSE.flatMap(lv=>lv.lessons).map(l=>locLesson(l)).flatMap(l=>l.vocab);
   const gen=genFromVocab(lesson,allVocab);
   const authored=(lesson.ex||[]).map(e=>{
     if(e.t==='type'&&e.word&&(p.seen[e.word]||0)<2){
       const pair=(lesson.vocab||[]).find(v=>v[0]===e.word);
       if(pair){const wrong=sample(allVocab.filter(q=>q[0]!==e.word).map(q=>q[0]),3);
-        return {t:'mc',q:`Jak se islandsky řekne <b>„${esc(pair[1])}“</b>?`,opts:shuffle([e.word,...wrong]),a:e.word,word:e.word,optIs:true};}
+        return {t:'mc',q:qSay(pair[1]),opts:shuffle([e.word,...wrong]),a:e.word,word:e.word,optIs:true};}
     }
     return {...e};
   });
@@ -780,9 +1075,9 @@ function buildQueue(lesson){
   return shuffle([...authored,...gen]).slice(0,12).sort((a,b)=>(weight[a.t]||0)-(weight[b.t]||0));
 }
 function buildReviewQueue(p){
-  const allVocab=COURSE.flatMap(lv=>lv.lessons).flatMap(l=>l.vocab);
+  const allVocab=COURSE.flatMap(lv=>lv.lessons).map(l=>locLesson(l)).flatMap(l=>l.vocab);
   const learned=[];
-  for(const lv of COURSE)for(const l of lv.lessons)if(p.lessons[l.id])learned.push(...l.vocab);
+  for(const lv of COURSE)for(const l of lv.lessons)if(p.lessons[l.id])learned.push(...locLesson(l).vocab);
   if(!learned.length)return[];
   const weakWords=Object.keys(p.weak).sort((a,b)=>p.weak[b]-p.weak[a]);
   const pool=[...weakWords.map(w=>learned.find(v=>v[0]===w)).filter(Boolean),...sample(learned,8)];
@@ -792,8 +1087,8 @@ function buildReviewQueue(p){
   for(const [is,cs] of uniq.slice(0,10)){
     const dir=Math.random()<.5;
     const wrong=dir?sample([...new Set(allVocab.filter(q=>q[0]!==is).map(q=>q[1]).filter(x=>x!==cs))],3):sample([...new Set(allVocab.filter(q=>q[1]!==cs).map(q=>q[0]).filter(x=>x!==is))],3);
-    ex.push(dir?{t:'mc',q:`Co znamená <span class="is">„${esc(is)}“</span>?${speakBtn(is)}`,opts:shuffle([cs,...wrong]),a:cs,word:is}
-               :{t:'mc',q:`Jak se islandsky řekne <b>„${esc(cs)}“</b>?`,opts:shuffle([is,...wrong]),a:is,word:is,optIs:true});
+    ex.push(dir?{t:'mc',q:qMean(is),opts:shuffle([cs,...wrong]),a:cs,word:is}
+               :{t:'mc',q:qSay(cs),opts:shuffle([is,...wrong]),a:is,word:is,optIs:true});
   }
   return shuffle(ex).slice(0,10);
 }
@@ -810,6 +1105,42 @@ function render(){
   if(v==='result')return vResult();
   if(v==='profile')return vProfile();
   if(v==='board')return vBoard();
+  if(v==='about')return vAbout();
+}
+
+/* ---- about ---- */
+function vAbout(){
+  const cs=lang()==='cs';
+  const back=P()?'profile':'welcome';
+  $('#app').innerHTML=`
+  <div class="topbar"><button class="btn quiet" onclick="go('${back}')">←</button><span class="brand">${cs?'O aplikaci':'About'}</span></div>
+  <div class="card col">
+    <h2 class="serif">Íslenska</h2>
+    ${cs?`
+    <p>Autorem aplikace je <b>Vojta Luhan</b>. Jde o absolutně neziskový projekt — vznikl primárně pro autora samotného, jeho rodinu a kamarády.</p>
+    <p>Poznámky, návrhy na zlepšení, ale třeba i pochvaly můžete posílat na <b>vojta.luhan(at)seznam.cz</b>.</p>
+    <p>Aplikace je vytvářena za pomoci Clauda (AI od Anthropic), ale podle nejlepšího vědomí a svědomí autora. V rámci vědomí autora neobsahuje žádné chyby, o kterých by věděl — <b>za nic však neručí</b>.</p>`
+    :`
+    <p>This app was created by <b>Vojta Luhan</b>. It is a strictly non-profit project — built primarily for the author himself, his family and friends.</p>
+    <p>Notes, suggestions for improvement, and even compliments are welcome at <b>vojta.luhan(at)seznam.cz</b>.</p>
+    <p>The app is built with the help of Claude (an AI by Anthropic), but to the best of the author’s knowledge and conscience. As far as the author is aware, it contains no known errors — however, <b>no guarantees are given</b>.</p>`}
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?'Statistiky aplikace (anonymní)':'App statistics (anonymous)'}</span>
+    <div id="appstats" style="margin-top:8px;color:var(--muted)">${cs?'Načítám…':'Loading…'}</div>
+  </div>`;
+  rpc('get_stats',{}).then(s=>{
+    if(S.view!=='about')return;const el=$('#appstats');if(!el||!s)return;
+    const lvls=['a1','a2','b1','b2','c1','c2'].map(l=>`<tr><td style="padding-left:14px">· ${l.toUpperCase()}</td><td>${(s.levels&&s.levels[l])||0}</td></tr>`).join('');
+    el.innerHTML=`<table class="stattbl" style="color:var(--ink)">
+      <tr><td>${cs?'Instalace aplikace (PWA)':'App installs (PWA)'}</td><td>${s.installs}</td></tr>
+      <tr><td>${cs?'Vytvořené profily':'Profiles created'}</td><td>${s.profiles}</td></tr>
+      <tr><td>${cs?'Vytvořené skupiny':'Groups created'}</td><td>${s.groups}</td></tr>
+      <tr><td>${cs?'Profily s ≥ 1 dokončenou lekcí':'Profiles with ≥ 1 finished lesson'}</td><td>${s.first_lessons}</td></tr>
+      <tr><td>${cs?'Dosažené úrovně (≥ 1 lekce v úrovni)':'Levels reached (≥ 1 lesson in level)'}</td><td></td></tr>${lvls}
+    </table>
+    <p style="font-size:.78rem;margin:8px 0 0">${cs?'Počítadla jsou čistě anonymní — neukládá se nic osobního.':'Counters are fully anonymous — nothing personal is stored.'}</p>`;
+  }).catch(()=>{const el=$('#appstats');if(el)el.textContent=cs?'Statistiky se nepodařilo načíst.':'Could not load statistics.';});
 }
 function go(view,extra){S={view,...extra};render();window.scrollTo(0,0);}
 
@@ -817,48 +1148,51 @@ function go(view,extra){S={view,...extra};render();window.scrollTo(0,0);}
 function vWelcome(){
   const ids=Object.keys(store.profiles);
   $('#app').innerHTML=`
-  <div style="text-align:center;padding:52px 0 24px">
+  <div style="text-align:center;padding:44px 0 16px">
     <div style="font-size:3rem">🌌</div>
-    <h1 class="serif" style="font-size:2.2rem">Norðurljós</h1>
-    <p style="color:var(--muted)">Islandština hravě — od A1 po B2</p>
+    <h1 class="serif" style="font-size:2.4rem">Íslenska</h1>
+    <p style="color:var(--muted)">${T('tagline')}</p>
+    ${langSwitch()}
   </div>
   <div class="col">
     ${ids.map(id=>`<button class="node" onclick="pickProfile('${id}')">
       <span class="dot">${esc(store.profiles[id].name[0].toUpperCase())}</span>
       <span><span class="t">${esc(store.profiles[id].name)}</span>
       <small>${store.profiles[id].xp} XP · 🔥 ${streakLive(store.profiles[id])}</small></span></button>`).join('')}
-    <button class="btn" onclick="go('newProfile')">＋ Nový profil</button>
+    <button class="btn" onclick="go('newProfile')">${T('newProfile')}</button>
+    <button class="btn quiet" onclick="go('about')">${T('aboutB')}</button>
   </div>
-  <p class="footer-note">Profily se ukládají jen v tomto prohlížeči. Progres lze přenést přes export/import v profilu.</p>`;
+  <p class="footer-note">${T('welcomeFoot')}</p>`;
 }
 function pickProfile(id){store.active=id;migrateP(P());save();go('map');}
 function vNewProfile(){
   $('#app').innerHTML=`
-  <div class="topbar"><button class="btn quiet" onclick="go('welcome')">←</button><span class="brand">Nový profil</span></div>
+  <div class="topbar"><button class="btn quiet" onclick="go('welcome')">←</button><span class="brand">${T('npTitle')}</span></div>
   <div class="card col">
-    <label>Jméno<br><input id="pname" style="width:100%" maxlength="20" placeholder="Vojta"></label>
-    <label>Denní cíl<br><select id="pgoal" style="width:100%">
-      <option value="20">V pohodě — 20 XP denně</option>
-      <option value="50" selected>Pravidelně — 50 XP denně</option>
-      <option value="100">Intenzivně — 100 XP denně</option></select></label>
-    <label>Kde začít?<br><select id="pstart" style="width:100%">
-      <option value="test" selected>Rozřazovací test (doporučeno)</option>
-      <option value="a1">Od úplného začátku (A1)</option>
-      <option value="a2">Rovnou od A2</option>
-      <option value="b1">Rovnou od B1</option>
-      <option value="b2">Rovnou od B2</option>
-      <option value="c1">Rovnou od C1</option>
-      <option value="c2">Rovnou od C2</option></select></label>
-    <button class="btn" onclick="createProfile()">Vytvořit profil</button>
+    <label>${T('name')}<br><input id="pname" style="width:100%" maxlength="20" placeholder="Vojta"></label>
+    <label>${T('goal')}<br><select id="pgoal" style="width:100%">
+      <option value="20">${T('goal20')}</option>
+      <option value="50" selected>${T('goal50')}</option>
+      <option value="100">${T('goal100')}</option></select></label>
+    <label>${T('whereStart')}<br><select id="pstart" style="width:100%">
+      <option value="test" selected>${T('stTest')}</option>
+      <option value="a1">${T('stA1')}</option>
+      <option value="a2">${T('stFrom')} A2</option>
+      <option value="b1">${T('stFrom')} B1</option>
+      <option value="b2">${T('stFrom')} B2</option>
+      <option value="c1">${T('stFrom')} C1</option>
+      <option value="c2">${T('stFrom')} C2</option></select></label>
+    <button class="btn" onclick="createProfile()">${T('create')}</button>
   </div>`;
 }
 function createProfile(){
   const name=$('#pname').value.trim();if(!name){$('#pname').focus();return;}
   const id='p'+Math.random().toString(36).slice(2,9);
-  store.profiles[id]={name,goal:+$('#pgoal').value,xp:0,streak:{count:0,last:null},daily:null,lessons:{},weak:{},seen:{},weekly:{key:'',xp:0},quests:null,social:null,badges:[],unlocked:'a1'};
+  store.profiles[id]={name,goal:+$('#pgoal').value,xp:0,streak:{count:0,last:null},daily:null,lessons:{},weak:{},seen:{},weekly:{key:'',xp:0},quests:null,social:null,stats:{lvl:{}},badges:[],unlocked:'a1'};
   store.active=id;save();
+  track('profile');
   const st=$('#pstart').value;
-  if(st==='test')go('placement',{pi:0,pscore:{a1:0,a2:0,b1:0,b2:0,c1:0,c2:0},pq:PLACEMENT.map(q=>({...q,opts:shuffle(q.opts)}))});
+  if(st==='test')go('placement',{pi:0,pscore:{a1:0,a2:0,b1:0,b2:0,c1:0,c2:0},pq:PLACEMENT.map((q,i)=>{const o=(lang()==='en'&&PEN[i])||{};const m={...q,...o};return {...m,opts:shuffle(m.opts)};})});
   else{P().unlocked=st;save();go('map');}
 }
 
@@ -866,13 +1200,13 @@ function createProfile(){
 function vPlacement(){
   const q=S.pq[S.pi];
   $('#app').innerHTML=`
-  <div class="topbar"><span class="brand">Rozřazovací test</span>
+  <div class="topbar"><span class="brand">${T('ptest')}</span>
     <div class="progress"><i style="width:${S.pi/PLACEMENT.length*100}%"></i></div>
     <span class="stat">${S.pi+1}<small>/${PLACEMENT.length}</small></span></div>
   <div class="card ex-card">
     <p class="ex-q">${q.q}</p>
     <div class="opts">${q.opts.map((o,i)=>`<button class="opt ${q.optIs?'is':''}" onclick="placeAnswer(${i})">${esc(o)}</button>`).join('')}</div>
-    <p style="margin-top:16px;text-align:center"><button class="btn quiet" onclick="placeSkip()">Nevím — přeskočit</button></p>
+    <p style="margin-top:16px;text-align:center"><button class="btn quiet" onclick="placeSkip()">${T('dontknow')}</button></p>
   </div>`;
 }
 function placeAnswer(i){const q=S.pq[S.pi];if(q.opts[i]===q.a)S.pscore[q.lvl]++;placeNext();}
@@ -883,12 +1217,12 @@ function placeNext(){
   const s=S.pscore;let lvl='a1';
   if(s.a1>=3){lvl='a2';if(s.a2>=3){lvl='b1';if(s.b1>=3){lvl='b2';if(s.b2>=3){lvl='c1';if(s.c1>=3&&s.c2>=2)lvl='c2';}}}}
   P().unlocked=lvl;save();
-  const names={a1:'A1 — začátky',a2:'A2 — mírně pokročilý',b1:'B1 — pokročilý',b2:'B2 — velmi pokročilý',c1:'C1 — zkušený mluvčí',c2:'C2 — mistrovská úroveň'};
+  track('level',lvl);
   $('#app').innerHTML=`<div class="result">
     <div style="font-size:3rem">🧭</div>
-    <h2>Vaše úroveň: ${names[lvl]}</h2>
-    <p style="color:var(--muted)">Úrovně pod ${lvl.toUpperCase()} máte odemčené — můžete se k nim kdykoli vrátit.</p>
-    <button class="btn" onclick="go('map')">Na mapu kurzu</button></div>`;
+    <h2>${T('yourLevel')} ${T('lvlNames')[lvl]}</h2>
+    <p style="color:var(--muted)">${T('unlockNote')(lvl.toUpperCase())}</p>
+    <button class="btn" onclick="go('map')">${T('toMap')}</button></div>`;
 }
 
 /* ---- map ---- */
@@ -909,55 +1243,55 @@ function vMap(){
   const goalPct=Math.min(100,Math.round(xpToday(p)/p.goal*100));
   $('#app').innerHTML=`
   <div class="topbar">
-    <span class="brand serif">🌌 Norðurljós</span>
-    <span class="stat" title="dny v řadě">🔥 ${streakLive(p)}</span>
-    <span class="stat" title="zkušenosti">⭐ ${p.xp}<small>XP</small></span>
+    <span class="brand serif">🌌 Íslenska</span>
+    <span class="stat">🔥 ${streakLive(p)}</span>
+    <span class="stat">⭐ ${p.xp}<small>XP</small></span>
     <button class="btn quiet" onclick="go('profile')" title="Profil">${esc(p.name[0].toUpperCase())}</button>
   </div>
   <div class="card row" style="justify-content:space-between">
-    <div><b>Denní cíl</b><div class="goalring">${xpToday(p)} / ${p.goal} XP ${goalPct>=100?'· splněno ✅':''}</div></div>
+    <div><b>${T('dailyGoal')}</b><div class="goalring">${xpToday(p)} / ${p.goal} XP ${goalPct>=100?T('goalDone'):''}</div></div>
     <div class="progress" style="max-width:180px"><i style="width:${goalPct}%"></i></div>
   </div>
   <div class="row" style="margin-top:14px">
-    <button class="btn ghost" style="flex:1" onclick="startReview()">🔄 Procvičování ${Object.keys(p.weak).length?`(${Object.keys(p.weak).length})`:''}</button>
-    <button class="btn ghost" style="flex:1" onclick="go('board')">🏆 Žebříček</button>
+    <button class="btn ghost" style="flex:1" onclick="startReview()">${T('review')} ${Object.keys(p.weak).length?`(${Object.keys(p.weak).length})`:''}</button>
+    <button class="btn ghost" style="flex:1" onclick="go('board')">${T('board')}</button>
   </div>
-  ${(()=>{const q=todayQuests(p);return`<div class="card" style="margin-top:14px"><span class="eyebrow">🎯 Dnešní výzvy</span>
+  ${(()=>{const q=todayQuests(p);return`<div class="card" style="margin-top:14px"><span class="eyebrow">${T('quests')}</span>
     ${q.ids.map(id=>{const d=QUESTS.find(x=>x.id===id);const done=q.done.includes(id);const pr=Math.min(q.prog[id]||0,d.goal);
-      return`<div class="row" style="margin-top:8px;${done?'opacity:.6':''}"><span>${done?'✅':'▫️'}</span><span style="flex:1">${d.txt} <small style="color:var(--muted)">+${d.reward} XP</small></span><small style="color:var(--muted);font-variant-numeric:tabular-nums">${d.goal>1?pr+'/'+d.goal:''}</small></div>`;}).join('')}</div>`;})()}
+      return`<div class="row" style="margin-top:8px;${done?'opacity:.6':''}"><span>${done?'✅':'▫️'}</span><span style="flex:1">${qTxt(d)} <small style="color:var(--muted)">+${d.reward} XP</small></span><small style="color:var(--muted);font-variant-numeric:tabular-nums">${d.goal>1?pr+'/'+d.goal:''}</small></div>`;}).join('')}</div>`;})()}
   ${COURSE.map(lv=>{
     const done=lv.lessons.filter(l=>p.lessons[l.id]&&p.lessons[l.id].stars>0).length;
-    return`<div class="level-head"><span class="eyebrow">${esc(lv.tag)}</span><h2>${esc(lv.name)}</h2><span class="pct">${done}/${lv.lessons.length}</span></div>
+    return`<div class="level-head"><span class="eyebrow">${esc(lvlTag(lv))}</span><h2>${esc(lvlName(lv))}</h2><span class="pct">${done}/${lv.lessons.length}</span></div>
     <div class="path">${lv.lessons.map((l,i)=>{
       const st=p.lessons[l.id];const unlocked=isLessonUnlocked(lv,i);
       const stars=st?'★'.repeat(st.stars)+'☆'.repeat(3-st.stars):'';
       return`<button class="node ${st&&st.stars>0?'done':''} ${unlocked?'':'locked'}" ${unlocked?`onclick="startLesson('${l.id}')"`:'disabled'}>
         <span class="dot">${st&&st.stars>0?'✓':i+1}</span>
-        <span><span class="t">${esc(l.title)}</span><small>${esc(l.sub)}</small></span>
+        <span><span class="t">${esc(locLesson(l).title)}</span><small>${esc(l.sub)}</small></span>
         <span class="stars">${stars}${unlocked?'':'🔒'}</span></button>`;}).join('')}</div>`;}).join('')}
-  <p class="footer-note">Obsah kurzu je původní. Norðurljós = polární záře.</p>`;
+  <p class="footer-note">${T('courseFoot')}</p>`;
 }
 
 /* ---- lesson session ---- */
 function startLesson(id){
-  const lesson=COURSE.flatMap(lv=>lv.lessons).find(l=>l.id===id);
+  const lesson=locLesson(COURSE.flatMap(lv=>lv.lessons).find(l=>l.id===id));
   QDONE=[];
   go('lesson',{lesson,queue:buildQueue(lesson),qi:0,hearts:3,right:0,wrong:0,combo:0,bonus:0,showTip:!!lesson.tip,review:false});
 }
 function startReview(){
   const q=buildReviewQueue(P());
-  if(!q.length){alert('Nejdřív dokončete aspoň jednu lekci.');return;}
+  if(!q.length){alert(T('aReviewFirst'));return;}
   QDONE=[];
-  go('lesson',{lesson:{id:null,title:'Procvičování',tip:null},queue:q,qi:0,hearts:3,right:0,wrong:0,combo:0,bonus:0,showTip:false,review:true});
+  go('lesson',{lesson:{id:null,title:lang()==='en'?'Practice':'Procvičování',tip:null},queue:q,qi:0,hearts:3,right:0,wrong:0,combo:0,bonus:0,showTip:false,review:true});
 }
 function vLesson(){
   if(S.showTip){
     $('#app').innerHTML=`
     <div class="topbar"><button class="btn quiet" onclick="go('map')">✕</button><span class="brand">${esc(S.lesson.title)}</span></div>
-    <div class="tip"><span class="eyebrow">Gramatika</span><div style="margin-top:8px">${S.lesson.tip}</div></div>
-    ${S.lesson.vocab?`<div class="card"><span class="eyebrow">Nová slovíčka</span>
+    <div class="tip"><span class="eyebrow">${T('grammar')}</span><div style="margin-top:8px">${S.lesson.tip}</div></div>
+    ${S.lesson.vocab?`<div class="card"><span class="eyebrow">${T('newVocab')}</span>
       <table class="stattbl" style="margin-top:8px">${S.lesson.vocab.map(v=>`<tr><td class="is">${esc(v[0])} ${speakBtn(v[0])}</td><td>${esc(v[1])}</td></tr>`).join('')}</table></div>`:''}
-    <div style="margin-top:16px"><button class="btn" style="width:100%" onclick="S.showTip=false;render()">Jdeme na to →</button></div>`;
+    <div style="margin-top:16px"><button class="btn" style="width:100%" onclick="S.showTip=false;render()">${T('letsgo')}</button></div>`;
     return;
   }
   const ex=S.queue[S.qi];
@@ -968,30 +1302,30 @@ function vLesson(){
   if(ex.t==='mc'){
     body=`<p class="ex-q">${ex.q}</p><div class="opts">${ex.opts.map((o,i)=>`<button class="opt ${ex.optIs?'is':''}" data-i="${i}" onclick="mcSel(${i})">${esc(o)}</button>`).join('')}</div>`;
   }else if(ex.t==='fill'){
-    body=`<p class="ex-q">Doplňte: <span class="is">${esc(ex.pre)}</span>${speakBtn(ex.pre.replace('___',ex.opts[ex.a]))}<br><small style="color:var(--muted)">${esc(ex.cs)}</small></p>
+    body=`<p class="ex-q">${T('fillTask')} <span class="is">${esc(ex.pre)}</span>${speakBtn(ex.pre.replace('___',ex.opts[ex.a]))}<br><small style="color:var(--muted)">${esc(ex.cs)}</small></p>
     <div class="opts two">${ex.opts.map((o,i)=>`<button class="opt is" data-i="${i}" onclick="mcSel(${i})">${esc(o)}</button>`).join('')}</div>`;
   }else if(ex.t==='type'){
-    body=`<p class="ex-q">${ex.q}</p><input class="typein is" id="typein" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Odpověď islandsky…">
-    <p style="color:var(--muted);font-size:.8rem;margin-top:8px">Znaky: á é í ó ú ý ð þ æ ö — <span id="charpad">${['á','é','í','ó','ú','ý','ð','þ','æ','ö'].map(c=>`<button class="btn quiet" style="padding:4px 9px" onclick="insChar('${c}')">${c}</button>`).join(' ')}</span></p>`;
+    body=`<p class="ex-q">${ex.q}</p><input class="typein is" id="typein" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${T('typePH')}">
+    <p style="color:var(--muted);font-size:.8rem;margin-top:8px">${T('chars')}: á é í ó ú ý ð þ æ ö — <span id="charpad">${['á','é','í','ó','ú','ý','ð','þ','æ','ö'].map(c=>`<button class="btn quiet" style="padding:4px 9px" onclick="insChar('${c}')">${c}</button>`).join(' ')}</span></p>`;
   }else if(ex.t==='order'){
-    body=`<p class="ex-q">Sestavte větu: <b>„${esc(ex.cs)}“</b></p>
+    body=`<p class="ex-q">${T('orderTask')} <b>„${esc(ex.cs)}“</b></p>
     <div class="chips" id="built"></div>
     <div class="bank" id="bank">${shuffle(ex.is.split(' ')).map((w,i)=>`<button class="chip is" data-w="${esc(w)}" data-i="${i}" onclick="chipPick(this)">${esc(w)}</button>`).join('')}</div>`;
   }else if(ex.t==='match'){
     const left=shuffle(ex.pairs.map((p,i)=>({txt:p[0],k:i})));
     const right=shuffle(ex.pairs.map((p,i)=>({txt:p[1],k:i})));
-    body=`<p class="ex-q">Spojte dvojice <small style="color:var(--muted)">(vlevo islandsky, vpravo česky)</small></p><div class="matchgrid" id="mg">
+    body=`<p class="ex-q">${T('matchTask')} <small style="color:var(--muted)">${T('matchHint')}</small></p><div class="matchgrid" id="mg">
       <div class="col">${left.map(o=>`<button class="opt is" data-k="${o.k}" data-side="is" onclick="matchPick(this)">${esc(o.txt)}</button>`).join('')}</div>
       <div class="col">${right.map(o=>`<button class="opt" data-k="${o.k}" data-side="cs" onclick="matchPick(this)">${esc(o.txt)}</button>`).join('')}</div></div>`;
   }
   $('#app').innerHTML=head+`<div class="card ex-card">${body}</div><div style="height:110px"></div>
   <div class="checkbar"><div class="inner">
-    ${ex.t==='match'?'':`<button class="btn quiet" onclick="answer(null,true)">Přeskočit</button><button class="btn" id="checkbtn" onclick="checkNow()" ${ex.t==='mc'||ex.t==='fill'?'disabled':''}>Zkontrolovat</button>`}
+    ${ex.t==='match'?'':`<button class="btn quiet" onclick="answer(null,true)">${T('skip')}</button><button class="btn" id="checkbtn" onclick="checkNow()" ${ex.t==='mc'||ex.t==='fill'?'disabled':''}>${T('check')}</button>`}
   </div></div>`;
   if(ex.t==='type'){const inp=$('#typein');inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter')checkNow();});}
   S.matchState={sel:null,doneCnt:0,errs:0};
 }
-function confirmQuit(){if(confirm('Opustit lekci? Postup v ní se ztratí.'))go('map');}
+function confirmQuit(){if(confirm(T('quitConfirm')))go('map');}
 function insChar(c){const i=$('#typein');if(!i)return;i.value+=c;i.focus();}
 let mcChoice=null;
 function mcSel(i){mcChoice=i;document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));document.querySelector(`.opt[data-i="${i}"]`).classList.add('sel');$('#checkbtn').disabled=false;}
@@ -1052,10 +1386,10 @@ function answer(ok,skipped){
   const fb=document.createElement('div');
   fb.className='feedback '+(ok?'ok':'bad');
   fb.innerHTML=`<div class="inner">
-    <span class="msg">${ok===true?'Rétt! Správně ✓'+(S.combo>=3?` ⚡ combo ×${S.combo}`:''):ok==='soft'?(ex.t==='match'?'Spojeno — s pár přehmaty':'Téměř — pozor na délky a znaky'):skipped?'Přeskočeno':'Rangt — špatně'}</span>
-    ${!ok&&correctTxt?`<span class="detail">Správně: <b class="is">${esc(ex.t==='fill'?ex.pre.replace('___',ex.opts[ex.a]):correctTxt)}</b> ${speakBtn(ex.t==='fill'?ex.pre.replace('___',ex.opts[ex.a]):correctTxt)}</span>`:''}
-    ${ok==='soft'&&correctTxt?`<span class="detail">Přesně: <b class="is">${esc(correctTxt)}</b></span>`:''}
-    <button class="btn ${ok?'':'danger'}" onclick="nextEx()">Pokračovat</button></div>`;
+    <span class="msg">${ok===true?T('correct')+(S.combo>=3?` ⚡ combo ×${S.combo}`:''):ok==='soft'?(ex.t==='match'?T('almostMatch'):T('almostType')):skipped?T('skipped'):T('wrong')}</span>
+    ${!ok&&correctTxt?`<span class="detail">${T('correctIs')} <b class="is">${esc(ex.t==='fill'?ex.pre.replace('___',ex.opts[ex.a]):correctTxt)}</b> ${speakBtn(ex.t==='fill'?ex.pre.replace('___',ex.opts[ex.a]):correctTxt)}</span>`:''}
+    ${ok==='soft'&&correctTxt?`<span class="detail">${T('exactIs')} <b class="is">${esc(correctTxt)}</b></span>`:''}
+    <button class="btn ${ok?'':'danger'}" onclick="nextEx()">${T('cont')}</button></div>`;
   const cb=document.querySelector('.checkbar');if(cb)cb.remove();
   document.body.appendChild(fb);
   document.querySelectorAll('.opt,.chip,.typein').forEach(e=>e.disabled=true);
@@ -1066,9 +1400,9 @@ function nextEx(){
   document.querySelectorAll('.feedback').forEach(f=>f.remove());
   if(S.hearts<=0){
     $('#app').innerHTML=`<div class="result"><div style="font-size:3rem">🫀</div>
-      <h2>Došla srdíčka</h2><p style="color:var(--muted)">Nevadí — zkuste lekci znovu, opakování je základ.</p>
-      <div class="row" style="justify-content:center"><button class="btn" onclick="${S.review?'startReview()':`startLesson('${S.lesson.id}')`}">Zkusit znovu</button>
-      <button class="btn quiet" onclick="go('map')">Na mapu</button></div></div>`;
+      <h2>${T('heartsOut')}</h2><p style="color:var(--muted)">${T('heartsOutSub')}</p>
+      <div class="row" style="justify-content:center"><button class="btn" onclick="${S.review?'startReview()':`startLesson('${S.lesson.id}')`}">${T('retry')}</button>
+      <button class="btn quiet" onclick="go('map')">${T('toMapShort')}</button></div></div>`;
     return;
   }
   S.qi++;
@@ -1090,6 +1424,10 @@ function finishLesson(){
     stars=acc>=.95?3:acc>=.75?2:1;
     const prev=p.lessons[S.lesson.id];
     p.lessons[S.lesson.id]={stars:Math.max(stars,prev?prev.stars:0),best:Math.max(Math.round(acc*100),prev?prev.best:0)};
+    p.stats=p.stats||{lvl:{}};
+    if(doneLessons(p)===1&&!p.stats.first){p.stats.first=1;track('first_lesson');}
+    const lvId=S.lesson.id.split('-')[0];
+    if(!p.stats.lvl[lvId]){p.stats.lvl[lvId]=1;track('level',lvId);}
   }
   const newBadges=grantBadges(p,perfect);
   save();
@@ -1100,16 +1438,16 @@ function vResult(){
   const p=P();
   $('#app').innerHTML=`<div class="result">
     <div style="font-size:3.4rem">${S.perfect?'💎':S.acc>=.75?'🌟':'✅'}</div>
-    <h2>${S.review?'Procvičeno!':S.perfect?'Fullkomið! Bez jediné chyby':'Lekce hotová!'}</h2>
+    <h2>${S.review?T('practiced'):S.perfect?T('perfectMsg'):T('lessonDone')}</h2>
     ${!S.review?`<div style="color:var(--gold);font-size:1.8rem;letter-spacing:4px;margin:6px 0">${'★'.repeat(S.stars)}${'☆'.repeat(3-S.stars)}</div>`:''}
     <div class="medals">
       <div class="medal"><div class="v">+${S.xp}</div><div class="l">XP</div></div>
-      <div class="medal"><div class="v">${Math.round(S.acc*100)} %</div><div class="l">úspěšnost</div></div>
-      <div class="medal"><div class="v">🔥 ${streakLive(p)}</div><div class="l">dní v řadě</div></div>
+      <div class="medal"><div class="v">${Math.round(S.acc*100)} %</div><div class="l">${T('accuracy')}</div></div>
+      <div class="medal"><div class="v">🔥 ${streakLive(p)}</div><div class="l">${T('streakDays')}</div></div>
     </div>
-    ${S.newBadges.map(b=>`<div class="badge-pop">${b.ico} Nový odznak: ${esc(b.name)}</div>`).join('')}
-    ${(S.qdone||[]).map(d=>`<div class="badge-pop">🎯 Výzva splněna: ${esc(d.txt)} (+${d.reward} XP)</div>`).join('')}
-    <div style="margin-top:20px"><button class="btn" onclick="go('map')">Pokračovat</button></div></div>`;
+    ${S.newBadges.map(b=>`<div class="badge-pop">${b.ico} ${T('newBadge')} ${esc(b.name)}</div>`).join('')}
+    ${(S.qdone||[]).map(d=>`<div class="badge-pop">🎯 ${T('questDone')} ${esc(qTxt(d))} (+${d.reward} XP)</div>`).join('')}
+    <div style="margin-top:20px"><button class="btn" onclick="go('map')">${T('cont')}</button></div></div>`;
 }
 
 /* ---- leaderboard ---- */
@@ -1117,46 +1455,46 @@ function vBoard(){
   const p=P();
   if(!p.social){
     $('#app').innerHTML=`
-    <div class="topbar"><button class="btn quiet" onclick="go('map')">←</button><span class="brand">🏆 Žebříček přátel</span></div>
+    <div class="topbar"><button class="btn quiet" onclick="go('map')">←</button><span class="brand">${T('boardTitle')}</span></div>
     <div class="card col">
-      <p>Propojte se s přáteli a porovnávejte XP a streaky. Žebříček vidí <b>jen členové vaší skupiny</b> — kdo nezná kód, nevidí nic.</p>
-      <button class="btn" onclick="createGroup()">Vytvořit novou skupinu</button>
-      <div class="row"><input id="gcode" style="flex:1" placeholder="Kód skupiny od kamaráda (NL-…)" autocapitalize="off" autocomplete="off">
-      <button class="btn ghost" onclick="joinGroup($('#gcode').value)">Připojit se</button></div>
-      <p style="color:var(--muted);font-size:.85rem;margin:0">Vyžaduje připojení k internetu. Sdílí se jen přezdívka, XP, streak a počet lekcí.</p>
+      <p>${T('boardIntro')}</p>
+      <button class="btn" onclick="createGroup()">${T('createGroup')}</button>
+      <div class="row"><input id="gcode" style="flex:1" placeholder="${T('joinPH')}" autocapitalize="off" autocomplete="off">
+      <button class="btn ghost" onclick="joinGroup($('#gcode').value)">${T('join')}</button></div>
+      <p style="color:var(--muted);font-size:.85rem;margin:0">${T('boardPrivacy')}</p>
     </div>`;
     return;
   }
   $('#app').innerHTML=`
-  <div class="topbar"><button class="btn quiet" onclick="go('map')">←</button><span class="brand">🏆 Žebříček přátel</span>
-    <button class="btn quiet" onclick="render()" title="Obnovit">↻</button></div>
+  <div class="topbar"><button class="btn quiet" onclick="go('map')">←</button><span class="brand">${T('boardTitle')}</span>
+    <button class="btn quiet" onclick="render()" title="↻">↻</button></div>
   <div class="card row" style="justify-content:space-between;flex-wrap:wrap">
-    <div><span class="eyebrow">Kód skupiny</span><div style="font-weight:700;font-variant-numeric:tabular-nums">${esc(p.social.group)}</div></div>
-    <button class="btn ghost" onclick="navigator.clipboard&&navigator.clipboard.writeText('${esc(p.social.group)}').then(()=>this.textContent='Zkopírováno ✓')">Kopírovat kód</button>
+    <div><span class="eyebrow">${T('groupCode')}</span><div style="font-weight:700;font-variant-numeric:tabular-nums">${esc(p.social.group)}</div></div>
+    <button class="btn ghost" onclick="navigator.clipboard&&navigator.clipboard.writeText('${esc(p.social.group)}').then(()=>this.textContent='${T('copied')}')">${T('copy')}</button>
   </div>
-  <div class="card" style="margin-top:14px" id="lb">Načítám žebříček…</div>
-  <div style="margin-top:14px"><button class="btn danger" style="width:100%" onclick="leaveGroup()">Opustit skupinu</button></div>
-  <p class="footer-note">Kód pošlete kamarádům — zadají ho v „Připojit se“. Pokrok se odesílá po každé dokončené lekci.</p>`;
+  <div class="card" style="margin-top:14px" id="lb">${T('loadingLb')}</div>
+  <div style="margin-top:14px"><button class="btn danger" style="width:100%" onclick="leaveGroup()">${T('leaveG')}</button></div>
+  <p class="footer-note">${T('boardFoot')}</p>`;
   rpc('get_leaderboard',{p_group:p.social.group}).then(rows=>{
     if(S.view!=='board')return;
     const lb=$('#lb');if(!lb)return;
-    if(!rows||!rows.length){lb.textContent='Skupina je zatím prázdná.';return;}
+    if(!rows||!rows.length){lb.textContent=T('emptyG');return;}
     const wk=weekKey();
     const wx=r=>(r.week_key===wk?r.week_xp||0:0);
     rows.sort((a,b)=>wx(b)-wx(a)||b.xp-a.xp);
     const hasWeek=rows.some(r=>r.week_key!==undefined);
-    lb.innerHTML=`<span class="eyebrow">⚡ Týdenní závod</span><table class="stattbl" style="margin-top:6px">
-      <tr style="color:var(--muted);font-size:.78rem"><td></td><td>jméno</td><td style="text-align:right">týden</td><td style="text-align:right">celkem</td><td style="text-align:right">🔥</td><td style="text-align:right">úroveň</td></tr>
+    lb.innerHTML=`<span class="eyebrow">${T('weekRace')}</span><table class="stattbl" style="margin-top:6px">
+      <tr style="color:var(--muted);font-size:.78rem"><td></td><td>${T('colName')}</td><td style="text-align:right">${T('colWeek')}</td><td style="text-align:right">${T('colTotal')}</td><td style="text-align:right">🔥</td><td style="text-align:right">${T('colLevel')}</td></tr>
       ${rows.map((r,i)=>{
         const me=r.name===p.name;
         const rank=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';
         return`<tr style="${me?'background:var(--accent-soft);font-weight:700':''}">
-          <td>${rank}</td><td>${esc(r.name)}<br><small style="color:var(--muted);font-weight:400">${ago(r.updated_at)} · ${r.lessons} lekcí</small></td>
+          <td>${rank}</td><td>${esc(r.name)}<br><small style="color:var(--muted);font-weight:400">${ago(r.updated_at)} · ${r.lessons} ${T('lessonsW')}</small></td>
           <td style="text-align:right">${hasWeek?'+'+wx(r):'–'}</td><td style="text-align:right">${r.xp}</td>
           <td style="text-align:right">${r.streak}</td><td style="text-align:right">${esc(r.level.toUpperCase())}</td></tr>`;}).join('')}
     </table>
-    <p style="color:var(--muted);font-size:.78rem;margin:8px 0 0">Pořadí podle XP získaných tento týden — v pondělí se závod restartuje.</p>`;
-  }).catch(()=>{const lb=$('#lb');if(lb)lb.textContent='Žebříček se nepodařilo načíst — zkontrolujte připojení k internetu.';});
+    <p style="color:var(--muted);font-size:.78rem;margin:8px 0 0">${T('raceNote')}</p>`;
+  }).catch(()=>{const lb=$('#lb');if(lb)lb.textContent=T('lbFail');});
 }
 
 /* ---- profile ---- */
@@ -1166,41 +1504,46 @@ function vProfile(){
   $('#app').innerHTML=`
   <div class="topbar"><button class="btn quiet" onclick="go('map')">←</button><span class="brand">${esc(p.name)}</span></div>
   <div class="card">
-    <span class="eyebrow">Statistiky</span>
+    <span class="eyebrow">${T('profStats')}</span>
     <table class="stattbl" style="margin-top:8px">
-      <tr><td>Celkem XP</td><td>${p.xp}</td></tr>
-      <tr><td>Dnešní XP</td><td>${xpToday(p)} / ${p.goal}</td></tr>
-      <tr><td>Streak</td><td>🔥 ${streakLive(p)} dní</td></tr>
-      <tr><td>Dokončené lekce</td><td>${done} / ${COURSE.reduce((n,l)=>n+l.lessons.length,0)}</td></tr>
-      <tr><td>Slabá slovíčka</td><td>${Object.keys(p.weak).length}</td></tr>
+      <tr><td>${T('totalXp')}</td><td>${p.xp}</td></tr>
+      <tr><td>${T('todayXp')}</td><td>${xpToday(p)} / ${p.goal}</td></tr>
+      <tr><td>${T('streakW')}</td><td>🔥 ${streakLive(p)} ${T('days')}</td></tr>
+      <tr><td>${T('doneL')}</td><td>${done} / ${COURSE.reduce((n,l)=>n+l.lessons.length,0)}</td></tr>
+      <tr><td>${T('weakW')}</td><td>${Object.keys(p.weak).length}</td></tr>
     </table>
   </div>
   <div class="card" style="margin-top:14px">
-    <span class="eyebrow">Odznaky</span>
-    <div class="badges" style="margin-top:10px">${BADGES.map(b=>`<div class="badge ${p.badges.includes(b.id)?'':'off'}"><div class="ico">${b.ico}</div><b>${esc(b.name)}</b><br><small>${esc(b.desc)}</small></div>`).join('')}</div>
+    <span class="eyebrow">${T('langT')}</span>
+    ${langSwitch()}
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${T('badgesT')}</span>
+    <div class="badges" style="margin-top:10px">${BADGES.map(b=>`<div class="badge ${p.badges.includes(b.id)?'':'off'}"><div class="ico">${b.ico}</div><b>${esc(b.name)}</b><br><small>${esc(bDesc(b))}</small></div>`).join('')}</div>
   </div>
   <div class="card col" style="margin-top:14px">
-    <span class="eyebrow">Data</span>
-    <button class="btn ghost" onclick="exportData()">⬇︎ Export progresu (JSON)</button>
-    <label class="btn ghost" style="text-align:center">⬆︎ Import progresu<input type="file" accept=".json" style="display:none" onchange="importData(this)"></label>
-    <button class="btn quiet" onclick="go('welcome')">Přepnout profil</button>
-    <button class="btn danger" onclick="deleteProfile()">Smazat tento profil</button>
+    <span class="eyebrow">${T('dataT')}</span>
+    <button class="btn ghost" onclick="exportData()">${T('exportB')}</button>
+    <label class="btn ghost" style="text-align:center">${T('importB')}<input type="file" accept=".json" style="display:none" onchange="importData(this)"></label>
+    <button class="btn quiet" onclick="go('welcome')">${T('switchP')}</button>
+    <button class="btn quiet" onclick="go('about')">${T('aboutB')}</button>
+    <button class="btn danger" onclick="deleteProfile()">${T('delP')}</button>
   </div>`;
 }
 function exportData(){
   const blob=new Blob([JSON.stringify({profile:P(),exported:today()},null,1)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='nordurljos-'+P().name+'.json';a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='islenska-'+P().name+'.json';a.click();
 }
 function importData(inp){
   const f=inp.files[0];if(!f)return;
   const r=new FileReader();
   r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.profile||!d.profile.name)throw 0;
     const id='p'+Math.random().toString(36).slice(2,9);store.profiles[id]=migrateP(d.profile);store.active=id;save();go('map');
-  }catch(e){alert('Soubor se nepodařilo načíst — není to export z této aplikace.');}};
+  }catch(e){alert(T('aImportFail'));}};
   r.readAsText(f);
 }
 function deleteProfile(){
-  if(!confirm('Opravdu smazat profil „'+P().name+'“ včetně veškerého progresu?'))return;
+  if(!confirm(T('aDelConfirm')(P().name)))return;
   const p=P();
   if(p.social){rpc('leave_group',{p_id:p.social.pid,p_secret:p.social.secret}).catch(()=>{});}
   delete store.profiles[store.active];store.active=null;save();go('welcome');
