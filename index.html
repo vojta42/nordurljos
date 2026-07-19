@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0E7C66">
-<meta name="description" content="Norðurljós — gamifikovaná výuka islandštiny A1–C1, česky.">
+<meta name="description" content="Norðurljós — gamifikovaná výuka islandštiny A1–C2, česky.">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -183,7 +183,39 @@ const COURSE=[
    {t:'mc',q:'Který den následuje po <span class="is">„föstudagur“</span>?',opts:['laugardagur','sunnudagur','mánudagur','fimmtudagur'],a:'laugardagur',optIs:true},
    {t:'order',cs:'Dnes je pondělí.',is:'Í dag er mánudagur'},
    {t:'type',q:'Napište islandsky: <b>„dnes“</b>',a:'í dag',word:'í dag'},
-   {t:'mc',q:'<span class="is">„Laugardagur“</span> doslova znamená…',opts:['den koupele (prádla)','den slunce','den odpočinku','den trhu'],a:'den koupele (prádla)'}]}
+   {t:'mc',q:'<span class="is">„Laugardagur“</span> doslova znamená…',opts:['den koupele (prádla)','den slunce','den odpočinku','den trhu'],a:'den koupele (prádla)'}]},
+ {id:'a1-7',title:'Barvy',sub:'rauður, blár, grænn…',
+  tip:'Barvy jsou přídavná jména a <b>shodují se v rodě</b>: <i>rauður bíll</i> (m), <i>rauð peysa</i> (ž), <i>rautt hús</i> (s). Zatím se učíme mužský tvar.',
+  vocab:[['rauður','červený'],['blár','modrý'],['grænn','zelený'],['gulur','žlutý'],['svartur','černý'],['hvítur','bílý'],['bleikur','růžový'],['brúnn','hnědý']],
+  ex:[
+   {t:'fill',pre:'Himinninn er ___.',opts:['blár','blá','blátt'],a:0,cs:'Nebe je modré. (himinn je mužský rod)'},
+   {t:'order',cs:'Auto je červené.',is:'Bíllinn er rauður'},
+   {t:'mc',q:'Jakou barvu má tráva?',opts:['grænn','gulur','blár','brúnn'],a:'grænn',optIs:true},
+   {t:'type',q:'Napište islandsky: <b>„černý“</b>',a:'svartur',word:'svartur'}]},
+ {id:'a1-8',title:'Zvířata',sub:'hundur, köttur, lundi…',
+  tip:'<b>Lundi</b> (papuchalk) je neoficiální symbol Islandu — hnízdí jich tam přes polovina světové populace. Ovcí (<b>kind</b>) je na Islandu víc než lidí.',
+  vocab:[['hundur','pes'],['köttur','kočka'],['kind','ovce'],['fugl','pták'],['kýr','kráva'],['mús','myš'],['hvalur','velryba'],['lundi','papuchalk']],
+  ex:[
+   {t:'order',cs:'Pes je velký.',is:'Hundurinn er stór'},
+   {t:'fill',pre:'Kötturinn drekkur ___.',opts:['mjólk','brauð','epli'],a:0,cs:'Kočka pije mléko.'},
+   {t:'mc',q:'Kterých zvířat je na Islandu víc než obyvatel?',opts:['kindur (ovce)','hundar (psi)','kýr (krávy)','mýs (myši)'],a:'kindur (ovce)',optIs:true},
+   {t:'type',q:'Napište islandsky: <b>„pes“</b>',a:'hundur',word:'hundur'}]},
+ {id:'a1-9',title:'Oblečení',sub:'peysa, úlpa, húfa…',
+  tip:'„Mít na sobě“ = <b>vera í</b> + dativ: <i>Ég er í peysu</i>. <b>Lopapeysa</b> — islandský svetr s kruhovým vzorem — je národní poklad.',
+  vocab:[['peysa','svetr'],['úlpa','bunda'],['buxur','kalhoty'],['skór','boty'],['húfa','čepice'],['vettlingar','rukavice'],['sokkar','ponožky'],['bolur','tričko']],
+  ex:[
+   {t:'order',cs:'Mám na sobě svetr.',is:'Ég er í peysu'},
+   {t:'fill',pre:'Úti er kalt — taktu ___!',opts:['húfu','húfa','húfan'],a:0,cs:'Venku je zima — vezmi si čepici!'},
+   {t:'mc',q:'Co je <span class="is">„lopapeysa“</span>?',opts:['islandský vlněný svetr s kruhovým vzorem','nepromokavá bunda','vlněná čepice s bambulí','turistické boty'],a:'islandský vlněný svetr s kruhovým vzorem'},
+   {t:'type',q:'Napište islandsky: <b>„boty“</b>',a:'skór',word:'skór'}]},
+ {id:'a1-10',title:'V restauraci',sub:'matseðill, pylsa, skyr…',
+  tip:'Zdvořilá žádost: <b>Get ég fengið…?</b> (můžu dostat…?). Islandský hotdog se objednává <i>„ein með öllu“</i> — jeden se vším. <b>Skyr</b> je islandský mléčný výrobek podobný jogurtu.',
+  vocab:[['matseðill','jídelní lístek'],['pylsa','párek (hotdog)'],['súpa','polévka'],['kjúklingur','kuře'],['grænmeti','zelenina'],['ávextir','ovoce'],['reikningur','účet'],['skyr','skyr (isl. jogurt)']],
+  ex:[
+   {t:'order',cs:'Můžu dostat jídelní lístek?',is:'Get ég fengið matseðilinn'},
+   {t:'fill',pre:'Eina ___ með öllu, takk!',opts:['pylsu','pylsa','pylsur'],a:0,cs:'Jeden hotdog se vším, prosím!'},
+   {t:'mc',q:'Chcete zaplatit. O co požádáte?',opts:['reikninginn','matseðilinn','grænmetið','eldhúsið'],a:'reikninginn',optIs:true},
+   {t:'type',q:'Napište islandsky: <b>„polévka“</b>',a:'súpa',word:'súpa'}]}
 ]},
 {id:'a2',tag:'Úroveň A2',name:'Á ferðinni — na cestě',lessons:[
  {id:'a2-1',title:'Počasí',sub:'rigning, snjór, vindur…',
@@ -233,7 +265,39 @@ const COURSE=[
    {t:'order',cs:'Pracuje v nemocnici.',is:'Hún vinnur á spítala'},
    {t:'fill',pre:'Ég ___ bækur á kvöldin.',opts:['les','lest','lesa'],a:0,cs:'Večer čtu knihy.'},
    {t:'mc',q:'Kam jde Islanďan, když říká <span class="is">„Ég er að fara í sund“</span>?',opts:['do bazénu','do práce','do školy','na koncert'],a:'do bazénu'},
-   {t:'type',q:'Napište islandsky: <b>„hudba“</b>',a:'tónlist',word:'tónlist'}]}
+   {t:'type',q:'Napište islandsky: <b>„hudba“</b>',a:'tónlist',word:'tónlist'}]},
+ {id:'a2-7',title:'Směry a orientace',sub:'hægri, vinstri, beint áfram…',
+  tip:'Ptáme se: <b>Hvar er…?</b> (kde je…?), <b>Hvernig kemst ég…?</b> (jak se dostanu…?). Odpověď: <i>til hægri/vinstri</i> (doprava/doleva), <i>beint áfram</i> (rovně).',
+  vocab:[['hægri','pravý / vpravo'],['vinstri','levý / vlevo'],['beint áfram','rovně'],['nálægt','blízko'],['langt í burtu','daleko'],['horn','roh'],['kort','mapa'],['að rata','trefit (cestu)']],
+  ex:[
+   {t:'order',cs:'Na rohu zaboč doprava.',is:'Farðu til hægri á horninu'},
+   {t:'fill',pre:'Sundlaugin er ___ hótelinu.',opts:['nálægt','langt','beint'],a:0,cs:'Bazén je blízko hotelu. (nálægt + dativ)'},
+   {t:'mc',q:'Turista se ptá na cestu a vy říkáte „jděte pořád rovně“:',opts:['Farðu beint áfram','Farðu til vinstri','Farðu langt í burtu','Farðu á hornið'],a:'Farðu beint áfram',optIs:true},
+   {t:'type',q:'Napište islandsky: <b>„mapa“</b>',a:'kort',word:'kort'}]},
+ {id:'a2-8',title:'Sport a koníčky',sub:'fótbolti, handbolti, prjóna…',
+  tip:'Národní sporty: <b>handbolti</b> (házená — „strákarnir okkar“, naši kluci) a fotbal. A překvapení: Islanďané masově <b>prjóna</b> — pletou. I muži.',
+  vocab:[['fótbolti','fotbal'],['handbolti','házená'],['skíði','lyže / lyžování'],['fjallganga','horská turistika'],['veiði','rybaření / lov'],['að prjóna','plést'],['lið','tým'],['leikur','zápas / hra']],
+  ex:[
+   {t:'order',cs:'Házená je na Islandu populární.',is:'Handbolti er vinsæll á Íslandi'},
+   {t:'fill',pre:'Við horfðum á ___ í gær.',opts:['leikinn','leikur','leikjum'],a:0,cs:'Včera jsme se dívali na zápas.'},
+   {t:'mc',q:'Babička sedí s jehlicemi a vlnou. Co dělá?',opts:['Hún prjónar','Hún veiðir','Hún skíðar','Hún spilar'],a:'Hún prjónar',optIs:true},
+   {t:'type',q:'Napište islandsky: <b>„tým“</b>',a:'lið',word:'lið'}]},
+ {id:'a2-9',title:'Škola a učení',sub:'próf, orðabók, að muna…',
+  tip:'<b>Að læra</b> = učit se, <b>að kenna</b> = učit (někoho). <b>Ég man (ekki)</b> = (ne)pamatuji si — od slovesa <i>muna</i>.',
+  vocab:[['skóli','škola'],['nemandi','žák / student'],['próf','zkouška / test'],['verkefni','úkol / projekt'],['orðabók','slovník'],['málfræði','gramatika'],['að æfa','procvičovat'],['að muna','pamatovat si']],
+  ex:[
+   {t:'order',cs:'Musím se učit na zkoušku.',is:'Ég þarf að læra fyrir prófið'},
+   {t:'fill',pre:'Ég ___ ekki orðið — hvar er orðabókin?',opts:['man','muna','mundi'],a:0,cs:'Nepamatuju si to slovo — kde je slovník?'},
+   {t:'mc',q:'<span class="is">„Málfræði“</span> je…',opts:['gramatika','matematika','sloh','literatura'],a:'gramatika'},
+   {t:'type',q:'Napište islandsky: <b>„škola“</b>',a:'skóli',word:'skóli'}]},
+ {id:'a2-10',title:'Svátky a tradice',sub:'jól, áramót, jólasveinar…',
+  tip:'Na Islandu nechodí jeden Ježíšek, ale <b>13 jólasveinar</b> — vánočních skřítků, každou noc jeden. Přání: <i>Gleðileg jól!</i> (veselé Vánoce), <i>Til hamingju með afmælið!</i> (všechno nejlepší).',
+  vocab:[['jól','Vánoce'],['páskar','Velikonoce'],['afmæli','narozeniny'],['gjöf','dárek'],['veisla','oslava / hostina'],['áramót','přelom roku / Silvestr'],['flugeldar','ohňostroj'],['jólasveinar','vánoční skřítci']],
+  ex:[
+   {t:'mc',q:'Kolik je islandských <span class="is">jólasveinar</span> (vánočních skřítků)?',opts:['13','1','3','24'],a:'13'},
+   {t:'order',cs:'Všechno nejlepší k narozeninám!',is:'Til hamingju með afmælið'},
+   {t:'fill',pre:'Um ___ eru flugeldar um allt.',opts:['áramótin','áramót','áramótum'],a:0,cs:'O Silvestru je všude ohňostroj.'},
+   {t:'type',q:'Napište islandsky: <b>„dárek“</b>',a:'gjöf',word:'gjöf'}]}
 ]},
 {id:'b1',tag:'Úroveň B1',name:'Dýpra í málið — hlouběji do jazyka',lessons:[
  {id:'b1-1',title:'Silná slovesa v minulém čase',sub:'fór, kom, sá, tók…',
@@ -283,7 +347,39 @@ const COURSE=[
    {t:'order',cs:'Nejdřív jsme šli plavat.',is:'Fyrst fórum við í sund'},
    {t:'fill',pre:'Í gær ___ heima.',opts:['var ég','ég var','ég er'],a:0,cs:'Včera jsem byl doma. (V2: sloveso druhé!)'},
    {t:'mc',q:'Co znamená <span class="is">„skyndilega“</span>?',opts:['najednou','pomalu','nakonec','naštěstí'],a:'najednou'},
-   {t:'order',cs:'Pak se stalo něco zvláštního.',is:'Síðan gerðist eitthvað skrítið'}]}
+   {t:'order',cs:'Pak se stalo něco zvláštního.',is:'Síðan gerðist eitthvað skrítið'}]},
+ {id:'b1-7',title:'Budoucnost a plány',sub:'ætla að, munu, vonandi…',
+  tip:'Budoucnost se vyjadřuje: <b>ætla að</b> + infinitiv (chystám se, plán), <b>munu</b> (formálnější „budu“), nebo prostým přítomným časem s časovým údajem: <i>Ég fer á morgun</i>.',
+  vocab:[['framtíð','budoucnost'],['að ætla að','chystat se / hodlat'],['munu','budu (pomocné sl.)'],['vonandi','snad / doufejme'],['að vona','doufat'],['að skipuleggja','plánovat'],['draumur','sen'],['markmið','cíl']],
+  ex:[
+   {t:'fill',pre:'Ég ___ að læra íslensku í sumar.',opts:['ætla','mun','vona'],a:0,cs:'V létě se chystám učit islandsky.'},
+   {t:'order',cs:'Nikdy na to nezapomenu.',is:'Ég mun aldrei gleyma þessu'},
+   {t:'fill',pre:'___ verður gott veður um helgina.',opts:['Vonandi','Framtíð','Markmið'],a:0,cs:'Snad bude o víkendu hezky.'},
+   {t:'type',q:'Napište islandsky: <b>„sen“</b>',a:'draumur',word:'draumur'}]},
+ {id:'b1-8',title:'Stupňování',sub:'stærri, bestur, verri…',
+  tip:'Komparativ <b>-ri/-ari</b>, superlativ <b>-astur/-stur</b>. Nejčastější jsou nepravidelné: <i>góður → betri → bestur</i>, <i>slæmur → verri → verstur</i>, <i>mikill → meiri → mestur</i>. Srovnání: <b>en</b> = než.',
+  vocab:[['stærri','větší'],['stærstur','největší'],['betri','lepší'],['bestur','nejlepší'],['verri','horší'],['eldri','starší'],['yngri','mladší'],['mestur','největší (míra)']],
+  ex:[
+   {t:'fill',pre:'Ísland er ___ en Tékkland.',opts:['stærra','stærri','stærst'],a:0,cs:'Island je větší než Česko. (Ísland je střední rod)'},
+   {t:'order',cs:'To je nejlepší den mého života.',is:'Þetta er besti dagur lífs míns'},
+   {t:'fill',pre:'Veðrið í dag er ___ en í gær.',opts:['verra','verri','verst'],a:0,cs:'Počasí je dnes horší než včera. (veður = střední rod)'},
+   {t:'mc',q:'Bratr má 40 let, vy 30. On je…',opts:['eldri en ég','yngri en ég','stærri en ég','betri en ég'],a:'eldri en ég',optIs:true}]},
+ {id:'b1-9',title:'Pocity a emoce',sub:'glaður, þreyttur, spenntur…',
+  tip:'Pocity se pojí s <b>vera</b> + přídavné jméno (shoduje se s rodem mluvčího): <i>Ég er glaður/glöð</i>. „Těším se na“ = <b>vera spenntur fyrir</b> + dativ.',
+  vocab:[['glaður','veselý / šťastný'],['leiður','smutný'],['þreyttur','unavený'],['spenntur','natěšený'],['hræddur','vystrašený'],['reiður','naštvaný'],['stoltur','hrdý'],['einmana','osamělý']],
+  ex:[
+   {t:'fill',pre:'Ég er mjög ___ fyrir ferðinni.',opts:['spenntur','þreyttur','reiður'],a:0,cs:'Moc se těším na tu cestu.'},
+   {t:'order',cs:'Je na tebe hrdá.',is:'Hún er stolt af þér'},
+   {t:'mc',q:'Kamarád zívá a má kruhy pod očima. Je…',opts:['þreyttur','glaður','hræddur','stoltur'],a:'þreyttur',optIs:true},
+   {t:'type',q:'Napište islandsky: <b>„naštvaný“</b>',a:'reiður',word:'reiður'}]},
+ {id:'b1-10',title:'Islandská příroda',sub:'jökull, foss, eldfjall…',
+  tip:'Islandská jména míst jsou popisná: <b>Vatnajökull</b> = „vodní ledovec“, <b>Gullfoss</b> = „zlatý vodopád“. Slovo <b>geysir</b> dala světu islandština — podle pramene Geysir.',
+  vocab:[['jökull','ledovec'],['eldfjall','sopka'],['foss','vodopád'],['hver','horký pramen'],['hraun','láva / lávové pole'],['fjörður','fjord'],['sandur','písčina'],['gos','erupce']],
+  ex:[
+   {t:'mc',q:'<span class="is">„Vatnajökull“</span> je největší evropský…',opts:['ledovec','vodopád','fjord','sopečný kráter'],a:'ledovec'},
+   {t:'order',cs:'Ten vodopád je moc krásný.',is:'Fossinn er mjög fallegur'},
+   {t:'fill',pre:'Það er ___ á Reykjanesi.',opts:['gos','foss','hver'],a:0,cs:'Na Reykjanesu je erupce.'},
+   {t:'type',q:'Napište islandsky: <b>„ledovec“</b>',a:'jökull',word:'jökull'}]}
 ]},
 {id:'b2',tag:'Úroveň B2',name:'Að ná tökum — mistrovství',lessons:[
  {id:'b2-1',title:'Konjunktiv',sub:'viðtengingarháttur: væri, hefði, myndi',
@@ -333,7 +429,39 @@ const COURSE=[
    {t:'fill',pre:'Ég fór út, ___ það rigndi.',opts:['þótt','hvort','auk þess'],a:0,cs:'Šel jsem ven, ačkoli pršelo.'},
    {t:'fill',pre:'Ég veit ekki ___ hann kemur.',opts:['hvort','þótt','samt'],a:0,cs:'Nevím, zda přijde.'},
    {t:'order',cs:'Včera jsem šel plavat.',is:'Í gær fór ég í sund'},
-   {t:'fill',pre:'Það var dýrt; ___ keypti ég það.',opts:['samt','hvort','þar sem'],a:0,cs:'Bylo to drahé; přesto jsem to koupil.'}]}
+   {t:'fill',pre:'Það var dýrt; ___ keypti ég það.',opts:['samt','hvort','þar sem'],a:0,cs:'Bylo to drahé; přesto jsem to koupil.'}]},
+ {id:'b2-7',title:'Vztažné věty',sub:'sem, það sem, allt sem…',
+  tip:'Univerzální vztažné zájmeno je <b>sem</b> (který/á/é — nemění tvar): <i>maðurinn <b>sem</b> býr hér</i>. „To, co…“ = <b>það sem</b>, „všechno, co…“ = <b>allt sem</b>.',
+  vocab:[['sem','který / jenž'],['það sem','to, co'],['allt sem','všechno, co'],['að útskýra','vysvětlit'],['að lýsa','popsat'],['skoðun','názor'],['atriði','bod / aspekt'],['dæmi','příklad']],
+  ex:[
+   {t:'fill',pre:'Maðurinn ___ býr hér er læknir.',opts:['sem','hver','hvað'],a:0,cs:'Muž, který tady bydlí, je lékař.'},
+   {t:'order',cs:'Všechno, co jsem řekl, je pravda.',is:'Allt sem ég sagði er satt'},
+   {t:'fill',pre:'Getur þú ___ þetta betur?',opts:['útskýrt','útskýra','útskýrir'],a:0,cs:'Můžeš to vysvětlit líp? (geta + příčestí)'},
+   {t:'type',q:'Napište islandsky: <b>„příklad“</b>',a:'dæmi',word:'dæmi'}]},
+ {id:'b2-8',title:'Ekonomika a společnost',sub:'verðbólga, laun, skattur…',
+  tip:'<b>Verðbólga</b> (inflace, doslova „cenová bublina“) je islandské večné téma — koruna (ISK) je malá měna. <b>Laun</b> (plat) je množné číslo: <i>launin mín eru…</i>',
+  vocab:[['hagkerfi','ekonomika'],['verðbólga','inflace'],['laun','plat / mzda'],['skattur','daň'],['fyrirtæki','firma'],['atvinnuleysi','nezaměstnanost'],['vextir','úroky'],['húsnæði','bydlení (nemovitosti)']],
+  ex:[
+   {t:'fill',pre:'___ hefur hækkað mikið í ár.',opts:['Verðbólgan','Verðbólgunni','Verðbólgu'],a:0,cs:'Inflace letos hodně vzrostla.'},
+   {t:'order',cs:'Platím vysoké daně.',is:'Ég borga háa skatta'},
+   {t:'mc',q:'Berete si hypotéku. Co vás bude zajímat nejvíc?',opts:['vextir','veisla','veiði','vettlingar'],a:'vextir',optIs:true},
+   {t:'type',q:'Napište islandsky: <b>„firma“</b>',a:'fyrirtæki',word:'fyrirtæki'}]},
+ {id:'b2-9',title:'Média a technologie',sub:'netið, lykilorð, fjölmiðlar…',
+  tip:'I v digitálním světě je islandština puristická: <b>netið</b> (internet, „síť“), <b>lykilorð</b> (heslo, „klíčové slovo“), <b>samfélagsmiðlar</b> (sociální sítě, „společenská média“).',
+  vocab:[['fjölmiðlar','média'],['dagblað','noviny'],['útvarp','rádio / rozhlas'],['sjónvarp','televize'],['netið','internet'],['samfélagsmiðlar','sociální sítě'],['lykilorð','heslo'],['friðhelgi','soukromí']],
+  ex:[
+   {t:'order',cs:'Četl jsem to na internetu.',is:'Ég las það á netinu'},
+   {t:'fill',pre:'Mundu að breyta ___ þínu reglulega.',opts:['lykilorði','lykilorð','lykilorðs'],a:0,cs:'Nezapomeň si pravidelně měnit heslo. (breyta + dativ)'},
+   {t:'mc',q:'<span class="is">„Sjónvarp“</span> doslova znamená…',opts:['vrhání obrazu','zvuková vlna','vidící pole','světelný rám'],a:'vrhání obrazu'},
+   {t:'type',q:'Napište islandsky: <b>„noviny“</b>',a:'dagblað',word:'dagblað'}]},
+ {id:'b2-10',title:'Životní prostředí',sub:'jarðhiti, endurvinnsla…',
+  tip:'Island vytápí ~90 % domácností <b>jarðhiti</b> (geotermální energií) a téměř veškerou elektřinu vyrábí z obnovitelných zdrojů. <b>Sjálfbær</b> = udržitelný (doslova „sám sebe nesoucí“).',
+  vocab:[['umhverfi','životní prostředí'],['loftslagsbreytingar','změny klimatu'],['mengun','znečištění'],['endurvinnsla','recyklace'],['orka','energie'],['jarðhiti','geotermální teplo'],['sjálfbær','udržitelný'],['náttúruvernd','ochrana přírody']],
+  ex:[
+   {t:'mc',q:'Čím Island vytápí ~90 % domácností?',opts:['geotermální energií (jarðhiti)','uhlím','plynem','dřevem'],a:'geotermální energií (jarðhiti)'},
+   {t:'order',cs:'Island hodně využívá geotermální teplo.',is:'Ísland notar mikinn jarðhita'},
+   {t:'fill',pre:'___ er stórt vandamál í heiminum.',opts:['Mengun','Orka','Endurvinnsla'],a:0,cs:'Znečištění je velký světový problém.'},
+   {t:'type',q:'Napište islandsky: <b>„energie“</b>',a:'orka',word:'orka'}]}
 ]},
 {id:'c1',tag:'Úroveň C1',name:'Blæbrigði málsins — nuance jazyka',lessons:[
  {id:'c1-1',title:'Frazová slovesa',sub:'detta í hug, halda áfram…',
@@ -383,7 +511,89 @@ const COURSE=[
    {t:'mc',q:'Proč Islanďané přečtou ságy ze 13. století v originále?',opts:['Islandština se od té doby změnila jen málo','Učí se staroseverštinu povinně ve škole','Ságy byly přeloženy do moderní islandštiny','Čtou je s pomocí slovníku'],a:'Islandština se od té doby změnila jen málo'},
    {t:'order',cs:'Snorri byl básník a náčelník.',is:'Snorri var skáld og höfðingi'},
    {t:'fill',pre:'Handritin eru ___ þjóðarinnar.',opts:['arfur','arfi','arfs'],a:0,cs:'Rukopisy jsou dědictvím národa.'},
-   {t:'type',q:'Napište islandsky: <b>„rukopis“</b>',a:'handrit',word:'handrit'}]}
+   {t:'type',q:'Napište islandsky: <b>„rukopis“</b>',a:'handrit',word:'handrit'}]},
+ {id:'c1-7',title:'Přísloví',sub:'málshættir — Þeir fiska sem róa',
+  tip:'Islandská přísloví (<b>málshættir</b>) čerpají z moře a rybolovu. <i>Þeir fiska sem róa</i> — „loví ti, kdo veslují“ = bez práce nejsou koláče.',
+  vocab:[['Þeir fiska sem róa','Loví ten, kdo vesluje (bez práce nejsou koláče)'],['Sjaldan er ein báran stök','Neštěstí nechodí samo (vlna zřídka chodí sama)'],['Blindur er bóklaus maður','Slepý je člověk bez knih'],['Kemst þó hægt fari','Pomalu, ale jistě (dojde, i když jde pomalu)'],['Árinni kennir illur ræðari','Špatný veslař viní veslo'],['Enginn verður óbarinn biskup','Biskupem se nikdo nestane nebit (úspěch něco stojí)']],
+  ex:[
+   {t:'mc',q:'Kolega svaluje chybu na „špatné nástroje“. Které přísloví se hodí?',opts:['Árinni kennir illur ræðari','Blindur er bóklaus maður','Kemst þó hægt fari','Þeir fiska sem róa'],a:'Árinni kennir illur ræðari',optIs:true},
+   {t:'order',cs:'Loví ten, kdo vesluje.',is:'Þeir fiska sem róa'},
+   {t:'mc',q:'<span class="is">„Sjaldan er ein báran stök“</span> odpovídá českému…',opts:['Neštěstí nechodí samo','Kdo jinému jámu kopá…','Bez práce nejsou koláče','Pozdě bycha honit'],a:'Neštěstí nechodí samo'},
+   {t:'mc',q:'Které přísloví oceňuje četbu a vzdělání?',opts:['Blindur er bóklaus maður','Enginn verður óbarinn biskup','Sjaldan er ein báran stök','Árinni kennir illur ræðari'],a:'Blindur er bóklaus maður',optIs:true}]},
+ {id:'c1-8',title:'Slovotvorba a předpony',sub:'ó-, endur-, sam-, van-…',
+  tip:'Předpony mění význam systematicky: <b>ó-</b> zápor (<i>óhamingja</i>), <b>endur-</b> znovu (<i>endurtaka</i>), <b>sam-</b> spolu (<i>samvinna</i>), <b>van-</b> nedostatek (<i>vanmeta</i>), <b>auð-</b> snadno, <b>tor-</b> těžko.',
+  vocab:[['óhamingja','neštěstí'],['að endurtaka','zopakovat'],['samvinna','spolupráce'],['að vanmeta','podceňovat'],['að ofmeta','přeceňovat'],['auðvelt','snadné'],['torskilinn','těžko pochopitelný'],['forsaga','pozadí / předhistorie']],
+  ex:[
+   {t:'mc',q:'Jakou funkci má předpona <span class="is">„endur-“</span>?',opts:['znovu (opakování)','zápor','spolu','nedostatek'],a:'znovu (opakování)'},
+   {t:'fill',pre:'Ekki ___ andstæðinginn!',opts:['vanmeta','ofmeta','endurtaka'],a:0,cs:'Nepodceňuj soupeře!'},
+   {t:'mc',q:'Text je <span class="is">„torskilinn“</span> — tedy…',opts:['těžko pochopitelný','snadno čitelný','nedokončený','přeložený'],a:'těžko pochopitelný'},
+   {t:'type',q:'Napište islandsky: <b>„spolupráce“</b>',a:'samvinna',word:'samvinna'}]},
+ {id:'c1-9',title:'Úřady a byrokracie',sub:'kennitala, eyðublað, frestur…',
+  tip:'<b>Kennitala</b> — desetimístné rodné číslo — potřebujete na Islandu na všechno: od banky po půjčovnu videí. <b>Þjóðskrá</b> = národní registr obyvatel.',
+  vocab:[['kennitala','rodné číslo'],['eyðublað','formulář'],['leyfi','povolení'],['vottorð','potvrzení / osvědčení'],['stofnun','instituce / úřad'],['frestur','lhůta'],['reglugerð','vyhláška / nařízení'],['Þjóðskrá','registr obyvatel']],
+  ex:[
+   {t:'mc',q:'Bez čeho na Islandu nezaložíte ani bankovní účet?',opts:['kennitala','vottorð','reglugerð','eyðublað'],a:'kennitala',optIs:true},
+   {t:'fill',pre:'___ rennur út á morgun!',opts:['Fresturinn','Frestur','Frestinum'],a:0,cs:'Lhůta vyprší zítra!'},
+   {t:'order',cs:'Musím vyplnit formulář.',is:'Ég þarf að fylla út eyðublað'},
+   {t:'type',q:'Napište islandsky: <b>„povolení“</b>',a:'leyfi',word:'leyfi'}]},
+ {id:'c1-10',title:'Významové odstíny sloves',sub:'heyra vs. hlusta, sjá vs. skoða…',
+  tip:'Jemné dvojice: <b>heyra</b> (slyšet) × <b>hlusta á</b> (poslouchat), <b>sjá</b> (vidět) × <b>skoða</b> (prohlížet), <b>glápa á</b> (čumět — hovorově na TV), <b>ræða</b> (probírat, diskutovat).',
+  vocab:[['að ræða','probírat / diskutovat'],['að hlusta á','poslouchat'],['að heyra','slyšet'],['að líta á','pohlédnout na'],['að stara á','zírat na'],['að glápa á','čumět na (hovor.)'],['að skoða','prohlížet / zkoumat'],['að mæla','pravit (kniž.) / měřit']],
+  ex:[
+   {t:'fill',pre:'Ég ___ á tónlist á hverjum degi.',opts:['hlusta','heyri','stara'],a:0,cs:'Každý den poslouchám hudbu. (aktivní poslech = hlusta á)'},
+   {t:'mc',q:'Soused má nahlas televizi a vy ji přes zeď…',opts:['heyrið','hlustið á','skoðið','ræðið'],a:'heyrið',optIs:true},
+   {t:'fill',pre:'Hættu að ___ á sjónvarpið og farðu út!',opts:['glápa','skoða','mæla'],a:0,cs:'Přestaň čumět na televizi a jdi ven!'},
+   {t:'order',cs:'Musíme to probrat.',is:'Við þurfum að ræða þetta'}]}
+]},
+{id:'c2',tag:'Úroveň C2',name:'Fullkomnun — k dokonalosti',lessons:[
+ {id:'c2-1',title:'Stylistické registry',sub:'hefja vs. byrja, þarfnast vs. þurfa',
+  tip:'Formální islandština volí jiná slovesa: <b>hefja</b> místo <i>byrja</i> (začít), <b>ljúka</b> místo <i>klára</i> (dokončit), <b>óska eftir</b> místo <i>vilja</i> (žádat). Dopis končí <b>Virðingarfyllst</b> (s úctou).',
+  vocab:[['að hefja','zahájit (form.)'],['að ljúka','ukončit (form.)'],['að óska eftir','žádat o (form.)'],['að þarfnast','vyžadovat (form.)'],['virðingarfyllst','s úctou (závěr dopisu)'],['erindi','záležitost / žádost'],['viðtakandi','příjemce'],['undirritaður','níže podepsaný']],
+  ex:[
+   {t:'fill',pre:'Fundurinn ___ klukkan níu.',opts:['hefst','byrjar sig','hefjar'],a:0,cs:'Schůze začíná v devět. (hefja ve střední slovesné formě: hefst)'},
+   {t:'order',cs:'Žádám o odpověď co nejdříve.',is:'Ég óska eftir svari sem fyrst'},
+   {t:'mc',q:'Kterým slovem ukončíte formální dopis?',opts:['Virðingarfyllst','Bless bless','Sjáumst','Jæja'],a:'Virðingarfyllst',optIs:true},
+   {t:'mc',q:'Hovorový protějšek slovesa <span class="is">„að ljúka“</span> je…',opts:['að klára','að hefja','að þarfnast','að óska'],a:'að klára',optIs:true}]},
+ {id:'c2-2',title:'Etymologie a staré písemnictví',sub:'kenning, rúnir, Edda…',
+  tip:'<b>Kenning</b> je staroseverský básnický opis: moře = <i>hvalvegur</i> („cesta velryb“), zlato = <i>eldur ægis</i>. Skaldská poezie stojí na <b>kenningech</b> a aliteraci.',
+  vocab:[['orðsifjafræði','etymologie'],['rúnir','runy'],['kenning','kenning (básnický opis)'],['Edda','Edda'],['fornmál','starý jazyk'],['þula','výčtová báseň / říkanka'],['skáldskapur','básnictví'],['arfleifð','odkaz / dědictví']],
+  ex:[
+   {t:'mc',q:'Kenning <span class="is">„hvalvegur“</span> (cesta velryb) označuje…',opts:['moře','velrybu','loď','pobřeží'],a:'moře'},
+   {t:'mc',q:'<span class="is">„Rúnir“</span> jsou…',opts:['staré germánské písmo','islandské básně','kamenné mohyly','severská božstva'],a:'staré germánské písmo'},
+   {t:'order',cs:'Islandština se od starého jazyka změnila málo.',is:'Íslenska hefur breyst lítið frá fornmáli'},
+   {t:'type',q:'Napište islandsky: <b>„etymologie“</b>',a:'orðsifjafræði',word:'orðsifjafræði'}]},
+ {id:'c2-3',title:'Akademický a právní jazyk',sub:'lög, rannsókn, niðurstaða…',
+  tip:'<b>Lög</b> (zákon) je množné číslo středního rodu: <i>samkvæmt lögum</i> = podle zákona. Akademický text: <b>tilgáta</b> (hypotéza) → <b>rannsókn</b> (výzkum) → <b>niðurstaða</b> (závěr), vše s <b>heimildir</b> (prameny).',
+  vocab:[['lög','zákon(y)'],['dómstóll','soud'],['ákvæði','ustanovení'],['rannsókn','výzkum / vyšetřování'],['niðurstaða','závěr / výsledek'],['tilgáta','hypotéza'],['heimild','pramen / zdroj'],['ritgerð','odborná práce / esej']],
+  ex:[
+   {t:'fill',pre:'Samkvæmt ___ er þetta bannað.',opts:['lögum','lögunum að','lögin'],a:0,cs:'Podle zákona je to zakázáno. (samkvæmt + dativ)'},
+   {t:'order',cs:'Výsledky výzkumu byly jasné.',is:'Niðurstöður rannsóknarinnar voru skýrar'},
+   {t:'mc',q:'Co ověřuje vědec výzkumem?',opts:['tilgátu','heimild','ritgerð','ákvæði'],a:'tilgátu',optIs:true},
+   {t:'type',q:'Napište islandsky: <b>„pramen / zdroj“</b>',a:'heimild',word:'heimild'}]},
+ {id:'c2-4',title:'Pokročilá frazeologie',sub:'að taka af skarið, bein í nefinu…',
+  tip:'<b>Að hafa bein í nefinu</b> („mít kost v nose“) = mít páteř, nebát se. <b>Að vera úti að aka</b> („být venku a řídit“) = být úplně mimo.',
+  vocab:[['að slá tvær flugur í einu höggi','zabít dvě mouchy jednou ranou'],['að hafa bein í nefinu','mít páteř / kuráž'],['að taka af skarið','rázně rozhodnout'],['að leggja orð í belg','přisadit si (do diskuse)'],['að vera úti að aka','být úplně mimo'],['að bera í bakkafullan lækinn','nosit dříví do lesa'],['að ganga í berhögg við','jít přímo proti (čemu)'],['að standa á sama','být jedno (komu)']],
+  ex:[
+   {t:'mc',q:'Šéfová dlouho váhala, pak <span class="is">„tók af skarið“</span>. Co udělala?',opts:['Rázně rozhodla','Odešla z jednání','Vzala si dovolenou','Rozdělila tým'],a:'Rázně rozhodla'},
+   {t:'mc',q:'<span class="is">„Hann er alveg úti að aka“</span> znamená…',opts:['Je úplně mimo','Je na projížďce','Je velmi zaneprázdněný','Odjel pryč'],a:'Je úplně mimo'},
+   {t:'order',cs:'Zabil jsem dvě mouchy jednou ranou.',is:'Ég sló tvær flugur í einu höggi'},
+   {t:'mc',q:'Vysvětlovat Islanďanovi, co je sníh = <span class="is">…</span>',opts:['að bera í bakkafullan lækinn','að taka af skarið','að hafa bein í nefinu','að leggja orð í belg'],a:'að bera í bakkafullan lækinn',optIs:true}]},
+ {id:'c2-5',title:'Poezie a metafory',sub:'stuðlar, hrynjandi, túlkun…',
+  tip:'Islandská poezie dodnes drží <b>stuðlar</b> — aliteraci (opakování počátečních hlásek), pravidlo staré přes tisíc let. I moderní rap a texty písní aliterují.',
+  vocab:[['ljóð','báseň'],['myndmál','obraznost'],['líking','přirovnání / metafora'],['stuðlar','aliterace'],['hrynjandi','rytmus'],['erindi','sloka'],['andstæða','protiklad / kontrast'],['túlkun','interpretace']],
+  ex:[
+   {t:'mc',q:'<span class="is">„Stuðlar“</span> — povinný prvek islandského verše — je…',opts:['aliterace (shoda počátečních hlásek)','rým na konci verše','počet slabik','refrén'],a:'aliterace (shoda počátečních hlásek)'},
+   {t:'order',cs:'Báseň lze vykládat mnoha způsoby.',is:'Ljóðið má túlka á marga vegu'},
+   {t:'fill',pre:'Ljósið og myrkrið eru ___.',opts:['andstæður','líkingar','erindi'],a:0,cs:'Světlo a tma jsou protiklady.'},
+   {t:'type',q:'Napište islandsky: <b>„báseň“</b>',a:'ljóð',word:'ljóð'}]},
+ {id:'c2-6',title:'Slang a mluvená řeč',sub:'nenna, gaur, djamm…',
+  tip:'Nejužitečnější hovorové sloveso: <b>nenna</b> — „chtít se“: <i>Ég nenni ekki</i> = nechce se mi. Anglicismy pronikají i do islandštiny: <b>meika sens</b> = dávat smysl.',
+  vocab:[['að nenna','chtít se (komu)'],['gaur','týpek'],['djamm','pařba'],['svakalega','šíleně (zesilovač)'],['æði','paráda / super'],['krúttlegur','roztomilý'],['brjálaður','šílený'],['meika sens','dávat smysl (slang)']],
+  ex:[
+   {t:'fill',pre:'Ég ___ ekki að elda í kvöld.',opts:['nenni','vil','þarf'],a:0,cs:'Nechce se mi dnes večer vařit.'},
+   {t:'order',cs:'To byla šíleně dobrá pařba.',is:'Þetta var svakalega gott djamm'},
+   {t:'mc',q:'Kamarád ukáže fotku štěněte. Řeknete…',opts:['En krúttlegur!','En brjálaður!','Meikar ekki sens!','Svakalega leiðinlegt!'],a:'En krúttlegur!',optIs:true},
+   {t:'mc',q:'<span class="is">„Þetta meikar engan sens“</span> je…',opts:['anglicismus: „to nedává smysl“','staré přísloví','formální fráze','chyba — tak se to neříká'],a:'anglicismus: „to nedává smysl“'}]}
 ]}
 ];
 const PLACEMENT=[
@@ -406,7 +616,11 @@ const PLACEMENT=[
  {lvl:'c1',q:'Doplňte: <span class="is">Mér ___ í hug góð hugmynd.</span> (Napadla mě dobrá myšlenka.)',opts:['datt','féll','kom','hljóp'],a:'datt',optIs:true},
  {lvl:'c1',q:'Doplňte: <span class="is">Hann ___ að vera heima — bíllinn er fyrir utan.</span>',opts:['hlýtur','virðist ekki','ætti varla','gæti ekki'],a:'hlýtur',optIs:true},
  {lvl:'c1',q:'Z čeho vzniklo islandské slovo <span class="is">„tölva“</span> (počítač)?',opts:['tala (číslo) + völva (věštkyně)','výpůjčka z dánštiny','töl (nástroj) + va (síla)','zkratka „tölvutækni“'],a:'tala (číslo) + völva (věštkyně)'},
- {lvl:'c1',q:'Host vstane a řekne <span class="is">„Jæja…“</span>. Co tím signalizuje?',opts:['Chystá se odejít','Má hlad','Nesouhlasí','Chce zapnout televizi'],a:'Chystá se odejít'}
+ {lvl:'c1',q:'Host vstane a řekne <span class="is">„Jæja…“</span>. Co tím signalizuje?',opts:['Chystá se odejít','Má hlad','Nesouhlasí','Chce zapnout televizi'],a:'Chystá se odejít'},
+ {lvl:'c2',q:'<span class="is">„Ég nenni ekki að fara út“</span> znamená…',opts:['Nechce se mi jít ven','Nemůžu jít ven','Nesmím jít ven','Nestíhám jít ven'],a:'Nechce se mi jít ven'},
+ {lvl:'c2',q:'Staroseverská kenning <span class="is">„hvalvegur“</span> (cesta velryb) označuje…',opts:['moře','oblohu','fjord','ledovec'],a:'moře'},
+ {lvl:'c2',q:'<span class="is">„Að slá tvær flugur í einu höggi“</span> odpovídá českému…',opts:['zabít dvě mouchy jednou ranou','dělat z komára velblouda','mít much jako smetí','chytat lelky'],a:'zabít dvě mouchy jednou ranou'},
+ {lvl:'c2',q:'Formálně „schůze začíná“: <span class="is">Fundurinn ___ klukkan níu.</span>',opts:['hefst','byrjar sig','hefjar','startar'],a:'hefst',optIs:true}
 ];
 
 /* ================= STORAGE ================= */
@@ -457,8 +671,11 @@ async function joinGroup(code){
 function createGroup(){joinGroup(randCode('NL-',12));}
 async function pushProgress(){
   const p=P();if(!p||!p.social)return;
-  try{await rpc('push_progress',{p_id:p.social.pid,p_secret:p.social.secret,p_name:p.name,
-    p_xp:p.xp,p_streak:streakLive(p),p_lessons:doneLessons(p),p_level:p.unlocked});}catch(e){}
+  const base={p_id:p.social.pid,p_secret:p.social.secret,p_name:p.name,
+    p_xp:p.xp,p_streak:streakLive(p),p_lessons:doneLessons(p),p_level:p.unlocked};
+  const wx=(p.weekly&&p.weekly.key===weekKey())?p.weekly.xp:0;
+  try{await rpc('push_progress',{...base,p_week_key:weekKey(),p_week_xp:wx});}
+  catch(e){try{await rpc('push_progress',base);}catch(e2){}}
 }
 async function leaveGroup(){
   if(!confirm('Opustit skupinu? Zmizíte z žebříčku ostatních.'))return;
@@ -483,6 +700,7 @@ const BADGES=[
  {id:'lvlB1',ico:'🌌',name:'B1 hotovo',desc:'celá úroveň B1'},
  {id:'lvlB2',ico:'🏔️',name:'B2 hotovo',desc:'celá úroveň B2'},
  {id:'lvlC1',ico:'📜',name:'C1 hotovo',desc:'celá úroveň C1'},
+ {id:'lvlC2',ico:'👑',name:'C2 hotovo',desc:'celá úroveň C2'},
 ];
 function grantBadges(p,perfect){
   const got=[];const add=id=>{if(!p.badges.includes(id)){p.badges.push(id);got.push(BADGES.find(b=>b.id===id));}};
@@ -498,30 +716,68 @@ function grantBadges(p,perfect){
 function bumpStreak(p){const t=today();if(p.streak.last===t)return;p.streak.count=(p.streak.last===yesterday())?p.streak.count+1:1;p.streak.last=t;}
 function streakLive(p){return p.streak.last===today()||p.streak.last===yesterday()?p.streak.count:0;}
 function xpToday(p){return p.daily&&p.daily.date===today()?p.daily.xp:0;}
-function addXp(p,n){p.xp+=n;if(!p.daily||p.daily.date!==today())p.daily={date:today(),xp:0};p.daily.xp+=n;}
+function addXp(p,n){p.xp+=n;if(!p.daily||p.daily.date!==today())p.daily={date:today(),xp:0};p.daily.xp+=n;if(!p.weekly||p.weekly.key!==weekKey())p.weekly={key:weekKey(),xp:0};p.weekly.xp+=n;}
+function weekKey(){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+3-((d.getDay()+6)%7));const w1=new Date(d.getFullYear(),0,4);return d.getFullYear()+'-W'+String(1+Math.round(((d-w1)/86400000-3+((w1.getDay()+6)%7))/7)).padStart(2,'0');}
+function migrateP(p){p.seen=p.seen||{};p.weekly=p.weekly||{key:'',xp:0};if(!('quests'in p))p.quests=null;if(!('social'in p))p.social=null;return p;}
+
+/* ---- denní výzvy ---- */
+const QUESTS=[
+ {id:'xp50',txt:'Získej 50 XP z lekcí',goal:50,reward:15},
+ {id:'lesson1',txt:'Dokonči lekci',goal:1,reward:15},
+ {id:'perfect',txt:'Dokonči lekci bez chyby',goal:1,reward:25},
+ {id:'review1',txt:'Dokonči procvičování',goal:1,reward:20},
+ {id:'type10',txt:'Napiš správně 10 odpovědí',goal:10,reward:20},
+ {id:'combo5',txt:'Dosáhni comba ×5',goal:1,reward:20},
+];
+let QDONE=[];
+function todayQuests(p){
+  if(!p.quests||p.quests.date!==today()){
+    const seed=[...today()].reduce((a,c)=>a+c.charCodeAt(0),0);
+    p.quests={date:today(),ids:[seed%6,(seed+2)%6,(seed+4)%6].map(i=>QUESTS[i].id),prog:{},done:[]};save();
+  }
+  return p.quests;
+}
+function questTick(id,n){
+  const p=P();if(!p)return;const q=todayQuests(p);
+  if(!q.ids.includes(id)||q.done.includes(id))return;
+  q.prog[id]=(q.prog[id]||0)+(n===undefined?1:n);
+  const def=QUESTS.find(x=>x.id===id);
+  if(q.prog[id]>=def.goal){q.done.push(id);addXp(p,def.reward);QDONE.push(def);}
+  save();
+}
 
 /* ================= EXERCISE GENERATION ================= */
 function genFromVocab(lesson,allVocab){
   const ex=[];const v=lesson.vocab;
   for(const [is,cs] of sample(v,Math.min(3,v.length))){
-    const wrong=sample(allVocab.filter(p=>p[0]!==is).map(p=>p[1]),3);
+    const wrong=sample([...new Set(allVocab.filter(q=>q[0]!==is).map(q=>q[1]).filter(x=>x!==cs))],3);
     ex.push({t:'mc',q:`Co znamená <span class="is">„${esc(is)}“</span>?${speakBtn(is)}`,opts:shuffle([cs,...wrong]),a:cs,word:is});
   }
   for(const [is,cs] of sample(v,Math.min(3,v.length))){
-    const wrong=sample(allVocab.filter(p=>p[1]!==cs).map(p=>p[0]),3);
+    const wrong=sample([...new Set(allVocab.filter(q=>q[1]!==cs).map(q=>q[0]).filter(x=>x!==is))],3);
     ex.push({t:'mc',q:`Jak se islandsky řekne <b>„${esc(cs)}“</b>?`,opts:shuffle([is,...wrong]),a:is,word:is,optIs:true});
   }
   if(v.length>=4)ex.push({t:'match',pairs:sample(v,4)});
-  for(const [is,cs] of sample(v.filter(p=>p[0].length<=14&&!p[0].includes(' ')),2)){
+  const seen=P().seen||{};
+  for(const [is,cs] of sample(v.filter(q=>q[0].length<=14&&!q[0].includes(' ')&&(seen[q[0]]||0)>=2),2)){
     ex.push({t:'type',q:`Napište islandsky: <b>„${esc(cs)}“</b>`,a:is,word:is});
   }
   return ex;
 }
 function buildQueue(lesson){
+  const p=P();
   const allVocab=COURSE.flatMap(lv=>lv.lessons).flatMap(l=>l.vocab);
   const gen=genFromVocab(lesson,allVocab);
-  const authored=(lesson.ex||[]).map(e=>({...e}));
-  return shuffle([...authored,...gen]).slice(0,12);
+  const authored=(lesson.ex||[]).map(e=>{
+    if(e.t==='type'&&e.word&&(p.seen[e.word]||0)<2){
+      const pair=(lesson.vocab||[]).find(v=>v[0]===e.word);
+      if(pair){const wrong=sample(allVocab.filter(q=>q[0]!==e.word).map(q=>q[0]),3);
+        return {t:'mc',q:`Jak se islandsky řekne <b>„${esc(pair[1])}“</b>?`,opts:shuffle([e.word,...wrong]),a:e.word,word:e.word,optIs:true};}
+    }
+    return {...e};
+  });
+  const weight={mc:0,match:0,fill:1,order:2,type:3};
+  return shuffle([...authored,...gen]).slice(0,12).sort((a,b)=>(weight[a.t]||0)-(weight[b.t]||0));
 }
 function buildReviewQueue(p){
   const allVocab=COURSE.flatMap(lv=>lv.lessons).flatMap(l=>l.vocab);
@@ -535,7 +791,7 @@ function buildReviewQueue(p){
   const ex=[];
   for(const [is,cs] of uniq.slice(0,10)){
     const dir=Math.random()<.5;
-    const wrong=dir?sample(allVocab.filter(q=>q[0]!==is).map(q=>q[1]),3):sample(allVocab.filter(q=>q[1]!==cs).map(q=>q[0]),3);
+    const wrong=dir?sample([...new Set(allVocab.filter(q=>q[0]!==is).map(q=>q[1]).filter(x=>x!==cs))],3):sample([...new Set(allVocab.filter(q=>q[1]!==cs).map(q=>q[0]).filter(x=>x!==is))],3);
     ex.push(dir?{t:'mc',q:`Co znamená <span class="is">„${esc(is)}“</span>?${speakBtn(is)}`,opts:shuffle([cs,...wrong]),a:cs,word:is}
                :{t:'mc',q:`Jak se islandsky řekne <b>„${esc(cs)}“</b>?`,opts:shuffle([is,...wrong]),a:is,word:is,optIs:true});
   }
@@ -575,7 +831,7 @@ function vWelcome(){
   </div>
   <p class="footer-note">Profily se ukládají jen v tomto prohlížeči. Progres lze přenést přes export/import v profilu.</p>`;
 }
-function pickProfile(id){store.active=id;save();go('map');}
+function pickProfile(id){store.active=id;migrateP(P());save();go('map');}
 function vNewProfile(){
   $('#app').innerHTML=`
   <div class="topbar"><button class="btn quiet" onclick="go('welcome')">←</button><span class="brand">Nový profil</span></div>
@@ -591,17 +847,18 @@ function vNewProfile(){
       <option value="a2">Rovnou od A2</option>
       <option value="b1">Rovnou od B1</option>
       <option value="b2">Rovnou od B2</option>
-      <option value="c1">Rovnou od C1</option></select></label>
+      <option value="c1">Rovnou od C1</option>
+      <option value="c2">Rovnou od C2</option></select></label>
     <button class="btn" onclick="createProfile()">Vytvořit profil</button>
   </div>`;
 }
 function createProfile(){
   const name=$('#pname').value.trim();if(!name){$('#pname').focus();return;}
   const id='p'+Math.random().toString(36).slice(2,9);
-  store.profiles[id]={name,goal:+$('#pgoal').value,xp:0,streak:{count:0,last:null},daily:null,lessons:{},weak:{},badges:[],unlocked:'a1'};
+  store.profiles[id]={name,goal:+$('#pgoal').value,xp:0,streak:{count:0,last:null},daily:null,lessons:{},weak:{},seen:{},weekly:{key:'',xp:0},quests:null,social:null,badges:[],unlocked:'a1'};
   store.active=id;save();
   const st=$('#pstart').value;
-  if(st==='test')go('placement',{pi:0,pscore:{a1:0,a2:0,b1:0,b2:0,c1:0},pq:PLACEMENT.map(q=>({...q,opts:shuffle(q.opts)}))});
+  if(st==='test')go('placement',{pi:0,pscore:{a1:0,a2:0,b1:0,b2:0,c1:0,c2:0},pq:PLACEMENT.map(q=>({...q,opts:shuffle(q.opts)}))});
   else{P().unlocked=st;save();go('map');}
 }
 
@@ -624,9 +881,9 @@ function placeNext(){
   S.pi++;
   if(S.pi<S.pq.length)return render();
   const s=S.pscore;let lvl='a1';
-  if(s.a1>=3){lvl='a2';if(s.a2>=3){lvl='b1';if(s.b1>=3){lvl='b2';if(s.b2>=3&&s.c1>=2)lvl='c1';}}}
+  if(s.a1>=3){lvl='a2';if(s.a2>=3){lvl='b1';if(s.b1>=3){lvl='b2';if(s.b2>=3){lvl='c1';if(s.c1>=3&&s.c2>=2)lvl='c2';}}}}
   P().unlocked=lvl;save();
-  const names={a1:'A1 — začátky',a2:'A2 — mírně pokročilý',b1:'B1 — pokročilý',b2:'B2 — velmi pokročilý',c1:'C1 — zkušený mluvčí'};
+  const names={a1:'A1 — začátky',a2:'A2 — mírně pokročilý',b1:'B1 — pokročilý',b2:'B2 — velmi pokročilý',c1:'C1 — zkušený mluvčí',c2:'C2 — mistrovská úroveň'};
   $('#app').innerHTML=`<div class="result">
     <div style="font-size:3rem">🧭</div>
     <h2>Vaše úroveň: ${names[lvl]}</h2>
@@ -635,7 +892,7 @@ function placeNext(){
 }
 
 /* ---- map ---- */
-function lvlOrder(id){return['a1','a2','b1','b2','c1'].indexOf(id);}
+function lvlOrder(id){return['a1','a2','b1','b2','c1','c2'].indexOf(id);}
 function isLessonUnlocked(lv,idx){
   const p=P();
   if(lvlOrder(lv.id)<lvlOrder(p.unlocked))return true;
@@ -665,6 +922,9 @@ function vMap(){
     <button class="btn ghost" style="flex:1" onclick="startReview()">🔄 Procvičování ${Object.keys(p.weak).length?`(${Object.keys(p.weak).length})`:''}</button>
     <button class="btn ghost" style="flex:1" onclick="go('board')">🏆 Žebříček</button>
   </div>
+  ${(()=>{const q=todayQuests(p);return`<div class="card" style="margin-top:14px"><span class="eyebrow">🎯 Dnešní výzvy</span>
+    ${q.ids.map(id=>{const d=QUESTS.find(x=>x.id===id);const done=q.done.includes(id);const pr=Math.min(q.prog[id]||0,d.goal);
+      return`<div class="row" style="margin-top:8px;${done?'opacity:.6':''}"><span>${done?'✅':'▫️'}</span><span style="flex:1">${d.txt} <small style="color:var(--muted)">+${d.reward} XP</small></span><small style="color:var(--muted);font-variant-numeric:tabular-nums">${d.goal>1?pr+'/'+d.goal:''}</small></div>`;}).join('')}</div>`;})()}
   ${COURSE.map(lv=>{
     const done=lv.lessons.filter(l=>p.lessons[l.id]&&p.lessons[l.id].stars>0).length;
     return`<div class="level-head"><span class="eyebrow">${esc(lv.tag)}</span><h2>${esc(lv.name)}</h2><span class="pct">${done}/${lv.lessons.length}</span></div>
@@ -681,12 +941,14 @@ function vMap(){
 /* ---- lesson session ---- */
 function startLesson(id){
   const lesson=COURSE.flatMap(lv=>lv.lessons).find(l=>l.id===id);
-  go('lesson',{lesson,queue:buildQueue(lesson),qi:0,hearts:3,right:0,wrong:0,showTip:!!lesson.tip,review:false});
+  QDONE=[];
+  go('lesson',{lesson,queue:buildQueue(lesson),qi:0,hearts:3,right:0,wrong:0,combo:0,bonus:0,showTip:!!lesson.tip,review:false});
 }
 function startReview(){
   const q=buildReviewQueue(P());
   if(!q.length){alert('Nejdřív dokončete aspoň jednu lekci.');return;}
-  go('lesson',{lesson:{id:null,title:'Procvičování',tip:null},queue:q,qi:0,hearts:3,right:0,wrong:0,showTip:false,review:true});
+  QDONE=[];
+  go('lesson',{lesson:{id:null,title:'Procvičování',tip:null},queue:q,qi:0,hearts:3,right:0,wrong:0,combo:0,bonus:0,showTip:false,review:true});
 }
 function vLesson(){
   if(S.showTip){
@@ -716,8 +978,11 @@ function vLesson(){
     <div class="chips" id="built"></div>
     <div class="bank" id="bank">${shuffle(ex.is.split(' ')).map((w,i)=>`<button class="chip is" data-w="${esc(w)}" data-i="${i}" onclick="chipPick(this)">${esc(w)}</button>`).join('')}</div>`;
   }else if(ex.t==='match'){
-    body=`<p class="ex-q">Spojte dvojice</p><div class="matchgrid" id="mg">
-      ${shuffle(ex.pairs.map((p,i)=>({txt:p[0],k:i,side:'is'})).concat(ex.pairs.map((p,i)=>({txt:p[1],k:i,side:'cs'})))).map(o=>`<button class="opt ${o.side==='is'?'is':''}" data-k="${o.k}" data-side="${o.side}" onclick="matchPick(this)">${esc(o.txt)}</button>`).join('')}</div>`;
+    const left=shuffle(ex.pairs.map((p,i)=>({txt:p[0],k:i})));
+    const right=shuffle(ex.pairs.map((p,i)=>({txt:p[1],k:i})));
+    body=`<p class="ex-q">Spojte dvojice <small style="color:var(--muted)">(vlevo islandsky, vpravo česky)</small></p><div class="matchgrid" id="mg">
+      <div class="col">${left.map(o=>`<button class="opt is" data-k="${o.k}" data-side="is" onclick="matchPick(this)">${esc(o.txt)}</button>`).join('')}</div>
+      <div class="col">${right.map(o=>`<button class="opt" data-k="${o.k}" data-side="cs" onclick="matchPick(this)">${esc(o.txt)}</button>`).join('')}</div></div>`;
   }
   $('#app').innerHTML=head+`<div class="card ex-card">${body}</div><div style="height:110px"></div>
   <div class="checkbar"><div class="inner">
@@ -775,13 +1040,19 @@ function answer(ok,skipped){
   const ex=S.queue[S.qi];mcChoice=null;
   const p=P();
   const correctTxt=ex.a||ex.is||(ex.t==='fill'?ex.opts[ex.a]:'')||'';
-  if(ok===true||ok==='soft'){S.right++;if(ex.word)wordOk(p,ex.word);}
-  else{S.wrong++;if(!skipped)S.hearts--;if(ex.word)wordBad(p,ex.word);}
+  if(ok===true||ok==='soft'){
+    S.right++;S.combo=(S.combo||0)+1;
+    if(S.combo>=3)S.bonus=(S.bonus||0)+Math.min(S.combo-2,5);
+    if(S.combo===5)questTick('combo5');
+    if(ex.t==='type')questTick('type10');
+    if(ex.word)wordOk(p,ex.word);
+  }
+  else{S.wrong++;S.combo=0;if(!skipped)S.hearts--;if(ex.word)wordBad(p,ex.word);}
   save();
   const fb=document.createElement('div');
   fb.className='feedback '+(ok?'ok':'bad');
   fb.innerHTML=`<div class="inner">
-    <span class="msg">${ok===true?'Rétt! Správně ✓':ok==='soft'?(ex.t==='match'?'Spojeno — s pár přehmaty':'Téměř — pozor na délky a znaky'):skipped?'Přeskočeno':'Rangt — špatně'}</span>
+    <span class="msg">${ok===true?'Rétt! Správně ✓'+(S.combo>=3?` ⚡ combo ×${S.combo}`:''):ok==='soft'?(ex.t==='match'?'Spojeno — s pár přehmaty':'Téměř — pozor na délky a znaky'):skipped?'Přeskočeno':'Rangt — špatně'}</span>
     ${!ok&&correctTxt?`<span class="detail">Správně: <b class="is">${esc(ex.t==='fill'?ex.pre.replace('___',ex.opts[ex.a]):correctTxt)}</b> ${speakBtn(ex.t==='fill'?ex.pre.replace('___',ex.opts[ex.a]):correctTxt)}</span>`:''}
     ${ok==='soft'&&correctTxt?`<span class="detail">Přesně: <b class="is">${esc(correctTxt)}</b></span>`:''}
     <button class="btn ${ok?'':'danger'}" onclick="nextEx()">Pokračovat</button></div>`;
@@ -790,7 +1061,7 @@ function answer(ok,skipped){
   document.querySelectorAll('.opt,.chip,.typein').forEach(e=>e.disabled=true);
 }
 function wordBad(p,w){p.weak[w]=(p.weak[w]||0)+2;}
-function wordOk(p,w){if(p.weak[w]){p.weak[w]--;if(p.weak[w]<=0)delete p.weak[w];}}
+function wordOk(p,w){p.seen[w]=(p.seen[w]||0)+1;if(p.weak[w]){p.weak[w]--;if(p.weak[w]<=0)delete p.weak[w];}}
 function nextEx(){
   document.querySelectorAll('.feedback').forEach(f=>f.remove());
   if(S.hearts<=0){
@@ -809,9 +1080,11 @@ function finishLesson(){
   const total=S.right+S.wrong;
   const acc=total?S.right/total:0;
   const perfect=S.wrong===0&&total>0;
-  let xp=S.right*10+(perfect?20:0);
+  let xp=S.right*10+(S.bonus||0)+(perfect?20:0);
   if(S.review)xp=Math.round(xp*.6);
   addXp(p,xp);bumpStreak(p);
+  questTick('xp50',xp);
+  if(S.review)questTick('review1');else{questTick('lesson1');if(perfect)questTick('perfect');}
   let stars=0;
   if(!S.review){
     stars=acc>=.95?3:acc>=.75?2:1;
@@ -821,7 +1094,7 @@ function finishLesson(){
   const newBadges=grantBadges(p,perfect);
   save();
   pushProgress();
-  go('result',{xp,acc,stars,perfect,newBadges,review:S.review});
+  go('result',{xp,acc,stars,perfect,newBadges,review:S.review,qdone:QDONE.slice()});
 }
 function vResult(){
   const p=P();
@@ -835,6 +1108,7 @@ function vResult(){
       <div class="medal"><div class="v">🔥 ${streakLive(p)}</div><div class="l">dní v řadě</div></div>
     </div>
     ${S.newBadges.map(b=>`<div class="badge-pop">${b.ico} Nový odznak: ${esc(b.name)}</div>`).join('')}
+    ${(S.qdone||[]).map(d=>`<div class="badge-pop">🎯 Výzva splněna: ${esc(d.txt)} (+${d.reward} XP)</div>`).join('')}
     <div style="margin-top:20px"><button class="btn" onclick="go('map')">Pokračovat</button></div></div>`;
 }
 
@@ -867,16 +1141,21 @@ function vBoard(){
     if(S.view!=='board')return;
     const lb=$('#lb');if(!lb)return;
     if(!rows||!rows.length){lb.textContent='Skupina je zatím prázdná.';return;}
-    lb.innerHTML=`<table class="stattbl">
-      <tr style="color:var(--muted);font-size:.78rem"><td></td><td>jméno</td><td style="text-align:right">XP</td><td style="text-align:right">🔥</td><td style="text-align:right">lekce</td><td style="text-align:right">úroveň</td></tr>
+    const wk=weekKey();
+    const wx=r=>(r.week_key===wk?r.week_xp||0:0);
+    rows.sort((a,b)=>wx(b)-wx(a)||b.xp-a.xp);
+    const hasWeek=rows.some(r=>r.week_key!==undefined);
+    lb.innerHTML=`<span class="eyebrow">⚡ Týdenní závod</span><table class="stattbl" style="margin-top:6px">
+      <tr style="color:var(--muted);font-size:.78rem"><td></td><td>jméno</td><td style="text-align:right">týden</td><td style="text-align:right">celkem</td><td style="text-align:right">🔥</td><td style="text-align:right">úroveň</td></tr>
       ${rows.map((r,i)=>{
-        const me=r.name===p.name&&r.xp===p.xp;
+        const me=r.name===p.name;
         const rank=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';
         return`<tr style="${me?'background:var(--accent-soft);font-weight:700':''}">
-          <td>${rank}</td><td>${esc(r.name)}<br><small style="color:var(--muted);font-weight:400">${ago(r.updated_at)}</small></td>
-          <td style="text-align:right">${r.xp}</td><td style="text-align:right">${r.streak}</td>
-          <td style="text-align:right">${r.lessons}</td><td style="text-align:right">${esc(r.level.toUpperCase())}</td></tr>`;}).join('')}
-    </table>`;
+          <td>${rank}</td><td>${esc(r.name)}<br><small style="color:var(--muted);font-weight:400">${ago(r.updated_at)} · ${r.lessons} lekcí</small></td>
+          <td style="text-align:right">${hasWeek?'+'+wx(r):'–'}</td><td style="text-align:right">${r.xp}</td>
+          <td style="text-align:right">${r.streak}</td><td style="text-align:right">${esc(r.level.toUpperCase())}</td></tr>`;}).join('')}
+    </table>
+    <p style="color:var(--muted);font-size:.78rem;margin:8px 0 0">Pořadí podle XP získaných tento týden — v pondělí se závod restartuje.</p>`;
   }).catch(()=>{const lb=$('#lb');if(lb)lb.textContent='Žebříček se nepodařilo načíst — zkontrolujte připojení k internetu.';});
 }
 
@@ -916,7 +1195,7 @@ function importData(inp){
   const f=inp.files[0];if(!f)return;
   const r=new FileReader();
   r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.profile||!d.profile.name)throw 0;
-    const id='p'+Math.random().toString(36).slice(2,9);store.profiles[id]=d.profile;store.active=id;save();go('map');
+    const id='p'+Math.random().toString(36).slice(2,9);store.profiles[id]=migrateP(d.profile);store.active=id;save();go('map');
   }catch(e){alert('Soubor se nepodařilo načíst — není to export z této aplikace.');}};
   r.readAsText(f);
 }
@@ -928,7 +1207,7 @@ function deleteProfile(){
 }
 
 /* ---- init ---- */
-if(store.active&&P())go('map');else go('welcome');
+if(store.active&&P()){migrateP(P());go('map');}else go('welcome');
 </script>
 <script>
 if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(()=>{});});}

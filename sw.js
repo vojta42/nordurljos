@@ -1,4 +1,4 @@
-const CACHE = 'nordurljos-v2';
+const CACHE = 'nordurljos-v3';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
