@@ -430,6 +430,47 @@ if('speechSynthesis'in window){const pick=()=>{voiceIS=speechSynthesis.getVoices
 function speak(t){if(!voiceIS)return;const u=new SpeechSynthesisUtterance(t);u.voice=voiceIS;u.lang='is-IS';u.rate=.9;speechSynthesis.speak(u);}
 function speakBtn(t){return voiceIS?`<button class="speak" title="Přehrát výslovnost" onclick="speak('${esc(t).replace(/'/g,"\\'")}')">🔊</button>`:'';}
 
+/* ================= LEADERBOARD (Supabase) ================= */
+const SB_URL='https://iegyfnvvdagjpmppupza.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImllZ3lmbnZ2ZGFnanBtcHB1cHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0NTg3MjksImV4cCI6MjEwMDAzNDcyOX0.Sf5t7AWl33Y-U_WQ_d84I1cZsDTWqq-fyLuHGZsVlUU';
+async function rpc(fn,args){
+  const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',
+    headers:{'Content-Type':'application/json',apikey:SB_KEY,Authorization:'Bearer '+SB_KEY},
+    body:JSON.stringify(args)});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  const t=await r.text();return t?JSON.parse(t):null;
+}
+function randCode(pfx,n){const c='abcdefghijklmnopqrstuvwxyz0123456789';const a=new Uint32Array(n);crypto.getRandomValues(a);return pfx+Array.from(a,x=>c[x%36]).join('');}
+function doneLessons(p){return Object.keys(p.lessons).filter(k=>p.lessons[k].stars>0).length;}
+async function joinGroup(code){
+  code=(code||'').trim();
+  if(code.length<10){alert('Kód skupiny je moc krátký — zkontrolujte ho.');return;}
+  const secret=randCode('',24);
+  const btns=document.querySelectorAll('.btn');btns.forEach(b=>b.disabled=true);
+  try{
+    const pid=await rpc('join_group',{p_group:code,p_name:P().name,p_secret:secret});
+    P().social={group:code,pid,secret};save();
+    pushProgress();
+    render();
+  }catch(e){btns.forEach(b=>b.disabled=false);alert('Připojení se nepovedlo. Zkontrolujte kód a připojení k internetu.');}
+}
+function createGroup(){joinGroup(randCode('NL-',12));}
+async function pushProgress(){
+  const p=P();if(!p||!p.social)return;
+  try{await rpc('push_progress',{p_id:p.social.pid,p_secret:p.social.secret,p_name:p.name,
+    p_xp:p.xp,p_streak:streakLive(p),p_lessons:doneLessons(p),p_level:p.unlocked});}catch(e){}
+}
+async function leaveGroup(){
+  if(!confirm('Opustit skupinu? Zmizíte z žebříčku ostatních.'))return;
+  const p=P();
+  try{await rpc('leave_group',{p_id:p.social.pid,p_secret:p.social.secret});}catch(e){}
+  p.social=null;save();render();
+}
+function ago(ts){
+  const d=Math.floor((Date.now()-new Date(ts).getTime())/86400000);
+  return d<=0?'dnes':d===1?'včera':'před '+d+' dny';
+}
+
 /* ================= GAMIFICATION ================= */
 const BADGES=[
  {id:'first',ico:'🥾',name:'Fyrsta skrefið',desc:'první dokončená lekce'},
@@ -512,6 +553,7 @@ function render(){
   if(v==='lesson')return vLesson();
   if(v==='result')return vResult();
   if(v==='profile')return vProfile();
+  if(v==='board')return vBoard();
 }
 function go(view,extra){S={view,...extra};render();window.scrollTo(0,0);}
 
@@ -619,8 +661,9 @@ function vMap(){
     <div><b>Denní cíl</b><div class="goalring">${xpToday(p)} / ${p.goal} XP ${goalPct>=100?'· splněno ✅':''}</div></div>
     <div class="progress" style="max-width:180px"><i style="width:${goalPct}%"></i></div>
   </div>
-  <div style="margin-top:14px">
-    <button class="btn ghost" style="width:100%" onclick="startReview()">🔄 Procvičování ${Object.keys(p.weak).length?`(slabá slovíčka: ${Object.keys(p.weak).length})`:''}</button>
+  <div class="row" style="margin-top:14px">
+    <button class="btn ghost" style="flex:1" onclick="startReview()">🔄 Procvičování ${Object.keys(p.weak).length?`(${Object.keys(p.weak).length})`:''}</button>
+    <button class="btn ghost" style="flex:1" onclick="go('board')">🏆 Žebříček</button>
   </div>
   ${COURSE.map(lv=>{
     const done=lv.lessons.filter(l=>p.lessons[l.id]&&p.lessons[l.id].stars>0).length;
@@ -777,6 +820,7 @@ function finishLesson(){
   }
   const newBadges=grantBadges(p,perfect);
   save();
+  pushProgress();
   go('result',{xp,acc,stars,perfect,newBadges,review:S.review});
 }
 function vResult(){
@@ -792,6 +836,48 @@ function vResult(){
     </div>
     ${S.newBadges.map(b=>`<div class="badge-pop">${b.ico} Nový odznak: ${esc(b.name)}</div>`).join('')}
     <div style="margin-top:20px"><button class="btn" onclick="go('map')">Pokračovat</button></div></div>`;
+}
+
+/* ---- leaderboard ---- */
+function vBoard(){
+  const p=P();
+  if(!p.social){
+    $('#app').innerHTML=`
+    <div class="topbar"><button class="btn quiet" onclick="go('map')">←</button><span class="brand">🏆 Žebříček přátel</span></div>
+    <div class="card col">
+      <p>Propojte se s přáteli a porovnávejte XP a streaky. Žebříček vidí <b>jen členové vaší skupiny</b> — kdo nezná kód, nevidí nic.</p>
+      <button class="btn" onclick="createGroup()">Vytvořit novou skupinu</button>
+      <div class="row"><input id="gcode" style="flex:1" placeholder="Kód skupiny od kamaráda (NL-…)" autocapitalize="off" autocomplete="off">
+      <button class="btn ghost" onclick="joinGroup($('#gcode').value)">Připojit se</button></div>
+      <p style="color:var(--muted);font-size:.85rem;margin:0">Vyžaduje připojení k internetu. Sdílí se jen přezdívka, XP, streak a počet lekcí.</p>
+    </div>`;
+    return;
+  }
+  $('#app').innerHTML=`
+  <div class="topbar"><button class="btn quiet" onclick="go('map')">←</button><span class="brand">🏆 Žebříček přátel</span>
+    <button class="btn quiet" onclick="render()" title="Obnovit">↻</button></div>
+  <div class="card row" style="justify-content:space-between;flex-wrap:wrap">
+    <div><span class="eyebrow">Kód skupiny</span><div style="font-weight:700;font-variant-numeric:tabular-nums">${esc(p.social.group)}</div></div>
+    <button class="btn ghost" onclick="navigator.clipboard&&navigator.clipboard.writeText('${esc(p.social.group)}').then(()=>this.textContent='Zkopírováno ✓')">Kopírovat kód</button>
+  </div>
+  <div class="card" style="margin-top:14px" id="lb">Načítám žebříček…</div>
+  <div style="margin-top:14px"><button class="btn danger" style="width:100%" onclick="leaveGroup()">Opustit skupinu</button></div>
+  <p class="footer-note">Kód pošlete kamarádům — zadají ho v „Připojit se“. Pokrok se odesílá po každé dokončené lekci.</p>`;
+  rpc('get_leaderboard',{p_group:p.social.group}).then(rows=>{
+    if(S.view!=='board')return;
+    const lb=$('#lb');if(!lb)return;
+    if(!rows||!rows.length){lb.textContent='Skupina je zatím prázdná.';return;}
+    lb.innerHTML=`<table class="stattbl">
+      <tr style="color:var(--muted);font-size:.78rem"><td></td><td>jméno</td><td style="text-align:right">XP</td><td style="text-align:right">🔥</td><td style="text-align:right">lekce</td><td style="text-align:right">úroveň</td></tr>
+      ${rows.map((r,i)=>{
+        const me=r.name===p.name&&r.xp===p.xp;
+        const rank=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';
+        return`<tr style="${me?'background:var(--accent-soft);font-weight:700':''}">
+          <td>${rank}</td><td>${esc(r.name)}<br><small style="color:var(--muted);font-weight:400">${ago(r.updated_at)}</small></td>
+          <td style="text-align:right">${r.xp}</td><td style="text-align:right">${r.streak}</td>
+          <td style="text-align:right">${r.lessons}</td><td style="text-align:right">${esc(r.level.toUpperCase())}</td></tr>`;}).join('')}
+    </table>`;
+  }).catch(()=>{const lb=$('#lb');if(lb)lb.textContent='Žebříček se nepodařilo načíst — zkontrolujte připojení k internetu.';});
 }
 
 /* ---- profile ---- */
@@ -836,6 +922,8 @@ function importData(inp){
 }
 function deleteProfile(){
   if(!confirm('Opravdu smazat profil „'+P().name+'“ včetně veškerého progresu?'))return;
+  const p=P();
+  if(p.social){rpc('leave_group',{p_id:p.social.pid,p_secret:p.social.secret}).catch(()=>{});}
   delete store.profiles[store.active];store.active=null;save();go('welcome');
 }
 
