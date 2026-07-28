@@ -1057,12 +1057,14 @@ const CHANGELOG=[
        '⚡ Výběr ze 4 možností se vyhodnotí hned po kliknutí, bez potvrzování.',
        '🎨 Spojovačka: spárované dvojice mají 4 barvy a spárování lze zrušit kliknutím.',
        '✍️ Psací cvičení se teď v lekcích objevují spolehlivě i na první průchod.',
-       '🔊 Klik na jakékoliv islandské slovo/možnost ho přečte nahlas.'],
+       '🔊 Klik na jakékoliv islandské slovo/možnost ho přečte nahlas.',
+       '📚 +19 nových lekcí na všech úrovních (denní rutina, u lékaře, práce, technologie, politika, filozofie a další).'],
    en:['🎯 Smarter answer choices — wrong options now come from similar topics and only from vocabulary you already know.',
        '⚡ Picking one of 4 options is evaluated right away, no extra confirmation.',
        '🎨 Matching game: matched pairs get 4 distinct colors and can be un-matched by clicking again.',
        '✍️ Spelling exercises now reliably show up in lessons even on the first attempt.',
-       '🔊 Clicking any Icelandic word/option now reads it aloud.']}
+       '🔊 Clicking any Icelandic word/option now reads it aloud.',
+       '📚 +19 new lessons across all levels (daily routine, at the doctor, work, technology, politics, philosophy and more).']}
 ];
 function showChangelog(){
   const unseen=CHANGELOG.filter(c=>!store.lastSeenVersion||c.v>store.lastSeenVersion);
