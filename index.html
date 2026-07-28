@@ -721,7 +721,39 @@ const COURSE=[
    {t:'fill',pre:'Ég ___ ekki að elda í kvöld.',opts:['nenni','vil','þarf'],a:0,cs:'Nechce se mi dnes večer vařit.'},
    {t:'order',cs:'To byla šíleně dobrá pařba.',is:'Þetta var svakalega gott djamm'},
    {t:'mc',q:'Kamarád ukáže fotku štěněte. Řeknete…',opts:['En krúttlegur!','En brjálaður!','Meikar ekki sens!','Svakalega leiðinlegt!'],a:'En krúttlegur!',optIs:true},
-   {t:'mc',q:'<span class="is">„Þetta meikar engan sens“</span> je…',opts:['anglicismus: „to nedává smysl“','staré přísloví','formální fráze','chyba — tak se to neříká'],a:'anglicismus: „to nedává smysl“'}]}
+   {t:'mc',q:'<span class="is">„Þetta meikar engan sens“</span> je…',opts:['anglicismus: „to nedává smysl“','staré přísloví','formální fráze','chyba — tak se to neříká'],a:'anglicismus: „to nedává smysl“'}]},
+ {id:'c2-7',title:'Filozofie a abstraktní myšlení',sub:'tilvist, vitund, sannleikur…',
+  tip:'Filozofický jazyk často používá abstrakta na <b>-leiki</b> nebo <b>-un</b>: <b>tilvist</b> = existence, <b>vitund</b> = vědomí. <b>Að efast um</b> = pochybovat o.',
+  vocab:[['tilvist','existence'],['vitund','vědomí'],['sannleikur','pravda'],['siðferði','morálka/etika'],['frelsi','svoboda'],['skynsemi','rozum/racionalita'],['efahyggja','skepticismus'],['þekking','poznání/vědění']],
+  ex:[
+   {t:'order',cs:'Pochybuji o jeho slovech.',is:'Ég efast um orð hans'},
+   {t:'fill',pre:'Descartes sagði: „Ég hugsa, því ___ ég.“',opts:['er','var','verð'],a:0,cs:'Descartes řekl: „Myslím, tedy jsem.“'},
+   {t:'mc',q:'Co znamená <span class="is">„siðferði“</span>?',opts:['morálka/etika','svoboda','pravda','poznání'],a:'morálka/etika'},
+   {t:'type',q:'Napište islandsky: <b>„svoboda“</b>',a:'frelsi',word:'frelsi'}]},
+ {id:'c2-8',title:'Historie a politika Islandu',sub:'sjálfstæði, landnám, lýðveldi…',
+  tip:'Island se stalo nezávislou republikou <b>17. júní 1944</b>. Do té doby bylo pod dánskou korunou. <b>Sjálfstæði</b> = nezávislost.',
+  vocab:[['sjálfstæði','nezávislost'],['landnám','osídlení (Islandu)'],['sáttmáli','smlouva/dohoda'],['konungsríki','království'],['lýðveldi','republika'],['þjóðarsátt','národní shoda'],['sjálfstæðisbarátta','boj za nezávislost'],['fullveldi','svrchovanost']],
+  ex:[
+   {t:'order',cs:'Island se stalo republikou v roce 1944.',is:'Ísland varð lýðveldi árið 1944'},
+   {t:'fill',pre:'Ísland fékk ___ árið 1918.',opts:['fullveldi','fullveldis','fullveldið'],a:0,cs:'Island získal svrchovanost v roce 1918.'},
+   {t:'mc',q:'Co znamená <span class="is">„landnám“</span>?',opts:['osídlení (Islandu)','nezávislost','republika','smlouva'],a:'osídlení (Islandu)'},
+   {t:'type',q:'Napište islandsky: <b>„nezávislost“</b>',a:'sjálfstæði',word:'sjálfstæði'}]},
+ {id:'c2-9',title:'Humor, ironie a slovní hry',sub:'orðaleikur, kaldhæðni, grín…',
+  tip:'Islandský humor je suchý a plný podhodnocení: <b>Þetta er nú ekkert merkilegt</b> (řečeno ironicky o něčem impozantním). <b>Orðaleikur</b> = slovní hříčka.',
+  vocab:[['orðaleikur','slovní hříčka'],['kaldhæðni','sarkasmus/ironie'],['fyndni','vtipnost'],['skopskyn','smysl pro humor'],['grín','legrace/šprým'],['þversögn','protimluv/paradox'],['skens','pošklebování/žertování'],['kímni','(jemný) humor/vtip']],
+  ex:[
+   {t:'order',cs:'To byla jen legrace.',is:'Þetta var bara grín'},
+   {t:'fill',pre:'Hann sagði það í ___.',opts:['gríni','grín','gríns'],a:0,cs:'Řekl to v legraci.'},
+   {t:'mc',q:'Co znamená <span class="is">„kaldhæðni“</span>?',opts:['sarkasmus/ironie','slovní hříčka','žertování','smysl pro humor'],a:'sarkasmus/ironie'},
+   {t:'type',q:'Napište islandsky: <b>„slovní hříčka“</b>',a:'orðaleikur',word:'orðaleikur'}]},
+ {id:'c2-10',title:'Obchod a ekonomie na pokročilé úrovni',sub:'hlutabréf, arðsemi, gjaldþrot…',
+  tip:'Pokročilý ekonomický jazyk: <b>hlutabréf</b> = akcie, <b>arðsemi</b> = ziskovost/rentabilita. <b>Að fjárfesta í</b> = investovat do.',
+  vocab:[['hlutabréf','akcie'],['fjárfesting','investice'],['arðsemi','ziskovost/rentabilita'],['gjaldþrot','úpadek/bankrot'],['samruni','fúze (podniků)'],['markaðshlutdeild','podíl na trhu'],['áhætta','riziko'],['hagnaður','zisk']],
+  ex:[
+   {t:'order',cs:'Investoval do akcií.',is:'Hann fjárfesti í hlutabréfum'},
+   {t:'fill',pre:'Fyrirtækið tilkynnti um ___.',opts:['samruna','samruni','samrunann'],a:0,cs:'Firma oznámila fúzi.'},
+   {t:'mc',q:'Co znamená <span class="is">„gjaldþrot“</span>?',opts:['úpadek/bankrot','zisk','riziko','fúze'],a:'úpadek/bankrot'},
+   {t:'type',q:'Napište islandsky: <b>„zisk“</b>',a:'hagnaður',word:'hagnaður'}]}
 ]}
 ];
 const PLACEMENT=[
@@ -965,7 +997,19 @@ const EN={
  ex:[{q:'<span class="is">“Stuðlar”</span> — a mandatory element of Icelandic verse — is…',opts:['alliteration (matching initial sounds)','end rhyme','syllable count','a refrain'],a:'alliteration (matching initial sounds)'},{cs:'The poem can be interpreted in many ways.'},{cs:'Light and darkness are opposites.'},{q:'Write in Icelandic: <b>“poem”</b>'}]},
 'c2-6':{title:'Slang & spoken language',tip:'The most useful colloquial verb: <b>nenna</b> — “to feel like”: <i>Ég nenni ekki</i> = I can’t be bothered. Anglicisms creep into Icelandic too: <b>meika sens</b> = to make sense.',
  v:['to feel like / be bothered','dude / guy','party','insanely (intensifier)','awesome','cute','crazy','to make sense (slang)'],
- ex:[{cs:'I don’t feel like cooking tonight.'},{cs:'That was an insanely good party.'},{q:'A friend shows you a photo of a puppy. You say…'},{q:'<span class="is">“Þetta meikar engan sens”</span> is…',opts:['an Anglicism: “it makes no sense”','an old proverb','a formal phrase','wrong — nobody says that'],a:'an Anglicism: “it makes no sense”'}]}
+ ex:[{cs:'I don’t feel like cooking tonight.'},{cs:'That was an insanely good party.'},{q:'A friend shows you a photo of a puppy. You say…'},{q:'<span class="is">“Þetta meikar engan sens”</span> is…',opts:['an Anglicism: “it makes no sense”','an old proverb','a formal phrase','wrong — nobody says that'],a:'an Anglicism: “it makes no sense”'}]},
+'c2-7':{title:'Philosophy & abstract thought',tip:'Philosophical language often uses abstract nouns ending in <b>-leiki</b> or <b>-un</b>: <b>tilvist</b> = existence, <b>vitund</b> = consciousness. <b>Að efast um</b> = to doubt.',
+ v:['existence','consciousness','truth','morality/ethics','freedom','reason/rationality','skepticism','knowledge'],
+ ex:[{cs:'I doubt his words.'},{cs:'Descartes said: “I think, therefore I am.”'},{q:'What does <span class="is">“siðferði”</span> mean?',opts:['morality/ethics','freedom','truth','knowledge'],a:'morality/ethics'},{q:'Write in Icelandic: <b>“freedom”</b>'}]},
+'c2-8':{title:'Icelandic history & politics',tip:'Iceland became an independent republic on <b>17 June 1944</b>. Before that it was under the Danish crown. <b>Sjálfstæði</b> = independence.',
+ v:['independence','settlement (of Iceland)','treaty/agreement','kingdom','republic','national consensus','independence struggle','sovereignty'],
+ ex:[{cs:'Iceland became a republic in 1944.'},{cs:'Iceland gained sovereignty in 1918.'},{q:'What does <span class="is">“landnám”</span> mean?',opts:['settlement (of Iceland)','independence','republic','treaty'],a:'settlement (of Iceland)'},{q:'Write in Icelandic: <b>“independence”</b>'}]},
+'c2-9':{title:'Humor, irony & wordplay',tip:'Icelandic humor is dry and full of understatement: <b>Þetta er nú ekkert merkilegt</b> (said ironically about something impressive). <b>Orðaleikur</b> = a pun/wordplay.',
+ v:['wordplay/pun','sarcasm/irony','wittiness','sense of humor','joke/fun','paradox/contradiction','teasing/mockery','(gentle) humor/wit'],
+ ex:[{cs:'It was just a joke.'},{cs:'He said it jokingly.'},{q:'What does <span class="is">“kaldhæðni”</span> mean?',opts:['sarcasm/irony','wordplay','teasing','sense of humor'],a:'sarcasm/irony'},{q:'Write in Icelandic: <b>“wordplay/pun”</b>'}]},
+'c2-10':{title:'Business & economics — advanced',tip:'Advanced economic language: <b>hlutabréf</b> = shares/stock, <b>arðsemi</b> = profitability/return. <b>Að fjárfesta í</b> = to invest in.',
+ v:['shares/stock','investment','profitability/return','bankruptcy','merger','market share','risk','profit'],
+ ex:[{cs:'He invested in stocks.'},{cs:'The company announced a merger.'},{q:'What does <span class="is">“gjaldþrot”</span> mean?',opts:['bankruptcy','profit','risk','merger'],a:'bankruptcy'},{q:'Write in Icelandic: <b>“profit”</b>'}]}
 };
 
 /* ---- English overlay: placement ---- */
