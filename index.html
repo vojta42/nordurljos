@@ -49,6 +49,10 @@ input,select{font:inherit;color:var(--ink);background:var(--card);border:1.5px s
 .stat{display:flex;align-items:center;gap:5px;font-weight:700;font-variant-numeric:tabular-nums;font-size:.95rem}
 .stat small{font-weight:400;color:var(--muted)}
 .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:20px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:20;padding:20px}
+.overlay .card{max-width:420px;max-height:80vh;overflow-y:auto}
+.overlay .card ul{margin:0 0 10px;padding-left:20px}
+.overlay .card li{margin-bottom:4px}
 .btn{background:var(--accent);color:var(--accent-ink);padding:13px 22px;font-weight:700;border-radius:14px;transition:transform .08s}
 .btn:active{transform:scale(.97)}
 .btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
@@ -836,6 +840,40 @@ function P(){return store.profiles[store.active];}
 function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function yesterday(){const d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
+/* ================= VERSIONING ================= */
+const APP_VERSION='2026.07.28';
+const CHANGELOG=[
+  {v:'2026.07.28',
+   cs:['🎯 Chytřejší nabídka odpovědí — špatné možnosti jsou teď z podobných témat a jen ze slovní zásoby, kterou už znáš.',
+       '⚡ Výběr ze 4 možností se vyhodnotí hned po kliknutí, bez potvrzování.',
+       '🎨 Spojovačka: spárované dvojice mají 4 barvy a spárování lze zrušit kliknutím.',
+       '✍️ Psací cvičení se teď v lekcích objevují spolehlivě i na první průchod.',
+       '🔊 Klik na jakékoliv islandské slovo/možnost ho přečte nahlas.'],
+   en:['🎯 Smarter answer choices — wrong options now come from similar topics and only from vocabulary you already know.',
+       '⚡ Picking one of 4 options is evaluated right away, no extra confirmation.',
+       '🎨 Matching game: matched pairs get 4 distinct colors and can be un-matched by clicking again.',
+       '✍️ Spelling exercises now reliably show up in lessons even on the first attempt.',
+       '🔊 Clicking any Icelandic word/option now reads it aloud.']}
+];
+function showChangelog(){
+  const unseen=CHANGELOG.filter(c=>!store.lastSeenVersion||c.v>store.lastSeenVersion);
+  const items=unseen.length?unseen:CHANGELOG.slice(-1);
+  const cs=lang()==='cs';
+  const body=items.map(c=>`<ul>${(cs?c.cs:c.en).map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`).join('');
+  const ov=document.createElement('div');
+  ov.className='overlay';
+  ov.innerHTML=`<div class="card col">
+    <h2 class="serif" style="margin-top:0">${cs?'✨ Co je nového':"✨ What's new"}</h2>
+    ${body}
+    <button class="btn" onclick="dismissChangelog()">${cs?'Rozumím':'Got it'}</button>
+  </div>`;
+  document.body.appendChild(ov);
+}
+function dismissChangelog(){
+  store.lastSeenVersion=APP_VERSION;save();
+  document.querySelectorAll('.overlay').forEach(o=>o.remove());
+}
+
 /* ================= HELPERS ================= */
 const $=s=>document.querySelector(s);
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -1569,6 +1607,7 @@ function deleteProfile(){
 
 /* ---- init ---- */
 if(store.active&&P()){migrateP(P());go('map');}else go('welcome');
+if(store.lastSeenVersion!==APP_VERSION)showChangelog();
 </script>
 <script>
 if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(()=>{});});}
