@@ -996,13 +996,13 @@ async function joinGroup(code,isNew){
   try{
     const pid=await rpc('join_group',{p_group:code,p_name:P().name,p_secret:secret});
     P().social={group:code,pid,secret};save();
-    if(isNew)track('group');
+    if(isNew)track('group',null,P().name);
     pushProgress();
     render();
   }catch(e){btns.forEach(b=>b.disabled=false);alert(T('aJoinFail'));}
 }
 function createGroup(){joinGroup(randCode('NL-',12),true);}
-function track(kind,meta){try{rpc('track',{p_kind:kind,p_meta:meta||''}).catch(()=>{});}catch(e){}}
+function track(kind,meta,player){try{rpc('track',{p_kind:kind,p_meta:meta||'',p_player:player||''}).catch(()=>{});}catch(e){}}
 if(window.matchMedia&&!window.__nlInstHook){window.__nlInstHook=1;window.addEventListener('appinstalled',()=>track('install'));}
 async function pushProgress(){
   const p=P();if(!p||!p.social)return;
@@ -1235,7 +1235,7 @@ function createProfile(){
   const id='p'+Math.random().toString(36).slice(2,9);
   store.profiles[id]={name,goal:+$('#pgoal').value,xp:0,streak:{count:0,last:null},daily:null,lessons:{},weak:{},seen:{},weekly:{key:'',xp:0},quests:null,social:null,stats:{lvl:{}},badges:[],unlocked:'a1'};
   store.active=id;save();
-  track('profile');
+  track('profile',null,name);
   const st=$('#pstart').value;
   if(st==='test')go('placement',{pi:0,pscore:{a1:0,a2:0,b1:0,b2:0,c1:0,c2:0},pq:PLACEMENT.map((q,i)=>{const o=(lang()==='en'&&PEN[i])||{};const m={...q,...o};return {...m,opts:shuffle(m.opts)};})});
   else{P().unlocked=st;save();go('map');}
@@ -1262,7 +1262,7 @@ function placeNext(){
   const s=S.pscore;let lvl='a1';
   if(s.a1>=3){lvl='a2';if(s.a2>=3){lvl='b1';if(s.b1>=3){lvl='b2';if(s.b2>=3){lvl='c1';if(s.c1>=3&&s.c2>=2)lvl='c2';}}}}
   P().unlocked=lvl;save();
-  track('level',lvl);
+  track('level',lvl,P().name);
   $('#app').innerHTML=`<div class="result">
     <div style="font-size:3rem">🧭</div>
     <h2>${T('yourLevel')} ${T('lvlNames')[lvl]}</h2>
@@ -1480,10 +1480,10 @@ function finishLesson(){
     const prev=p.lessons[S.lesson.id];
     p.lessons[S.lesson.id]={stars:Math.max(stars,prev?prev.stars:0),best:Math.max(Math.round(acc*100),prev?prev.best:0)};
     p.stats=p.stats||{lvl:{}};
-    if(doneLessons(p)===1&&!p.stats.first){p.stats.first=1;track('first_lesson');}
+    if(doneLessons(p)===1&&!p.stats.first){p.stats.first=1;track('first_lesson',null,p.name);}
     const lvId=S.lesson.id.split('-')[0];
-    if(!p.stats.lvl[lvId]){p.stats.lvl[lvId]=1;track('level',lvId);}
-    track('lesson',S.lesson.id);
+    if(!p.stats.lvl[lvId]){p.stats.lvl[lvId]=1;track('level',lvId,p.name);}
+    track('lesson',S.lesson.id,p.name);
   }
   const newBadges=grantBadges(p,perfect);
   save();
