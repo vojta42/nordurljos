@@ -1428,6 +1428,7 @@ function finishLesson(){
     if(doneLessons(p)===1&&!p.stats.first){p.stats.first=1;track('first_lesson');}
     const lvId=S.lesson.id.split('-')[0];
     if(!p.stats.lvl[lvId]){p.stats.lvl[lvId]=1;track('level',lvId);}
+    track('lesson',S.lesson.id);
   }
   const newBadges=grantBadges(p,perfect);
   save();
