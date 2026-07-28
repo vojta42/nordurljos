@@ -84,6 +84,10 @@ input,select{font:inherit;color:var(--ink);background:var(--card);border:1.5px s
 .opt.sel{border-color:var(--accent);background:var(--accent-soft)}
 .opt.right{border-color:var(--accent);background:var(--accent-soft)}
 .opt.wrong{border-color:var(--lava);background:var(--lava-soft)}
+.opt.pair-0{border-color:var(--accent);background:var(--accent-soft)}
+.opt.pair-1{border-color:var(--lupine);background:var(--lupine-soft)}
+.opt.pair-2{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 18%,var(--card))}
+.opt.pair-3{border-color:var(--lava);background:var(--lava-soft)}
 .opt[disabled]{cursor:default}
 .chips{display:flex;flex-wrap:wrap;gap:8px;min-height:52px;border-bottom:2px solid var(--mist);padding-bottom:10px;margin-bottom:14px}
 .chip{background:var(--accent-soft);color:var(--ink);border-radius:10px;padding:9px 13px;font-size:1.02rem}
@@ -1042,14 +1046,25 @@ function questTick(id,n){
 }
 
 /* ================= EXERCISE GENERATION ================= */
-function genFromVocab(lesson,allVocab){
-  const ex=[];const v=lesson.vocab;
+function vocabMeta(){
+  return COURSE.flatMap(lv=>lv.lessons.flatMap(l=>locLesson(l).vocab.map(v=>({is:v[0],cs:v[1],levelId:lv.id}))));
+}
+function distract(pool,levelId,exclude,field,n){
+  const ord=lvlOrder(levelId);
+  const reachable=pool.filter(m=>lvlOrder(m.levelId)<=ord);
+  const uniq=arr=>[...new Set(arr.filter(m=>m[field]!==exclude).map(m=>m[field]))];
+  let cand=uniq(reachable.filter(m=>m.levelId===levelId));
+  if(cand.length<n)cand=[...new Set([...cand,...uniq(reachable)])];
+  return sample(cand,n);
+}
+function genFromVocab(lesson,pool){
+  const ex=[];const v=lesson.vocab;const lvId=lesson.id.split('-')[0];
   for(const [is,cs] of sample(v,Math.min(3,v.length))){
-    const wrong=sample([...new Set(allVocab.filter(q=>q[0]!==is).map(q=>q[1]).filter(x=>x!==cs))],3);
+    const wrong=distract(pool,lvId,cs,'cs',3);
     ex.push({t:'mc',q:qMean(is),opts:shuffle([cs,...wrong]),a:cs,word:is});
   }
   for(const [is,cs] of sample(v,Math.min(3,v.length))){
-    const wrong=sample([...new Set(allVocab.filter(q=>q[1]!==cs).map(q=>q[0]).filter(x=>x!==is))],3);
+    const wrong=distract(pool,lvId,is,'is',3);
     ex.push({t:'mc',q:qSay(cs),opts:shuffle([is,...wrong]),a:is,word:is,optIs:true});
   }
   if(v.length>=4)ex.push({t:'match',pairs:sample(v,4)});
@@ -1060,35 +1075,27 @@ function genFromVocab(lesson,allVocab){
   return ex;
 }
 function buildQueue(lesson){
-  const p=P();
-  const allVocab=COURSE.flatMap(lv=>lv.lessons).map(l=>locLesson(l)).flatMap(l=>l.vocab);
-  const gen=genFromVocab(lesson,allVocab);
-  const authored=(lesson.ex||[]).map(e=>{
-    if(e.t==='type'&&e.word&&(p.seen[e.word]||0)<2){
-      const pair=(lesson.vocab||[]).find(v=>v[0]===e.word);
-      if(pair){const wrong=sample(allVocab.filter(q=>q[0]!==e.word).map(q=>q[0]),3);
-        return {t:'mc',q:qSay(pair[1]),opts:shuffle([e.word,...wrong]),a:e.word,word:e.word,optIs:true};}
-    }
-    return {...e};
-  });
+  const pool=vocabMeta();
+  const gen=genFromVocab(lesson,pool);
+  const authored=(lesson.ex||[]).map(e=>({...e}));
   const weight={mc:0,match:0,fill:1,order:2,type:3};
   return shuffle([...authored,...gen]).slice(0,12).sort((a,b)=>(weight[a.t]||0)-(weight[b.t]||0));
 }
 function buildReviewQueue(p){
-  const allVocab=COURSE.flatMap(lv=>lv.lessons).map(l=>locLesson(l)).flatMap(l=>l.vocab);
+  const pool=vocabMeta();
   const learned=[];
-  for(const lv of COURSE)for(const l of lv.lessons)if(p.lessons[l.id])learned.push(...locLesson(l).vocab);
+  for(const lv of COURSE)for(const l of lv.lessons)if(p.lessons[l.id])learned.push(...locLesson(l).vocab.map(v=>({is:v[0],cs:v[1],levelId:lv.id})));
   if(!learned.length)return[];
   const weakWords=Object.keys(p.weak).sort((a,b)=>p.weak[b]-p.weak[a]);
-  const pool=[...weakWords.map(w=>learned.find(v=>v[0]===w)).filter(Boolean),...sample(learned,8)];
+  const cand=[...weakWords.map(w=>learned.find(v=>v.is===w)).filter(Boolean),...sample(learned,8)];
   const uniq=[];const seen=new Set();
-  for(const v of pool){if(!seen.has(v[0])){seen.add(v[0]);uniq.push(v);}}
+  for(const v of cand){if(!seen.has(v.is)){seen.add(v.is);uniq.push(v);}}
   const ex=[];
-  for(const [is,cs] of uniq.slice(0,10)){
+  for(const v of uniq.slice(0,10)){
     const dir=Math.random()<.5;
-    const wrong=dir?sample([...new Set(allVocab.filter(q=>q[0]!==is).map(q=>q[1]).filter(x=>x!==cs))],3):sample([...new Set(allVocab.filter(q=>q[1]!==cs).map(q=>q[0]).filter(x=>x!==is))],3);
-    ex.push(dir?{t:'mc',q:qMean(is),opts:shuffle([cs,...wrong]),a:cs,word:is}
-               :{t:'mc',q:qSay(cs),opts:shuffle([is,...wrong]),a:is,word:is,optIs:true});
+    const wrong=dir?distract(pool,v.levelId,v.cs,'cs',3):distract(pool,v.levelId,v.is,'is',3);
+    ex.push(dir?{t:'mc',q:qMean(v.is),opts:shuffle([v.cs,...wrong]),a:v.cs,word:v.is}
+               :{t:'mc',q:qSay(v.cs),opts:shuffle([v.is,...wrong]),a:v.is,word:v.is,optIs:true});
   }
   return shuffle(ex).slice(0,10);
 }
@@ -1320,7 +1327,7 @@ function vLesson(){
   }
   $('#app').innerHTML=head+`<div class="card ex-card">${body}</div><div style="height:110px"></div>
   <div class="checkbar"><div class="inner">
-    ${ex.t==='match'?'':`<button class="btn quiet" onclick="answer(null,true)">${T('skip')}</button><button class="btn" id="checkbtn" onclick="checkNow()" ${ex.t==='mc'||ex.t==='fill'?'disabled':''}>${T('check')}</button>`}
+    ${ex.t==='match'?'':ex.t==='mc'||ex.t==='fill'?`<button class="btn quiet" onclick="answer(null,true)">${T('skip')}</button>`:`<button class="btn quiet" onclick="answer(null,true)">${T('skip')}</button><button class="btn" id="checkbtn" onclick="checkNow()">${T('check')}</button>`}
   </div></div>`;
   if(ex.t==='type'){const inp=$('#typein');inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter')checkNow();});}
   S.matchState={sel:null,doneCnt:0,errs:0};
@@ -1328,21 +1335,41 @@ function vLesson(){
 function confirmQuit(){if(confirm(T('quitConfirm')))go('map');}
 function insChar(c){const i=$('#typein');if(!i)return;i.value+=c;i.focus();}
 let mcChoice=null;
-function mcSel(i){mcChoice=i;document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));document.querySelector(`.opt[data-i="${i}"]`).classList.add('sel');$('#checkbtn').disabled=false;}
+function mcSel(i){
+  if(mcChoice!==null)return;
+  const ex=S.queue[S.qi];mcChoice=i;
+  if(ex.t==='fill'||(ex.t==='mc'&&ex.optIs))speak(ex.opts[i]);
+  const pick=ex.t==='mc'?ex.opts[i]:i;
+  const ok=ex.t==='mc'?pick===ex.a:i===ex.a;
+  document.querySelectorAll('.opt').forEach(o=>{
+    const val=ex.t==='mc'?ex.opts[+o.dataset.i]:+o.dataset.i;
+    if(val===ex.a)o.classList.add('right');else if(+o.dataset.i===i&&!ok)o.classList.add('wrong');
+    o.disabled=true;
+  });
+  answer(ok);
+}
 function chipPick(btn){
   const built=$('#built');
-  if(btn.parentElement.id==='bank'){btn.classList.add('used');const c=document.createElement('button');c.className='chip is';c.textContent=btn.dataset.w;c.dataset.src=btn.dataset.i;c.onclick=()=>{c.remove();document.querySelector(`#bank .chip[data-i="${c.dataset.src}"]`).classList.remove('used');};built.appendChild(c);}
+  if(btn.parentElement.id==='bank'){speak(btn.dataset.w);btn.classList.add('used');const c=document.createElement('button');c.className='chip is';c.textContent=btn.dataset.w;c.dataset.src=btn.dataset.i;c.onclick=()=>{c.remove();document.querySelector(`#bank .chip[data-i="${c.dataset.src}"]`).classList.remove('used');};built.appendChild(c);}
 }
 function matchPick(btn){
-  if(btn.disabled)return;
   const st=S.matchState;
+  if(btn.disabled){
+    const otherSide=btn.dataset.side==='is'?'cs':'is';
+    const other=document.querySelector(`#mg .opt[data-k="${btn.dataset.k}"][data-side="${otherSide}"]`);
+    [btn,other].forEach(b=>{b.disabled=false;b.classList.remove('right','pair-0','pair-1','pair-2','pair-3');});
+    st.doneCnt--;
+    return;
+  }
+  if(btn.dataset.side==='is')speak(btn.textContent);
   if(!st.sel){st.sel=btn;btn.classList.add('sel');return;}
   if(st.sel===btn){btn.classList.remove('sel');st.sel=null;return;}
   if(st.sel.dataset.side===btn.dataset.side){st.sel.classList.remove('sel');st.sel=btn;btn.classList.add('sel');return;}
   if(st.sel.dataset.k===btn.dataset.k){
-    [st.sel,btn].forEach(b=>{b.classList.remove('sel');b.classList.add('right');b.disabled=true;});
+    const colorCls='pair-'+(btn.dataset.k%4);
+    [st.sel,btn].forEach(b=>{b.classList.remove('sel');b.classList.add('right',colorCls);b.disabled=true;});
     st.doneCnt++;st.sel=null;
-    if(st.doneCnt===4)setTimeout(()=>answer(st.errs===0?true:'soft'),350);
+    if(st.doneCnt===4)setTimeout(()=>{if(st.doneCnt===4)answer(st.errs===0?true:'soft');},350);
   }else{
     const a=st.sel;[a,btn].forEach(b=>b.classList.add('wrong'));st.errs++;st.sel=null;
     setTimeout(()=>[a,btn].forEach(b=>{b.classList.remove('wrong','sel');}),500);
@@ -1350,17 +1377,7 @@ function matchPick(btn){
 }
 function checkNow(){
   const ex=S.queue[S.qi];
-  if(ex.t==='mc'||ex.t==='fill'){
-    if(mcChoice===null)return;
-    const pick=ex.t==='mc'?ex.opts[mcChoice]:mcChoice;
-    const ok=ex.t==='mc'?pick===ex.a:mcChoice===ex.a;
-    document.querySelectorAll('.opt').forEach((o,i)=>{
-      const val=ex.t==='mc'?ex.opts[+o.dataset.i]:+o.dataset.i;
-      const isRight=ex.t==='mc'?val===ex.a:val===ex.a;
-      if(isRight)o.classList.add('right');else if(+o.dataset.i===mcChoice&&!ok)o.classList.add('wrong');
-      o.disabled=true;});
-    answer(ok);
-  }else if(ex.t==='type'){
+  if(ex.t==='type'){
     const v=$('#typein').value;if(!v.trim())return;
     if(norm(v)===norm(ex.a))answer(true);
     else if(stripAcc(v)===stripAcc(ex.a))answer('soft');
