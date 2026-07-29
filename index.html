@@ -1117,7 +1117,7 @@ cs:{
  newBadge:'Nový odznak:',questDone:'Výzva splněna:',quitConfirm:'Opustit lekci? Postup v ní se ztratí.',
  profStats:'Statistiky',totalXp:'Celkem XP',todayXp:'Dnešní XP',streakW:'Streak',doneL:'Dokončené lekce',weakW:'Slabá slovíčka',
  badgesT:'Odznaky',dataT:'Data',exportB:'⬇︎ Export progresu (JSON)',importB:'⬆︎ Import progresu',switchP:'Přepnout profil',delP:'Smazat tento profil',
- aboutB:'ℹ️ O aplikaci',langT:'Jazyk / Language',days:'dní',
+ aboutB:'ℹ️ O aplikaci',basicsB:'📇 Základy',basicsTitle:'Základní slovíčka a obraty',langT:'Jazyk / Language',days:'dní',
  boardTitle:'🏆 Žebříček přátel',boardIntro:'Propojte se s přáteli a porovnávejte XP a streaky. Žebříček vidí <b>jen členové vaší skupiny</b> — kdo nezná kód, nevidí nic.',
  createGroup:'Vytvořit novou skupinu',joinPH:'Kód skupiny od kamaráda (NL-…)',join:'Připojit se',
  boardPrivacy:'Vyžaduje připojení k internetu. Sdílí se jen přezdívka, XP, streak a počet lekcí.',
@@ -1150,7 +1150,7 @@ en:{
  newBadge:'New badge:',questDone:'Quest complete:',quitConfirm:'Leave the lesson? Progress will be lost.',
  profStats:'Statistics',totalXp:'Total XP',todayXp:'Today’s XP',streakW:'Streak',doneL:'Lessons completed',weakW:'Weak words',
  badgesT:'Badges',dataT:'Data',exportB:'⬇︎ Export progress (JSON)',importB:'⬆︎ Import progress',switchP:'Switch profile',delP:'Delete this profile',
- aboutB:'ℹ️ About',langT:'Jazyk / Language',days:'days',
+ aboutB:'ℹ️ About',basicsB:'📇 Basics',basicsTitle:'Essential words & phrases',langT:'Jazyk / Language',days:'days',
  boardTitle:'🏆 Friends leaderboard',boardIntro:'Connect with friends and compare XP and streaks. The leaderboard is visible <b>only to members of your group</b> — without the code, nobody sees anything.',
  createGroup:'Create a new group',joinPH:'Group code from a friend (NL-…)',join:'Join',
  boardPrivacy:'Requires an internet connection. Only your nickname, XP, streak and lesson count are shared.',
@@ -1272,11 +1272,40 @@ const QUESTS=[
  {id:'lesson1',txt:'Dokonči lekci',txtEn:'Finish a lesson',goal:1,reward:15},
  {id:'perfect',txt:'Dokonči lekci bez chyby',txtEn:'Finish a lesson with no mistakes',goal:1,reward:25},
  {id:'review1',txt:'Dokonči procvičování',txtEn:'Finish a practice session',goal:1,reward:20},
- {id:'type10',txt:'Napiš správně 10 odpovědí',txtEn:'Type 10 answers correctly',goal:10,reward:20},
+ {id:'type10',txt:'Napiš správně 3 odpovědi',txtEn:'Type 3 answers correctly',goal:3,reward:20},
  {id:'combo5',txt:'Dosáhni comba ×5',txtEn:'Reach a ×5 combo',goal:1,reward:20},
 ];
 function qTxt(d){return lang()==='en'?d.txtEn:d.txt;}
 function bDesc(b){return lang()==='en'?b.descEn:b.desc;}
+
+const BASICS=[
+ {is:'Halló',cs:'Ahoj',en:'Hi'},
+ {is:'Góðan dag',cs:'Dobrý den',en:'Good day'},
+ {is:'Bless',cs:'Na shledanou',en:'Bye'},
+ {is:'Takk',cs:'Děkuji',en:'Thanks'},
+ {is:'Já',cs:'Ano',en:'Yes'},
+ {is:'Nei',cs:'Ne',en:'No'},
+ {is:'Fyrirgefðu',cs:'Promiňte',en:'Excuse me / sorry'},
+ {is:'Hvað heitir þú?',cs:'Jak se jmenuješ?',en:'What is your name?'},
+ {is:'Hvernig hefur þú það?',cs:'Jak se máš?',en:'How are you?'},
+ {is:'Ég skil ekki',cs:'Nerozumím',en:'I don’t understand'},
+ {is:'Talar þú ensku?',cs:'Mluvíte anglicky?',en:'Do you speak English?'},
+ {is:'Hvað kostar þetta?',cs:'Kolik to stojí?',en:'How much does this cost?'},
+ {is:'Hvar er klósettið?',cs:'Kde je záchod?',en:'Where is the toilet?'},
+ {is:'Hjálp!',cs:'Pomoc!',en:'Help!'},
+ {is:'Skál!',cs:'Na zdraví!',en:'Cheers!'},
+ {is:'einn',cs:'jedna',en:'one'},
+ {is:'tveir',cs:'dva',en:'two'},
+ {is:'þrír',cs:'tři',en:'three'},
+ {is:'fjórir',cs:'čtyři',en:'four'},
+ {is:'fimm',cs:'pět',en:'five'},
+ {is:'sex',cs:'šest',en:'six'},
+ {is:'sjö',cs:'sedm',en:'seven'},
+ {is:'átta',cs:'osm',en:'eight'},
+ {is:'níu',cs:'devět',en:'nine'},
+ {is:'tíu',cs:'deset',en:'ten'},
+];
+const BASICS_JOKE={is:'Uppáhaldsbærinn minn á Íslandi er Blönduós.',cs:'Moje nejoblíbenější město na Islandu je Blönduós.',en:'My favorite town in Iceland is Blönduós.'};
 let QDONE=[];
 function todayQuests(p){
   if(!p.quests||p.quests.date!==today()){
@@ -1362,6 +1391,23 @@ function render(){
   if(v==='profile')return vProfile();
   if(v==='board')return vBoard();
   if(v==='about')return vAbout();
+  if(v==='basics')return vBasics();
+}
+
+/* ---- basics (quick reference) ---- */
+function vBasics(){
+  const cs=lang()==='cs';
+  const back=P()?'map':'welcome';
+  const row=w=>`<tr><td class="is">${esc(w.is)} ${speakBtn(w.is)}</td><td>${esc(cs?w.cs:w.en)}</td></tr>`;
+  $('#app').innerHTML=`
+  <div class="topbar"><button class="btn quiet" onclick="go('${back}')">←</button><span class="brand">${T('basicsTitle')}</span></div>
+  <div class="card">
+    <table class="stattbl">${BASICS.map(row).join('')}</table>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?'A jedna k dobru':'And one for fun'}</span>
+    <table class="stattbl" style="margin-top:8px">${row(BASICS_JOKE)}</table>
+  </div>`;
 }
 
 /* ---- about ---- */
@@ -1416,6 +1462,7 @@ function vWelcome(){
       <span><span class="t">${esc(store.profiles[id].name)}</span>
       <small>${store.profiles[id].xp} XP · 🔥 ${streakLive(store.profiles[id])}</small></span></button>`).join('')}
     <button class="btn" onclick="go('newProfile')">${T('newProfile')}</button>
+    <button class="btn quiet" onclick="go('basics')">${T('basicsB')}</button>
     <button class="btn quiet" onclick="go('about')">${T('aboutB')}</button>
   </div>
   <p class="footer-note">${T('welcomeFoot')}</p>`;
@@ -1511,6 +1558,7 @@ function vMap(){
   <div class="row" style="margin-top:14px">
     <button class="btn ghost" style="flex:1" onclick="startReview()">${T('review')} ${Object.keys(p.weak).length?`(${Object.keys(p.weak).length})`:''}</button>
     <button class="btn ghost" style="flex:1" onclick="go('board')">${T('board')}</button>
+    <button class="btn ghost" style="flex:1" onclick="go('basics')">${T('basicsB')}</button>
   </div>
   ${(()=>{const q=todayQuests(p);return`<div class="card" style="margin-top:14px"><span class="eyebrow">${T('quests')}</span>
     ${q.ids.map(id=>{const d=QUESTS.find(x=>x.id===id);const done=q.done.includes(id);const pr=Math.min(q.prog[id]||0,d.goal);
