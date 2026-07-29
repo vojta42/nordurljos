@@ -58,6 +58,7 @@ input,select{font:inherit;color:var(--ink);background:var(--card);border:1.5px s
 .btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
 .btn.quiet{background:var(--mist);color:var(--ink)}
 .btn.danger{background:var(--lava-soft);color:var(--lava)}
+.btn.tight{padding:11px 4px;font-size:.86rem;text-align:center}
 .btn[disabled]{opacity:.45;cursor:default}
 .row{display:flex;gap:10px;align-items:center}
 .col{display:flex;flex-direction:column;gap:12px}
@@ -1107,7 +1108,7 @@ cs:{
  whereStart:'Kde začít?',stTest:'Rozřazovací test (doporučeno)',stA1:'Od úplného začátku (A1)',stFrom:'Rovnou od',create:'Vytvořit profil',
  ptest:'Rozřazovací test',dontknow:'Nevím — přeskočit',yourLevel:'Vaše úroveň:',toMap:'Na mapu kurzu',
  unlockNote:l=>`Úrovně pod ${l} máte odemčené — můžete se k nim kdykoli vrátit.`,
- dailyGoal:'Denní cíl',goalDone:'· splněno ✅',review:'🔄 Procvičování',board:'🏆 Žebříček',quests:'🎯 Dnešní výzvy',
+ dailyGoal:'Denní cíl',goalDone:'· splněno ✅',review:'🔄 Cvičení',board:'🏆 Žebříček',quests:'🎯 Dnešní výzvy',
  grammar:'Gramatika',newVocab:'Nová slovíčka',letsgo:'Jdeme na to →',check:'Zkontrolovat',skip:'Přeskočit',
  correct:'Rétt! Správně ✓',almostType:'Téměř — pozor na délky a znaky',almostMatch:'Spojeno — s pár přehmaty',skipped:'Přeskočeno',wrong:'Rangt — špatně',
  correctIs:'Správně:',exactIs:'Přesně:',cont:'Pokračovat',chars:'Znaky',typePH:'Odpověď islandsky…',
@@ -1279,15 +1280,17 @@ function qTxt(d){return lang()==='en'?d.txtEn:d.txt;}
 function bDesc(b){return lang()==='en'?b.descEn:b.desc;}
 
 const BASICS=[
- {is:'Halló',cs:'Ahoj',en:'Hi'},
+ {is:'Góðan morgun',cs:'Dobré ráno',en:'Good morning'},
  {is:'Góðan dag',cs:'Dobrý den',en:'Good day'},
- {is:'Bless',cs:'Na shledanou',en:'Bye'},
+ {is:'Gott kvöld',cs:'Dobrý večer',en:'Good evening'},
+ {is:'Halló',cs:'Ahoj',en:'Hi'},
+ {is:'Bless bless',cs:'Na shledanou',en:'Bye'},
  {is:'Takk',cs:'Děkuji',en:'Thanks'},
  {is:'Já',cs:'Ano',en:'Yes'},
  {is:'Nei',cs:'Ne',en:'No'},
  {is:'Fyrirgefðu',cs:'Promiňte',en:'Excuse me / sorry'},
  {is:'Hvað heitir þú?',cs:'Jak se jmenuješ?',en:'What is your name?'},
- {is:'Hvernig hefur þú það?',cs:'Jak se máš?',en:'How are you?'},
+ {is:'Hvernig gengur?',cs:'Jak se máš?',en:'How’s it going?'},
  {is:'Ég skil ekki',cs:'Nerozumím',en:'I don’t understand'},
  {is:'Talar þú ensku?',cs:'Mluvíte anglicky?',en:'Do you speak English?'},
  {is:'Hvað kostar þetta?',cs:'Kolik to stojí?',en:'How much does this cost?'},
@@ -1556,9 +1559,9 @@ function vMap(){
     <div class="progress" style="max-width:180px"><i style="width:${goalPct}%"></i></div>
   </div>
   <div class="row" style="margin-top:14px">
-    <button class="btn ghost" style="flex:1" onclick="startReview()">${T('review')} ${Object.keys(p.weak).length?`(${Object.keys(p.weak).length})`:''}</button>
-    <button class="btn ghost" style="flex:1" onclick="go('board')">${T('board')}</button>
-    <button class="btn ghost" style="flex:1" onclick="go('basics')">${T('basicsB')}</button>
+    <button class="btn ghost tight" style="flex:1" onclick="startReview()">${T('review')}${Object.keys(p.weak).length?` (${Object.keys(p.weak).length})`:''}</button>
+    <button class="btn ghost tight" style="flex:1" onclick="go('board')">${T('board')}</button>
+    <button class="btn ghost tight" style="flex:1" onclick="go('basics')">${T('basicsB')}</button>
   </div>
   ${(()=>{const q=todayQuests(p);return`<div class="card" style="margin-top:14px"><span class="eyebrow">${T('quests')}</span>
     ${q.ids.map(id=>{const d=QUESTS.find(x=>x.id===id);const done=q.done.includes(id);const pr=Math.min(q.prog[id]||0,d.goal);
