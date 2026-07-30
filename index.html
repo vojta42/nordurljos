@@ -1051,7 +1051,7 @@ function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth
 function yesterday(){const d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
 /* ================= VERSIONING ================= */
-const APP_VERSION='2026.07.28';
+const APP_VERSION='2026.07.30';
 const CHANGELOG=[
   {v:'2026.07.28',
    cs:['🎯 Chytřejší nabídka odpovědí — špatné možnosti jsou teď z podobných témat a jen ze slovní zásoby, kterou už znáš.',
@@ -1065,7 +1065,21 @@ const CHANGELOG=[
        '🎨 Matching game: matched pairs get 4 distinct colors and can be un-matched by clicking again.',
        '✍️ Spelling exercises now reliably show up in lessons even on the first attempt.',
        '🔊 Clicking any Icelandic word/option now reads it aloud.',
-       '📚 +19 new lessons across all levels (daily routine, at the doctor, work, technology, politics, philosophy and more).']}
+       '📚 +19 new lessons across all levels (daily routine, at the doctor, work, technology, politics, philosophy and more).']},
+  {v:'2026.07.29',
+   cs:['🎯 Denní výzva „napiš správně X odpovědí“ snížena z 10 na 3 — reálně splnitelné za den.',
+       '📇 Nová stránka „Základy“ s nejdůležitějšími slovíčky a frázemi, dostupná z uvítací obrazovky i z mapy.'],
+   en:['🎯 The “type X answers correctly” daily quest lowered from 10 to 3 — realistically doable in a day.',
+       '📇 New “Basics” page with the most essential words and phrases, reachable from the welcome screen and the map.']},
+  {v:'2026.07.30',
+   cs:['📱 Tlačítka na mapě (Cvičení/Žebříček/Základy) se teď spolehlivě vejdou na jeden řádek i na užších telefonech.',
+       '✏️ Stránka „Základy“ doplněna a upravena — ranní/večerní pozdrav, přesnější pořadí a znění frází.',
+       '👆 Po vyhodnocení odpovědi stačí kliknout kamkoliv na obrazovku místo přesného tlačítka „Pokračovat“.',
+       '🗂️ Aktuální verze a historie změn jsou teď vidět přímo v appce („O aplikaci“).'],
+   en:['📱 The map buttons (Practice/Leaderboard/Basics) now reliably fit on one line, even on narrower phones.',
+       '✏️ The “Basics” page was expanded and refined — morning/evening greetings, better phrase order and wording.',
+       '👆 After answering, you can tap anywhere on the screen instead of hitting the exact “Continue” button.',
+       '🗂️ The current version and change history are now visible right in the app (“About”).']}
 ];
 function showChangelog(){
   const unseen=CHANGELOG.filter(c=>!store.lastSeenVersion||c.v>store.lastSeenVersion);
