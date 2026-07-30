@@ -1431,6 +1431,10 @@ function vAbout(){
     <p>The app is built with the help of Claude (an AI by Anthropic), but to the best of the author’s knowledge and conscience. As far as the author is aware, it contains no known errors — however, <b>no guarantees are given</b>.</p>`}
   </div>
   <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?`Verze ${APP_VERSION}`:`Version ${APP_VERSION}`}</span>
+    <div style="margin-top:8px">${CHANGELOG.slice().reverse().map(c=>`<div style="margin-bottom:10px"><b>${esc(c.v)}</b><ul style="margin:4px 0 0;padding-left:20px">${(cs?c.cs:c.en).map(t=>`<li style="margin-bottom:2px">${esc(t)}</li>`).join('')}</ul></div>`).join('')}</div>
+  </div>
+  <div class="card" style="margin-top:14px">
     <span class="eyebrow">${cs?'Statistiky aplikace (anonymní)':'App statistics (anonymous)'}</span>
     <div id="appstats" style="margin-top:8px;color:var(--muted)">${cs?'Načítám…':'Loading…'}</div>
   </div>`;
@@ -1447,7 +1451,7 @@ function vAbout(){
     <p style="font-size:.78rem;margin:8px 0 0">${cs?'Počítadla jsou čistě anonymní — neukládá se nic osobního.':'Counters are fully anonymous — nothing personal is stored.'}</p>`;
   }).catch(()=>{const el=$('#appstats');if(el)el.textContent=cs?'Statistiky se nepodařilo načíst.':'Could not load statistics.';});
 }
-function go(view,extra){S={view,...extra};render();window.scrollTo(0,0);}
+function go(view,extra){document.removeEventListener('click',feedbackAdvance);S={view,...extra};render();window.scrollTo(0,0);}
 
 /* ---- welcome / profiles ---- */
 function vWelcome(){
@@ -1706,14 +1710,21 @@ function answer(ok,skipped){
     <span class="msg">${ok===true?T('correct')+(S.combo>=3?` ⚡ combo ×${S.combo}`:''):ok==='soft'?(ex.t==='match'?T('almostMatch'):T('almostType')):skipped?T('skipped'):T('wrong')}</span>
     ${!ok&&correctTxt?`<span class="detail">${T('correctIs')} <b class="is">${esc(ex.t==='fill'?ex.pre.replace('___',ex.opts[ex.a]):correctTxt)}</b> ${speakBtn(ex.t==='fill'?ex.pre.replace('___',ex.opts[ex.a]):correctTxt)}</span>`:''}
     ${ok==='soft'&&correctTxt?`<span class="detail">${T('exactIs')} <b class="is">${esc(correctTxt)}</b></span>`:''}
-    <button class="btn ${ok?'':'danger'}" onclick="nextEx()">${T('cont')}</button></div>`;
+    <button class="btn ${ok?'':'danger'}">${T('cont')}</button></div>`;
   const cb=document.querySelector('.checkbar');if(cb)cb.remove();
   document.body.appendChild(fb);
   document.querySelectorAll('.opt,.chip,.typein').forEach(e=>e.disabled=true);
+  document.removeEventListener('click',feedbackAdvance);
+  setTimeout(()=>document.addEventListener('click',feedbackAdvance),0);
+}
+function feedbackAdvance(e){
+  if(e.target.closest('.topbar')||e.target.closest('.speak'))return;
+  nextEx();
 }
 function wordBad(p,w){p.weak[w]=(p.weak[w]||0)+2;}
 function wordOk(p,w){p.seen[w]=(p.seen[w]||0)+1;if(p.weak[w]){p.weak[w]--;if(p.weak[w]<=0)delete p.weak[w];}}
 function nextEx(){
+  document.removeEventListener('click',feedbackAdvance);
   document.querySelectorAll('.feedback').forEach(f=>f.remove());
   if(S.hearts<=0){
     $('#app').innerHTML=`<div class="result"><div style="font-size:3rem">🫀</div>
