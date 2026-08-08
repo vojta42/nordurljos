@@ -230,7 +230,7 @@ const COURSE=[
   vocab:[['vakna','vstát/probudit se'],['fara á fætur','vstát z postele'],['fara í sturtu','osprchovat se'],['borða morgunmat','snídat'],['fara að heiman','odejít z domu'],['koma heim','přijít domů'],['horfa á sjónvarp','dívat se na televizi'],['fara að sofa','jít spát']],
   ex:[
    {t:'order',cs:'Vstávám a jdu do sprchy.',is:'Ég vakna og fer í sturtu'},
-   {t:'fill',pre:'Á kvöldin ___ ég sjónvarp.',opts:['horfi á','horfi','sé'],a:0,cs:'Večer se dívám na televizi.'},
+   {t:'fill',pre:'Á kvöldin ___ ég á sjónvarp.',opts:['horfi','horfir','horfum'],a:0,cs:'Večer se dívám na televizi.'},
    {t:'mc',q:'Co znamená <span class="is">„fara á fætur“</span>?',opts:['vstát z postele','jít spát','dát se do sprchy','jít domů'],a:'vstát z postele'},
    {t:'type',q:'Napište islandsky: <b>„probudit se“</b>',a:'vakna',word:'vakna'}]},
  {id:'a1-12',title:'Moje tělo',sub:'höfuð, hönd, fótur, hjarta…',
@@ -290,7 +290,7 @@ const COURSE=[
    {t:'fill',pre:'Ég ___ íslensku í gær.',opts:['lærði','læri','læra'],a:0,cs:'Včera jsem se učil islandsky.'},
    {t:'order',cs:'Včera jsme jedli rybu.',is:'Við borðuðum fisk í gær'},
    {t:'fill',pre:'Hún ___ nýjan bíl.',opts:['keypti','kaupir','kaupa'],a:0,cs:'Koupila (si) nové auto.'},
-   {t:'mc',q:'Jaký je minulý čas od <span class="is">„að horfa á“</span> (dívat se)?',opts:['horfði á','horfaði á','horfti á','horfði á'],a:'horfði á',optIs:true}]},
+   {t:'mc',q:'Jaký je minulý čas od <span class="is">„að horfa á“</span> (dívat se)?',opts:['horfði á','horfaði á','horfti á','horft á'],a:'horfði á',optIs:true}]},
  {id:'a2-6',title:'Práce a volný čas',sub:'vinna, lesa, synda…',
   tip:'<b>Ég vinn sem…</b> = pracuji jako… Slovesa volného času: <i>að lesa</i> (číst), <i>að synda</i> (plavat — na Islandu národní sport, bazén je v každé vesnici).',
   vocab:[['læknir','lékař'],['kennari','učitel'],['vinna','práce'],['starf','zaměstnání'],['að lesa','číst'],['að synda','plavat'],['tónlist','hudba'],['sundlaug','bazén']],
@@ -1082,9 +1082,11 @@ const CHANGELOG=[
        '🗂️ The current version and change history are now visible right in the app (“About”).']},
   {v:'2026.08.08',
    cs:['🖼️ Potvrzovací okénka (odchod ze skupiny, konec lekce, smazání profilu) mají teď vlastní vzhled appky místo systémového vyskakovacího okna.',
-       '📱 Doladěné mezery u spodní lišty na iPhonu, aby tlačítko „Zkontrolovat“ nesedělo těsně u gesta pro plochu.'],
+       '📱 Doladěné mezery u spodní lišty na iPhonu, aby tlačítko „Zkontrolovat“ nesedělo těsně u gesta pro plochu.',
+       '📝 Oprava slovosledu ve cvičení lekce Denní rutina (horfi ég á, ne horfi á ég) a chybějící 4. možnosti v navazujícím kvízu na minulý čas.'],
    en:['🖼️ Confirmation pop-ups (leaving a group, quitting a lesson, deleting a profile) now use the app’s own look instead of the browser’s default dialog.',
-       '📱 Fine-tuned spacing around the bottom bar on iPhone so the “Check” button doesn’t sit too close to the home-gesture area.']}
+       '📱 Fine-tuned spacing around the bottom bar on iPhone so the “Check” button doesn’t sit too close to the home-gesture area.',
+       '📝 Fixed word order in the Daily Routine lesson exercise (horfi ég á, not horfi á ég) and a missing 4th option in the related past-tense quiz.']}
 ];
 function showChangelog(){
   const unseen=CHANGELOG.filter(c=>!store.lastSeenVersion||c.v>store.lastSeenVersion);
