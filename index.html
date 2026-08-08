@@ -100,7 +100,7 @@ input,select{font:inherit;color:var(--ink);background:var(--card);border:1.5px s
 .bank{display:flex;flex-wrap:wrap;gap:8px}
 .chip.used{visibility:hidden}
 .typein{width:100%;font-size:1.1rem;padding:13px}
-.feedback{position:fixed;left:0;right:0;bottom:0;padding:18px 16px 26px;z-index:10;cursor:pointer}
+.feedback{position:fixed;left:0;right:0;bottom:0;padding:18px 16px calc(26px + env(safe-area-inset-bottom));z-index:10;cursor:pointer}
 .feedback .inner{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .feedback.ok{background:var(--accent-soft)}
 .feedback.bad{background:var(--lava-soft)}
@@ -108,7 +108,8 @@ input,select{font:inherit;color:var(--ink);background:var(--card);border:1.5px s
 .feedback.ok .msg{color:var(--accent)}
 .feedback.bad .msg{color:var(--lava)}
 .feedback .detail{width:100%;font-size:.95rem}
-.checkbar{position:fixed;left:0;right:0;bottom:0;padding:14px 16px 24px;background:var(--paper);border-top:1px solid var(--mist);z-index:9}
+.checkbar{position:fixed;left:0;right:0;bottom:0;padding:14px 16px calc(24px + env(safe-area-inset-bottom));background:var(--paper);border-top:1px solid var(--mist);z-index:9}
+.checkbar-spacer{height:calc(110px + env(safe-area-inset-bottom))}
 .checkbar .inner{max-width:640px;margin:0 auto;display:flex;gap:10px}
 .checkbar .btn{flex:1}
 .tip{background:var(--lupine-soft);border-radius:14px;padding:16px 18px;margin:14px 0}
@@ -1050,7 +1051,7 @@ function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth
 function yesterday(){const d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
 /* ================= VERSIONING ================= */
-const APP_VERSION='2026.07.30';
+const APP_VERSION='2026.08.08';
 const CHANGELOG=[
   {v:'2026.07.28',
    cs:['🎯 Chytřejší nabídka odpovědí — špatné možnosti jsou teď z podobných témat a jen ze slovní zásoby, kterou už znáš.',
@@ -1078,7 +1079,12 @@ const CHANGELOG=[
    en:['📱 The map buttons (Practice/Leaderboard/Basics) now reliably fit on one line, even on narrower phones.',
        '✏️ The “Basics” page was expanded and refined — morning/evening greetings, better phrase order and wording.',
        '👆 After answering, you can tap anywhere on the screen instead of hitting the exact “Continue” button.',
-       '🗂️ The current version and change history are now visible right in the app (“About”).']}
+       '🗂️ The current version and change history are now visible right in the app (“About”).']},
+  {v:'2026.08.08',
+   cs:['🖼️ Potvrzovací okénka (odchod ze skupiny, konec lekce, smazání profilu) mají teď vlastní vzhled appky místo systémového vyskakovacího okna.',
+       '📱 Doladěné mezery u spodní lišty na iPhonu, aby tlačítko „Zkontrolovat“ nesedělo těsně u gesta pro plochu.'],
+   en:['🖼️ Confirmation pop-ups (leaving a group, quitting a lesson, deleting a profile) now use the app’s own look instead of the browser’s default dialog.',
+       '📱 Fine-tuned spacing around the bottom bar on iPhone so the “Check” button doesn’t sit too close to the home-gesture area.']}
 ];
 function showChangelog(){
   const unseen=CHANGELOG.filter(c=>!store.lastSeenVersion||c.v>store.lastSeenVersion);
@@ -1097,6 +1103,17 @@ function showChangelog(){
 function dismissChangelog(){
   store.lastSeenVersion=APP_VERSION;save();
   document.querySelectorAll('.overlay').forEach(o=>o.remove());
+}
+function confirmModal(msg,onYes){
+  const ov=document.createElement('div');
+  ov.className='overlay';
+  ov.innerHTML=`<div class="card col">
+    <p style="margin:0">${esc(msg)}</p>
+    <div class="row"><button class="btn quiet" style="flex:1" onclick="this.closest('.overlay').remove()">${T('btnCancel')}</button>
+    <button class="btn danger" style="flex:1" id="cmYes">${T('btnYes')}</button></div>
+  </div>`;
+  document.body.appendChild(ov);
+  ov.querySelector('#cmYes').onclick=()=>{ov.remove();onYes();};
 }
 
 /* ================= HELPERS ================= */
@@ -1145,6 +1162,7 @@ cs:{
  aJoinShort:'Kód skupiny je moc krátký — zkontrolujte ho.',aJoinFail:'Připojení se nepovedlo. Zkontrolujte kód a připojení k internetu.',
  aReviewFirst:'Nejdřív dokončete aspoň jednu lekci.',aImportFail:'Soubor se nepodařilo načíst — není to export z této aplikace.',
  aDelConfirm:n=>`Opravdu smazat profil „${n}“ včetně veškerého progresu?`,aLeaveConfirm:'Opustit skupinu? Zmizíte z žebříčku ostatních.',
+ btnYes:'Ano',btnCancel:'Zrušit',
  agoToday:'dnes',agoYest:'včera',agoDays:n=>`před ${n} dny`,
  lvlNames:{a1:'A1 — začátky',a2:'A2 — mírně pokročilý',b1:'B1 — pokročilý',b2:'B2 — velmi pokročilý',c1:'C1 — zkušený mluvčí',c2:'C2 — mistrovská úroveň'},
 },
@@ -1178,6 +1196,7 @@ en:{
  aJoinShort:'The group code is too short — please check it.',aJoinFail:'Joining failed. Check the code and your internet connection.',
  aReviewFirst:'Finish at least one lesson first.',aImportFail:'Could not read the file — it is not an export from this app.',
  aDelConfirm:n=>`Really delete profile “${n}” including all progress?`,aLeaveConfirm:'Leave the group? You will disappear from others’ leaderboards.',
+ btnYes:'Yes',btnCancel:'Cancel',
  agoToday:'today',agoYest:'yesterday',agoDays:n=>`${n} days ago`,
  lvlNames:{a1:'A1 — beginner',a2:'A2 — elementary',b1:'B1 — intermediate',b2:'B2 — upper-intermediate',c1:'C1 — advanced',c2:'C2 — mastery'},
 }};
@@ -1228,7 +1247,13 @@ async function joinGroup(code,isNew){
 }
 function createGroup(){joinGroup(randCode('NL-',12),true);}
 function track(kind,meta,player){try{rpc('track',{p_kind:kind,p_meta:meta||'',p_player:player||''}).catch(()=>{});}catch(e){}}
-if(window.matchMedia&&!window.__nlInstHook){window.__nlInstHook=1;window.addEventListener('appinstalled',()=>track('install'));}
+const NL_INST_KEY='nordurljos.installTracked';
+function trackInstallOnce(via){if(localStorage.getItem(NL_INST_KEY))return;localStorage.setItem(NL_INST_KEY,'1');track('install',via);}
+if(window.matchMedia&&!window.__nlInstHook){
+  window.__nlInstHook=1;
+  window.addEventListener('appinstalled',()=>trackInstallOnce('appinstalled'));
+  try{trackInstallOnce(navigator.standalone===true||matchMedia('(display-mode: standalone)').matches?'standalone':'browser');}catch(e){}
+}
 async function pushProgress(){
   const p=P();if(!p||!p.social)return;
   const base={p_id:p.social.pid,p_secret:p.social.secret,p_name:p.name,
@@ -1237,11 +1262,12 @@ async function pushProgress(){
   try{await rpc('push_progress',{...base,p_week_key:weekKey(),p_week_xp:wx});}
   catch(e){try{await rpc('push_progress',base);}catch(e2){}}
 }
-async function leaveGroup(){
-  if(!confirm(T('aLeaveConfirm')))return;
-  const p=P();
-  try{await rpc('leave_group',{p_id:p.social.pid,p_secret:p.social.secret});}catch(e){}
-  p.social=null;save();render();
+function leaveGroup(){
+  confirmModal(T('aLeaveConfirm'),async()=>{
+    const p=P();
+    try{await rpc('leave_group',{p_id:p.social.pid,p_secret:p.social.secret});}catch(e){}
+    p.social=null;save();render();
+  });
 }
 function ago(ts){
   const d=Math.floor((Date.now()-new Date(ts).getTime())/86400000);
@@ -1642,14 +1668,14 @@ function vLesson(){
       <div class="col">${left.map(o=>`<button class="opt is" data-k="${o.k}" data-side="is" onclick="matchPick(this)">${esc(o.txt)}</button>`).join('')}</div>
       <div class="col">${right.map(o=>`<button class="opt" data-k="${o.k}" data-side="cs" onclick="matchPick(this)">${esc(o.txt)}</button>`).join('')}</div></div>`;
   }
-  $('#app').innerHTML=head+`<div class="card ex-card">${body}</div><div style="height:110px"></div>
+  $('#app').innerHTML=head+`<div class="card ex-card">${body}</div><div class="checkbar-spacer"></div>
   <div class="checkbar"><div class="inner">
     ${ex.t==='match'?'':ex.t==='mc'||ex.t==='fill'?`<button class="btn quiet" onclick="answer(null,true)">${T('skip')}</button>`:`<button class="btn quiet" onclick="answer(null,true)">${T('skip')}</button><button class="btn" id="checkbtn" onclick="checkNow()">${T('check')}</button>`}
   </div></div>`;
   if(ex.t==='type'){const inp=$('#typein');inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter')checkNow();});}
   S.matchState={sel:null,doneCnt:0,errs:0};
 }
-function confirmQuit(){if(confirm(T('quitConfirm')))go('map');}
+function confirmQuit(){confirmModal(T('quitConfirm'),()=>go('map'));}
 function insChar(c){const i=$('#typein');if(!i)return;i.value+=c;i.focus();}
 let mcChoice=null;
 function mcSel(i){
@@ -1885,10 +1911,11 @@ function importData(inp){
   r.readAsText(f);
 }
 function deleteProfile(){
-  if(!confirm(T('aDelConfirm')(P().name)))return;
-  const p=P();
-  if(p.social){rpc('leave_group',{p_id:p.social.pid,p_secret:p.social.secret}).catch(()=>{});}
-  delete store.profiles[store.active];store.active=null;save();go('welcome');
+  confirmModal(T('aDelConfirm')(P().name),()=>{
+    const p=P();
+    if(p.social){rpc('leave_group',{p_id:p.social.pid,p_secret:p.social.secret}).catch(()=>{});}
+    delete store.profiles[store.active];store.active=null;save();go('welcome');
+  });
 }
 
 /* ---- init ---- */
