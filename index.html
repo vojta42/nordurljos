@@ -1093,10 +1093,12 @@ const CHANGELOG=[
        '👆 The “What’s new” popup now also closes with a tap anywhere, not just the “Got it” button.',
        '↩️ The back gesture (Android and browser) now returns to the previous in-app screen from sub-pages (leaderboard, profile, basics, lesson…) instead of closing the whole app.']},
   {v:'2026.08.09',
-   cs:['📂 Úrovně na mapě lekcí a odznaky v profilu se teď dají sbalit/rozbalit — výchozí zobrazení je kratší, otevřená zůstává jen vaše aktuální úroveň.',
-       '📖 Nový Slovník (na uvítací obrazovce i na mapě) — přes 2000 slovíček, hledá se najednou islandsky, česky i anglicky, bez ohledu na to, kterým jazykem začnete psát.'],
-   en:['📂 Levels on the lesson map and badges on the profile page can now be collapsed/expanded — the default view is shorter, with only your current level open.',
-       '📖 New Dictionary (on the welcome screen and the map) — over 2,000 words, searchable in Icelandic, Czech, and English at once, regardless of which language you start typing in.']}
+   cs:['📂 Úrovně na mapě lekcí a odznaky v profilu se teď dají sbalit/rozbalit — sbalené jsou ve výchozím stavu jen úrovně, které máte celé hotové.',
+       '📖 Nový Slovník (na uvítací obrazovce i na mapě) — přes 2000 slovíček, hledá se najednou islandsky, česky i anglicky, bez ohledu na to, kterým jazykem začnete psát.',
+       '🔲 Rychlé odkazy na mapě přeuspořádány do mřížky 2×2: Cvičení a Žebříček nahoře, Základy a Slovník dole.'],
+   en:['📂 Levels on the lesson map and badges on the profile page can now be collapsed/expanded — only fully completed levels start collapsed by default.',
+       '📖 New Dictionary (on the welcome screen and the map) — over 2,000 words, searchable in Icelandic, Czech, and English at once, regardless of which language you start typing in.',
+       '🔲 The map’s quick links are now a 2×2 grid: Practice and Leaderboard on top, Basics and Dictionary below.']}
 ];
 function showChangelog(){
   const unseen=CHANGELOG.filter(c=>!store.lastSeenVersion||c.v>store.lastSeenVersion);
@@ -3702,7 +3704,7 @@ function isLessonUnlocked(lv,idx){
 }
 function vMap(){
   const p=P();
-  if(!nlOpenLvl)nlOpenLvl=new Set([p.unlocked]);
+  if(!nlOpenLvl)nlOpenLvl=new Set(COURSE.filter(lv=>lv.lessons.some(l=>!(p.lessons[l.id]&&p.lessons[l.id].stars>0))).map(lv=>lv.id));
   const goalPct=Math.min(100,Math.round(xpToday(p)/p.goal*100));
   $('#app').innerHTML=`
   <div class="topbar">
@@ -3718,9 +3720,11 @@ function vMap(){
   <div class="row" style="margin-top:14px">
     <button class="btn ghost tight" style="flex:1" onclick="startReview()">${T('review')}${Object.keys(p.weak).length?` (${Object.keys(p.weak).length})`:''}</button>
     <button class="btn ghost tight" style="flex:1" onclick="go('board')">${T('board')}</button>
-    <button class="btn ghost tight" style="flex:1" onclick="go('basics')">${T('basicsB')}</button>
   </div>
-  <button class="btn ghost" style="width:100%;margin-top:10px" onclick="go('dict')">${T('dictB')}</button>
+  <div class="row" style="margin-top:10px">
+    <button class="btn ghost tight" style="flex:1" onclick="go('basics')">${T('basicsB')}</button>
+    <button class="btn ghost tight" style="flex:1" onclick="go('dict')">${T('dictB')}</button>
+  </div>
   ${(()=>{const q=todayQuests(p);return`<div class="card" style="margin-top:14px"><span class="eyebrow">${T('quests')}</span>
     ${q.ids.map(id=>{const d=QUESTS.find(x=>x.id===id);const done=q.done.includes(id);const pr=Math.min(q.prog[id]||0,d.goal);
       return`<div class="row" style="margin-top:8px;${done?'opacity:.6':''}"><span>${done?'✅':'▫️'}</span><span style="flex:1">${qTxt(d)} <small style="color:var(--muted)">+${d.reward} XP</small></span><small style="color:var(--muted);font-variant-numeric:tabular-nums">${d.goal>1?pr+'/'+d.goal:''}</small></div>`;}).join('')}</div>`;})()}
