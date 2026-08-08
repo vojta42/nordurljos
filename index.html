@@ -1083,10 +1083,14 @@ const CHANGELOG=[
   {v:'2026.08.08',
    cs:['🖼️ Potvrzovací okénka (odchod ze skupiny, konec lekce, smazání profilu) mají teď vlastní vzhled appky místo systémového vyskakovacího okna.',
        '📱 Doladěné mezery u spodní lišty na iPhonu, aby tlačítko „Zkontrolovat“ nesedělo těsně u gesta pro plochu.',
-       '📝 Oprava slovosledu ve cvičení lekce Denní rutina (horfi ég á, ne horfi á ég) a chybějící 4. možnosti v navazujícím kvízu na minulý čas.'],
+       '📝 Oprava slovosledu ve cvičení lekce Denní rutina (horfi ég á, ne horfi á ég) a chybějící 4. možnosti v navazujícím kvízu na minulý čas.',
+       '👆 „Co je nového“ se teď taky zavře kliknutím kamkoliv, ne jen tlačítkem „Rozumím“.',
+       '↩️ Gesto zpět (na Androidu i v prohlížeči) teď z podstránek (žebříček, profil, základy, lekce…) vrátí na předchozí obrazovku v appce místo zavření celé appky.'],
    en:['🖼️ Confirmation pop-ups (leaving a group, quitting a lesson, deleting a profile) now use the app’s own look instead of the browser’s default dialog.',
        '📱 Fine-tuned spacing around the bottom bar on iPhone so the “Check” button doesn’t sit too close to the home-gesture area.',
-       '📝 Fixed word order in the Daily Routine lesson exercise (horfi ég á, not horfi á ég) and a missing 4th option in the related past-tense quiz.']}
+       '📝 Fixed word order in the Daily Routine lesson exercise (horfi ég á, not horfi á ég) and a missing 4th option in the related past-tense quiz.',
+       '👆 The “What’s new” popup now also closes with a tap anywhere, not just the “Got it” button.',
+       '↩️ The back gesture (Android and browser) now returns to the previous in-app screen from sub-pages (leaderboard, profile, basics, lesson…) instead of closing the whole app.']}
 ];
 function showChangelog(){
   const unseen=CHANGELOG.filter(c=>!store.lastSeenVersion||c.v>store.lastSeenVersion);
@@ -1100,6 +1104,7 @@ function showChangelog(){
     ${body}
     <button class="btn" onclick="dismissChangelog()">${cs?'Rozumím':'Got it'}</button>
   </div>`;
+  ov.onclick=dismissChangelog;
   document.body.appendChild(ov);
 }
 function dismissChangelog(){
@@ -1492,7 +1497,32 @@ function vAbout(){
     <p style="font-size:.78rem;margin:8px 0 0">${cs?'Počítadla jsou čistě anonymní — neukládá se nic osobního.':'Counters are fully anonymous — nothing personal is stored.'}</p>`;
   }).catch(()=>{const el=$('#appstats');if(el)el.textContent=cs?'Statistiky se nepodařilo načíst.':'Could not load statistics.';});
 }
-function go(view,extra){document.removeEventListener('click',feedbackAdvance);S={view,...extra};render();window.scrollTo(0,0);}
+const NL_ROOT_VIEWS=new Set(['welcome','map']);
+function nlViewParent(view){
+  if(view==='newProfile'||view==='placement')return 'welcome';
+  if(view==='result'||view==='board'||view==='profile')return 'map';
+  if(view==='basics')return P()?'map':'welcome';
+  if(view==='about')return P()?'profile':'welcome';
+  return null;
+}
+let nlHistGuard=false,nlSuppressPop=false;
+function go(view,extra){
+  document.removeEventListener('click',feedbackAdvance);
+  S={view,...extra};render();window.scrollTo(0,0);
+  if(NL_ROOT_VIEWS.has(view)){
+    if(nlHistGuard){nlSuppressPop=true;nlHistGuard=false;history.back();}
+  }else if(!nlHistGuard){
+    history.pushState({},'');nlHistGuard=true;
+  }
+}
+window.addEventListener('popstate',()=>{
+  if(nlSuppressPop){nlSuppressPop=false;return;}
+  nlHistGuard=false;
+  const cur=S.view;
+  if(cur==='lesson'){nlHistGuard=true;history.pushState({},'');confirmQuit();return;}
+  const p=nlViewParent(cur);
+  if(p)go(p);
+});
 
 /* ---- welcome / profiles ---- */
 function vWelcome(){
