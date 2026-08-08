@@ -64,9 +64,10 @@ input,select{font:inherit;color:var(--ink);background:var(--card);border:1.5px s
 .col{display:flex;flex-direction:column;gap:12px}
 .eyebrow{text-transform:uppercase;letter-spacing:.09em;font-size:.72rem;font-weight:700;color:var(--muted)}
 /* course map */
-.level-head{display:flex;align-items:baseline;gap:10px;margin:30px 0 4px;border-bottom:2px solid var(--mist);padding-bottom:6px}
+.level-head{display:flex;align-items:baseline;gap:10px;margin:30px 0 4px;border-bottom:2px solid var(--mist);padding-bottom:6px;cursor:pointer}
 .level-head h2{font-size:1.25rem}
 .level-head .pct{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums;font-size:.85rem}
+.chev{color:var(--muted);font-size:.8rem;margin-left:6px}
 .path{display:flex;flex-direction:column;gap:10px;margin:14px 0}
 .node{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:14px 16px;width:100%;text-align:left;color:var(--ink)}
 .node .dot{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;background:var(--accent-soft);color:var(--accent);font-variant-numeric:tabular-nums}
@@ -1051,7 +1052,7 @@ function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth
 function yesterday(){const d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
 /* ================= VERSIONING ================= */
-const APP_VERSION='2026.08.08';
+const APP_VERSION='2026.08.09';
 const CHANGELOG=[
   {v:'2026.07.28',
    cs:['🎯 Chytřejší nabídka odpovědí — špatné možnosti jsou teď z podobných témat a jen ze slovní zásoby, kterou už znáš.',
@@ -1090,7 +1091,10 @@ const CHANGELOG=[
        '📱 Fine-tuned spacing around the bottom bar on iPhone so the “Check” button doesn’t sit too close to the home-gesture area.',
        '📝 Fixed word order in the Daily Routine lesson exercise (horfi ég á, not horfi á ég) and a missing 4th option in the related past-tense quiz.',
        '👆 The “What’s new” popup now also closes with a tap anywhere, not just the “Got it” button.',
-       '↩️ The back gesture (Android and browser) now returns to the previous in-app screen from sub-pages (leaderboard, profile, basics, lesson…) instead of closing the whole app.']}
+       '↩️ The back gesture (Android and browser) now returns to the previous in-app screen from sub-pages (leaderboard, profile, basics, lesson…) instead of closing the whole app.']},
+  {v:'2026.08.09',
+   cs:['📂 Úrovně na mapě lekcí a odznaky v profilu se teď dají sbalit/rozbalit — výchozí zobrazení je kratší, otevřená zůstává jen vaše aktuální úroveň.'],
+   en:['📂 Levels on the lesson map and badges on the profile page can now be collapsed/expanded — the default view is shorter, with only your current level open.']}
 ];
 function showChangelog(){
   const unseen=CHANGELOG.filter(c=>!store.lastSeenVersion||c.v>store.lastSeenVersion);
@@ -1607,6 +1611,8 @@ function placeNext(){
 }
 
 /* ---- map ---- */
+let nlOpenLvl=null;
+function toggleLvl(id){nlOpenLvl.has(id)?nlOpenLvl.delete(id):nlOpenLvl.add(id);render();}
 function lvlOrder(id){return['a1','a2','b1','b2','c1','c2'].indexOf(id);}
 function isLessonUnlocked(lv,idx){
   const p=P();
@@ -1621,6 +1627,7 @@ function isLessonUnlocked(lv,idx){
 }
 function vMap(){
   const p=P();
+  if(!nlOpenLvl)nlOpenLvl=new Set([p.unlocked]);
   const goalPct=Math.min(100,Math.round(xpToday(p)/p.goal*100));
   $('#app').innerHTML=`
   <div class="topbar">
@@ -1643,14 +1650,15 @@ function vMap(){
       return`<div class="row" style="margin-top:8px;${done?'opacity:.6':''}"><span>${done?'✅':'▫️'}</span><span style="flex:1">${qTxt(d)} <small style="color:var(--muted)">+${d.reward} XP</small></span><small style="color:var(--muted);font-variant-numeric:tabular-nums">${d.goal>1?pr+'/'+d.goal:''}</small></div>`;}).join('')}</div>`;})()}
   ${COURSE.map(lv=>{
     const done=lv.lessons.filter(l=>p.lessons[l.id]&&p.lessons[l.id].stars>0).length;
-    return`<div class="level-head"><span class="eyebrow">${esc(lvlTag(lv))}</span><h2>${esc(lvlName(lv))}</h2><span class="pct">${done}/${lv.lessons.length}</span></div>
-    <div class="path">${lv.lessons.map((l,i)=>{
+    const open=nlOpenLvl.has(lv.id);
+    return`<div class="level-head" onclick="toggleLvl('${lv.id}')"><span class="eyebrow">${esc(lvlTag(lv))}</span><h2>${esc(lvlName(lv))}</h2><span class="pct">${done}/${lv.lessons.length}<span class="chev">${open?'▾':'▸'}</span></span></div>
+    ${open?`<div class="path">${lv.lessons.map((l,i)=>{
       const st=p.lessons[l.id];const unlocked=isLessonUnlocked(lv,i);
       const stars=st?'★'.repeat(st.stars)+'☆'.repeat(3-st.stars):'';
       return`<button class="node ${st&&st.stars>0?'done':''} ${unlocked?'':'locked'}" ${unlocked?`onclick="startLesson('${l.id}')"`:'disabled'}>
         <span class="dot">${st&&st.stars>0?'✓':i+1}</span>
         <span><span class="t">${esc(locLesson(l).title)}</span><small>${esc(l.sub)}</small></span>
-        <span class="stars">${stars}${unlocked?'':'🔒'}</span></button>`;}).join('')}</div>`;}).join('')}
+        <span class="stars">${stars}${unlocked?'':'🔒'}</span></button>`;}).join('')}</div>`:''}`;}).join('')}
   <p class="footer-note">${T('courseFoot')}</p>`;
 }
 
@@ -1898,6 +1906,8 @@ function vBoard(){
 }
 
 /* ---- profile ---- */
+let nlBadgesOpen=false;
+function toggleBadges(){nlBadgesOpen=!nlBadgesOpen;render();}
 function vProfile(){
   const p=P();
   const done=Object.keys(p.lessons).filter(k=>p.lessons[k].stars>0).length;
@@ -1918,8 +1928,11 @@ function vProfile(){
     ${langSwitch()}
   </div>
   <div class="card" style="margin-top:14px">
-    <span class="eyebrow">${T('badgesT')}</span>
-    <div class="badges" style="margin-top:10px">${BADGES.map(b=>`<div class="badge ${p.badges.includes(b.id)?'':'off'}"><div class="ico">${b.ico}</div><b>${esc(b.name)}</b><br><small>${esc(bDesc(b))}</small></div>`).join('')}</div>
+    <div class="row" onclick="toggleBadges()" style="cursor:pointer">
+      <span class="eyebrow" style="flex:1">${T('badgesT')} (${p.badges.length}/${BADGES.length})</span>
+      <span class="chev">${nlBadgesOpen?'▾':'▸'}</span>
+    </div>
+    ${nlBadgesOpen?`<div class="badges" style="margin-top:10px">${BADGES.map(b=>`<div class="badge ${p.badges.includes(b.id)?'':'off'}"><div class="ico">${b.ico}</div><b>${esc(b.name)}</b><br><small>${esc(bDesc(b))}</small></div>`).join('')}</div>`:''}
   </div>
   <div class="card col" style="margin-top:14px">
     <span class="eyebrow">${T('dataT')}</span>
