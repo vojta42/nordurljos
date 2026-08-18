@@ -1076,7 +1076,7 @@ function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth
 function yesterday(){const d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
 /* ================= VERSIONING ================= */
-const APP_VERSION='2026.08.09';
+const APP_VERSION='2026.08.18';
 const CHANGELOG=[
   {v:'2026.07.28',
    cs:['🎯 Chytřejší nabídka odpovědí — špatné možnosti jsou teď z podobných témat a jen ze slovní zásoby, kterou už znáš.',
@@ -1122,7 +1122,14 @@ const CHANGELOG=[
        '🔲 Rychlé odkazy na mapě přeuspořádány do mřížky 2×2: Cvičení a Žebříček nahoře, Základy a Slovník dole.'],
    en:['📂 Levels on the lesson map and badges on the profile page can now be collapsed/expanded — only fully completed levels start collapsed by default.',
        '📖 New Dictionary (on the welcome screen and the map) — over 2,000 words, searchable in Icelandic, Czech, and English at once, regardless of which language you start typing in.',
-       '🔲 The map’s quick links are now a 2×2 grid: Practice and Leaderboard on top, Basics and Dictionary below.']}
+       '🔲 The map’s quick links are now a 2×2 grid: Practice and Leaderboard on top, Basics and Dictionary below.']},
+  {v:'2026.08.18',
+   cs:['🗣 Nová stránka „Výslovnost“ — zlatá pravidla, písmena navíc (þ, ð, æ, ö), samohlásky a dvojhlásky, souhláskové pasti (ll → „tl“, hv → „kv“) a preaspirace. U každého příkladu český přepis, IPA a 🔊.',
+       '🎓 Dvě podstránky navíc: „Do hloubky“ (přízvuk a délka, časté chyby, zeměpisná jména) a „Jazykolamy“ na procvičení.',
+       '🔲 Výslovnost je první dlaždicí ve druhém řádku na mapě a je i na uvítací obrazovce.'],
+   en:['🗣 New “Pronunciation” page — the golden rules, extra letters (þ, ð, æ, ö), vowels and diphthongs, consonant traps (ll → “tl”, hv → “kv”) and preaspiration. Every example comes with a respelling, IPA and 🔊.',
+       '🎓 Two extra sub-pages: “In depth” (stress and length, common mistakes, place names) and “Tongue twisters” to practise with.',
+       '🔲 Pronunciation is the first tile in the second row on the map, and is on the welcome screen too.']}
 ];
 function showChangelog(){
   const unseen=CHANGELOG.filter(c=>!store.lastSeenVersion||c.v>store.lastSeenVersion);
@@ -1188,7 +1195,7 @@ cs:{
  profStats:'Statistiky',totalXp:'Celkem XP',todayXp:'Dnešní XP',streakW:'Streak',doneL:'Dokončené lekce',weakW:'Slabá slovíčka',
  badgesT:'Odznaky',dataT:'Data',exportB:'⬇︎ Export progresu (JSON)',importB:'⬆︎ Import progresu',switchP:'Přepnout profil',delP:'Smazat tento profil',
  aboutB:'ℹ️ O aplikaci',basicsB:'📇 Základy',basicsTitle:'Základní slovíčka a obraty',langT:'Jazyk / Language',days:'dní',
- pronB:'🗣 Výslovnost',pronTitle:'Výslovnost',
+ pronB:'🗣 Výslovnost',pronTitle:'Výslovnost',pronDeepB:'🎓 Do hloubky',pronDeepTitle:'Výslovnost do hloubky',pronTwistB:'🌀 Jazykolamy',pronTwistTitle:'Jazykolamy',
  dictB:'📖 Slovník',dictTitle:'Slovník',dictPH:'Islandsky, česky nebo anglicky…',dictHint:'Začněte psát pro vyhledání slova.',dictNone:'Nic nenalezeno.',dictInCourse:'Součást kurzu',dictMore:n=>`… a dalších ${n} — zpřesněte hledání.`,
  boardTitle:'🏆 Žebříček přátel',boardIntro:'Propojte se s přáteli a porovnávejte XP a streaky. Žebříček vidí <b>jen členové vaší skupiny</b> — kdo nezná kód, nevidí nic.',
  createGroup:'Vytvořit novou skupinu',joinPH:'Kód skupiny od kamaráda (NL-…)',join:'Připojit se',
@@ -1224,7 +1231,7 @@ en:{
  profStats:'Statistics',totalXp:'Total XP',todayXp:'Today’s XP',streakW:'Streak',doneL:'Lessons completed',weakW:'Weak words',
  badgesT:'Badges',dataT:'Data',exportB:'⬇︎ Export progress (JSON)',importB:'⬆︎ Import progress',switchP:'Switch profile',delP:'Delete this profile',
  aboutB:'ℹ️ About',basicsB:'📇 Basics',basicsTitle:'Essential words & phrases',langT:'Jazyk / Language',days:'days',
- pronB:'🗣 Pronunciation',pronTitle:'Pronunciation',
+ pronB:'🗣 Pronunciation',pronTitle:'Pronunciation',pronDeepB:'🎓 In depth',pronDeepTitle:'Pronunciation in depth',pronTwistB:'🌀 Tongue twisters',pronTwistTitle:'Tongue twisters',
  dictB:'📖 Dictionary',dictTitle:'Dictionary',dictPH:'Type in Icelandic, Czech, or English…',dictHint:'Start typing to look up a word.',dictNone:'No matches found.',dictInCourse:'Part of the course',dictMore:n=>`… and ${n} more — refine your search.`,
  boardTitle:'🏆 Friends leaderboard',boardIntro:'Connect with friends and compare XP and streaks. The leaderboard is visible <b>only to members of your group</b> — without the code, nobody sees anything.',
  createGroup:'Create a new group',joinPH:'Group code from a friend (NL-…)',join:'Join',
@@ -1490,6 +1497,79 @@ const PRON_PREASP=[
  {is:'vakna',re:'VAHK-na',ipa:'ˈvahkna',cs:'probudit se',en:'to wake up'},
  {is:'opna',re:'OHP-na',ipa:'ˈɔhpna',cs:'otevřít',en:'to open'},
  {is:'vatn',re:'vahtn',ipa:'vahtn̥',cs:'voda',en:'water'}
+];
+const PRON_STRESS=[
+ {is:'hótel',re:'HOU-tel',ipa:'ˈhouːtɛl',cs:'hotel',en:'hotel'},
+ {is:'tómatur',re:'TOU-ma-tyr',reEn:'TOH-oo-ma-tür',ipa:'ˈtʰouːmatʏr̥',cs:'rajče',en:'tomato'},
+ {is:'banani',re:'PA-na-ni',ipa:'ˈpaːnanɪ',cs:'banán',en:'banana'},
+ {is:'sjónvarp',re:'SJOUN-varp',ipa:'ˈsjounvarp',cs:'televize',en:'television'},
+ {is:'flugvöllur',re:'FLYɣ-vœtlyr',ipa:'ˈflʏɣˌvœtlʏr̥',cs:'letiště (složenina)',en:'airport (a compound)'},
+ {is:'Eyjafjallajökull',re:'EJ-ja-fjatla-jœkytl',ipa:'ˈeiːjafjatlaˌjœːkʏtl̥',cs:'ta slavná hora',en:'the famous volcano'}
+];
+const PRON_LENGTH=[
+ {is:'taka',re:'TA-ka',ipa:'ˈtʰaːka',cs:'brát — dlouhé a (jedna souhláska)',en:'to take — long a (one consonant)'},
+ {is:'takk',re:'tahk',ipa:'tʰahk',cs:'díky — krátké a (dvě souhlásky)',en:'thanks — short a (two consonants)'},
+ {is:'vera',re:'VE-ra',ipa:'ˈvɛːra',cs:'být — dlouhé e',en:'to be — long e'},
+ {is:'verða',re:'VER-dha',ipa:'ˈvɛrða',cs:'stát se — krátké e',en:'to become — short e'},
+ {is:'titra',re:'TI-tra',reEn:'TIT-ra',ipa:'ˈtʰiːtra',cs:'chvět se — výjimka: tr, proto dlouhé',en:'to tremble — exception: tr, so long'},
+ {is:'vökva',re:'VŒ-kva',ipa:'ˈvœːkva',cs:'zalévat — výjimka: kv, proto dlouhé',en:'to water — exception: kv, so long'}
+];
+const PRON_TRAPS=[
+ {k:'á',bad:'„á“',good:'„au“',dcs:'Čárka není délka, ale jiná hláska.',den:'The accent marks a different vowel, not length.',ex:{is:'já',re:'jau',reEn:'yow',cs:'ano',en:'yes'}},
+ {k:'au',bad:'„au“',good:'„öi“',dcs:'Nejzrádnější dvojhláska — vypadá jako české „au“, ale není.',den:'The trickiest diphthong — it looks like “ow” but is not.',ex:{is:'auga',re:'ŒI-ɣa',cs:'oko',en:'eye'}},
+ {k:'u',bad:'„u“',good:'mezi „u“ a „ö“',goodEn:'a rounded vowel',dcs:'Zaoblené, blízké německému <i>ü</i>.',den:'Rounded, close to German <i>ü</i>.',ex:{is:'upp',re:'yhp',reEn:'ühp',cs:'nahoru',en:'up'}},
+ {k:'ð',bad:'„d“',good:'znělé „th“',goodEn:'voiced “th”',dcs:'Nikdy ne „d“ ani „z“.',den:'Never “d” or “z”.',ex:{is:'maður',re:'MA-dhyr',reEn:'MA-dhür',cs:'muž',en:'man'}},
+ {k:'þ',bad:'„t“ nebo „s“',badEn:'“t” or “s”',good:'neznělé „th“',goodEn:'voiceless “th”',dcs:'Jako v anglickém <i>thing</i>.',den:'As in <i>thing</i>.',ex:{is:'þú',re:'thú',reEn:'thoo',cs:'ty',en:'you'}},
+ {k:'ll',bad:'„l“',good:'„tl“',dcs:'Až na přejatá slova a přezdívky.',den:'Except in loanwords and nicknames.',ex:{is:'fjall',re:'fjatl',reEn:'fyatl',cs:'hora',en:'mountain'}},
+ {k:'b, d, g',bad:'znělé jako v češtině',badEn:'voiced',good:'nepřídechové p, t, k',goodEn:'unaspirated p, t, k',dcs:'A naopak: p, t, k na začátku slova mají zřetelný přídech.',den:'And conversely: initial p, t, k carry a clear puff of air.',ex:{is:'dagur',re:'TA-ɣyr',reEn:'TA-ghür',cs:'den',en:'day'}},
+ {k:'pp, tt, kk',bad:'„p, t, k“',good:'„hp, ht, hk“',dcs:'Preaspirace — krátké „h“ před souhláskou.',den:'Preaspiration — a short “h” before the consonant.',ex:{is:'ekki',re:'EH-ki',cs:'ne, není',en:'not'}},
+ {k:'hv',bad:'„hv“',good:'„kv“',dcs:'Všechna tázací slova.',den:'All the question words.',ex:{is:'hvar',re:'kvar',cs:'kde',en:'where'}}
+];
+const PRON_FREE=[
+ {cs:'<b>Přízvuk na první slabice</b> — přesně jako v češtině. Angličan nebo Francouz s tím zápolí, vy ne.',en:'<b>First-syllable stress</b> — a freebie if your language does the same.'},
+ {cs:'<b>R</b> — kmitavé, jako české <i>r</i>. Anglicky mluvící to trénují měsíce.',en:'<b>R</b> — a tap/trill, not the English r.'},
+ {cs:'<b>J</b> — jako české <i>j</i>, ne jako anglické „dž“.',en:'<b>J</b> — like English <i>y</i>, never “dzh”.'},
+ {cs:'<b>CH</b> — české <i>ch</i> se hodí na <i>x</i> („lachs“) i na koncové <i>g</i> („sacht“).',en:'<b>The “ch” sound</b> — useful for <i>x</i> (“lahks”) and final <i>g</i> (“sacht”).'},
+ {cs:'<b>Nezkracované samohlásky</b> — čeština taky neredukuje nepřízvučné slabiky na „schwa“ jako angličtina. Koncovky <i>-ur</i>, <i>-inn</i>, <i>-aði</i> vyslovujte zřetelně.',en:'<b>No vowel reduction</b> — unstressed endings <i>-ur</i>, <i>-inn</i>, <i>-aði</i> stay clear, never a schwa.'},
+ {cs:'<b>Délka í a ú</b> — délku samohlásek čeština rozlišuje, takže je vám to přirozené.',en:'<b>Vowel length</b> — a real contrast in Icelandic, familiar if your language has it too.'}
+];
+const PRON_PLACES=[
+ {is:'Reykjavík',re:'REJ-kja-vík',reEn:'RAY-kya-veek',ipa:'ˈreiːkjaviːk',cs:'hlavní město — „kouřová zátoka“',en:'the capital — “smoky bay”'},
+ {is:'Vík',re:'vík',reEn:'veek',ipa:'viːk',cs:'zátoka; vesnice na jihu',en:'bay; a village in the south'},
+ {is:'Höfn',re:'hœpn',ipa:'hœpn̥',cs:'přístav — jedna slabika, fn = „pn“',en:'harbour — one syllable, fn = “pn”'},
+ {is:'Akureyri',re:'A-ky-rej-ri',reEn:'A-kü-ray-ri',ipa:'ˈaːkʏreiːrɪ',cs:'druhé největší město',en:'the second-largest town'},
+ {is:'Þingvellir',re:'THING-kvetlir',ipa:'ˈθiŋkvɛtlɪr̥',cs:'místo starého parlamentu — ll = „tl“',en:'site of the old parliament — ll = “tl”'},
+ {is:'Blönduós',re:'BLŒN-dy-ous',reEn:'BLÖN-dü-ohs',ipa:'ˈplœntuous',cs:'městečko na severu',en:'a town in the north'},
+ {is:'Snæfellsnes',re:'SNAJ-fels-nes',reEn:'SNY-fels-nes',ipa:'ˈsnaiˌfɛlsnɛs',cs:'poloostrov — pozor, ll před s zůstává „ls“',en:'peninsula — note: ll before s stays “ls”'},
+ {is:'Jökulsárlón',re:'JŒ-kyl-saur-loun',reEn:'YÖ-kül-sowr-lohn',ipa:'ˈjœːkʏlsaurˌlouːn',cs:'ledovcová laguna',en:'the glacier lagoon'},
+ {is:'Seljalandsfoss',re:'SEL-ja-lants-fos',reEn:'SEL-ya-lants-foss',ipa:'ˈsɛljalantsˌfɔsː',cs:'vodopád, za který se dá jít',en:'the waterfall you can walk behind'},
+ {is:'Hallgrímskirkja',re:'HATL-kríms-kirkja',reEn:'HATL-greems-kirk-ya',ipa:'ˈhatlkrimsˌkʰɪrkja',cs:'kostel v Reykjavíku',en:'the church in Reykjavík'},
+ {is:'Vatnajökull',re:'VAHT-na-jœkytl',reEn:'VAHT-na-yö-kütl',ipa:'ˈvahtnaˌjœːkʏtl̥',cs:'největší ledovec Evropy',en:'Europe’s largest glacier'},
+ {is:'Siglufjörður',re:'SIK-ly-fjœr-dhyr',reEn:'SIK-lü-fyör-dhür',ipa:'ˈsɪkl̥ʏˌfjœrðʏr̥',cs:'městečko v severních fjordech',en:'a town in the northern fjords'},
+ {is:'Eyjafjallajökull',re:'EJ-ja-fjatla-jœkytl',reEn:'AY-ya-fyatla-yö-kütl',ipa:'ˈeiːjafjatlaˌjœːkʏtl̥',cs:'vulkán, co v roce 2010 zastavil letadla',en:'the volcano that grounded planes in 2010'}
+];
+const PRON_TWIST=[
+ {classic:true,is:'Barbara Ara bar Ara bara barr.',
+  cs:'Barbara, Ariho dcera, nesla Arimu jen jehličí.',en:'Barbara, Ari’s daughter, carried Ari only pine needles.',
+  tcs:'b jako nepřídechové „p“, kmitavé r, přízvuk na první slabice',ten:'unaspirated b, tapped r, first-syllable stress'},
+ {classic:true,is:'Stebbi stóð á ströndu og var að troða strý. Strý var ekki troðið nema Stebbi træði strý.',
+  cs:'Stebbi stál na břehu a šlapal koudel. Koudel se nešlapala, dokud ji Stebbi nešlapal.',en:'Stebbi stood on the shore treading tow. The tow was not trodden unless Stebbi trod it.',
+  tcs:'skupiny st-, str-, ó („ou“), ð, preaspirace v ekki',ten:'st-, str- clusters, ó as “oh-oo”, ð, preaspiration in ekki'},
+ {is:'Þrír þyrstir þursar þökkuðu þrisvar.',
+  cs:'Tři žízniví trollové třikrát poděkovali.',en:'Three thirsty trolls said thanks three times.',
+  tcs:'þ = neznělé „th“ pětkrát v řadě',ten:'þ = voiceless “th”, five times over'},
+ {is:'Fallegt fjall, fallegur foss, fallegir vellir.',
+  cs:'Krásná hora, krásný vodopád, krásné pláně.',en:'A beautiful mountain, a beautiful waterfall, beautiful plains.',
+  tcs:'ll → „tl“ ve všech pádech i rodech',ten:'ll → “tl” across genders and cases'},
+ {is:'Kötturinn vaknaði uppi á klettinum.',
+  cs:'Kočka se probudila nahoře na skále.',en:'The cat woke up on top of the rock.',
+  tcs:'preaspirace pětkrát: tt, kn, pp, tt',ten:'preaspiration five times over: tt, kn, pp, tt'},
+ {is:'Einn í einu, sagði Sæmundur, og laug.',
+  cs:'Jeden po druhém, řekl Sæmundur — a lhal.',en:'One at a time, said Sæmundur — and lied.',
+  tcs:'ei („ej“), æ („aj“), au („öi“) v jedné větě',ten:'ei, æ and au all in one sentence'},
+ {is:'Hvað, hver, hvenær, hvers vegna — hvítur hvalur hvarf.',
+  cs:'Co, kdo, kdy, proč — bílá velryba zmizela.',en:'What, who, when, why — a white whale vanished.',
+  tcs:'hv → „kv“ sedmkrát',ten:'hv → “kv” seven times'}
 ];
 function nlNorm(s){return s.toLowerCase().replace(/þ/g,'th').replace(/ð/g,'d').replace(/æ/g,'ae').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 const DICTIONARY=[
@@ -3621,6 +3701,8 @@ function render(){
   if(v==='basics')return vBasics();
   if(v==='dict')return vDict();
   if(v==='pron')return vPron();
+  if(v==='pronDeep')return vPronDeep();
+  if(v==='pronTwist')return vPronTwist();
 }
 
 /* ---- basics (quick reference) ---- */
@@ -3725,7 +3807,75 @@ function vPron(){
       ?'Nejcharakterističtější rys islandštiny a pro Čecha nejcizejší: před <b>pp, tt, kk</b> a před <b>p, t, k stojící před l nebo n</b> se vloží krátké „h“. Ne přídech <i>po</i> souhlásce, ale dech <b>před</b> ní.'
       :'The most characteristic Icelandic feature: a short “h” is inserted before <b>pp, tt, kk</b> and before <b>p, t, k standing before l or n</b>. Not a puff <i>after</i> the consonant, but breath <b>before</b> it.'}</p>
     <table class="prontbl">${PRON_PREASP.map(pronTblRow).join('')}</table>
+  </div>
+  <div class="row" style="margin-top:14px">
+    <button class="btn ghost tight" style="flex:1" onclick="go('pronDeep')">${T('pronDeepB')}</button>
+    <button class="btn ghost tight" style="flex:1" onclick="go('pronTwist')">${T('pronTwistB')}</button>
+  </div>
+  <p class="footer-note">${cs?'Zvuk 🔊 používá hlas vašeho telefonu — na islandštinu je slušný, ale ne dokonalý. Přepis je vždy blíž pravdě.':'The 🔊 audio uses your device voice — decent for Icelandic, but not perfect. Trust the respelling.'}</p>`;
+}
+function vPronDeep(){
+  const cs=lang()==='cs';
+  $('#app').innerHTML=`
+  <div class="topbar"><button class="btn quiet" onclick="go('pron')">←</button><span class="brand">${T('pronDeepTitle')}</span></div>
+  <div class="card">
+    <span class="eyebrow">${cs?'6 · Přízvuk a délka':'6 · Stress and length'}</span>
+    <p class="plead">${cs
+      ?'Přízvuk je <b>vždy</b> na první slabice — u přejatých slov, jmen i u složenin. Ve složeninách nese hlavní přízvuk první člen, další členy mají jen vedlejší.'
+      :'Stress is <b>always</b> on the first syllable — loanwords, names and compounds included. In compounds the first element takes the main stress.'}</p>
+    <table class="prontbl">${PRON_STRESS.map(pronTblRow).join('')}</table>
+    <p class="plead" style="margin:14px 0 6px"><b>${cs?'Délka samohlásky':'Vowel length'}</b> — ${cs
+      ?'v přízvučné slabice je samohláska dlouhá před nejvýš jednou souhláskou a krátká před dvěma a více. Výjimka: před <i>p, t, k, s</i> + <i>v, j, r</i> zůstává dlouhá.'
+      :'a stressed vowel is long before at most one consonant, short before two or more. Exception: it stays long before <i>p, t, k, s</i> + <i>v, j, r</i>.'}</p>
+    <table class="prontbl">${PRON_LENGTH.map(pronTblRow).join('')}</table>
+    <div class="tip" style="margin-top:16px">
+      <span class="eyebrow">${cs?'Bonus':'Bonus'}</span>
+      <p style="margin:6px 0 0;font-size:.93rem">${cs
+        ?'Stejný „vsuvkový“ jev jako u <i>ll</i> a <i>nn</i> funguje i u <b>sl</b> a <b>sn</b>: <i>Ísland</i> se čte „ÍST-lant“ a <i>rusl</i> (odpadky) „rystl“.'
+        :'The same inserted-stop effect as in <i>ll</i> and <i>nn</i> also hits <b>sl</b> and <b>sn</b>: <i>Ísland</i> is “EEST-lant”, <i>rusl</i> (rubbish) is “rüstl”.'}</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?'7 · Časté chyby':'7 · Common mistakes'}</span>
+    <p class="plead">${cs?'Devět pastí, do kterých spadne skoro každý začátečník.':'Nine traps almost every beginner falls into.'}</p>
+    ${PRON_TRAPS.map(r=>`<div class="pitem">
+      <div class="phead"><span class="k">${esc(r.k)}</span></div>
+      <div class="pdesc">❌ ${cs?r.bad:(r.badEn||r.bad)} &nbsp;→&nbsp; ✅ <b>${cs?r.good:(r.goodEn||r.good)}</b><br>${cs?r.dcs:r.den}</div>
+      ${pronEx(r.ex)}</div>`).join('')}
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?'Co máte zdarma':'What you get for free'}</span>
+    <p class="plead">${cs?'Čeština je na islandskou výslovnost překvapivě dobrá průprava:':'Some things are easier than you would expect:'}</p>
+    <div class="col" style="gap:8px">${PRON_FREE.map(r=>`<div style="font-size:.95rem">✅ ${cs?r.cs:r.en}</div>`).join('')}</div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?'8 · Zeměpisná jména na procvičení':'8 · Place names to practise'}</span>
+    <p class="plead">${cs?'Všechna pravidla naráz — a rovnou na jménech, která budete chtít umět vyslovit.':'Every rule at once — on names you will actually want to say out loud.'}</p>
+    <table class="prontbl">${PRON_PLACES.map(pronTblRow).join('')}</table>
   </div>`;
+}
+function vPronTwist(){
+  const cs=lang()==='cs';
+  const item=r=>`<div class="twist">
+    <div class="tw-is">${esc(r.is)} ${speakBtn(r.is)}</div>
+    <div class="tw-cs">${esc(cs?r.cs:r.en)}</div>
+    <div class="tw-tr">${cs?'Trénuje: ':'Drills: '}${esc(cs?r.tcs:r.ten)}</div>
+  </div>`;
+  $('#app').innerHTML=`
+  <div class="topbar"><button class="btn quiet" onclick="go('pron')">←</button><span class="brand">${T('pronTwistTitle')}</span></div>
+  <div class="card">
+    <span class="eyebrow">${cs?'Klasické islandské':'Genuine Icelandic classics'}</span>
+    <p class="plead">${cs?'Tyhle dva zná na Islandu každý.':'Every Icelander knows these two.'}</p>
+    ${PRON_TWIST.filter(r=>r.classic).map(item).join('')}
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?'Cvičné řetězce':'Practice drills'}</span>
+    <p class="plead">${cs
+      ?'Nejsou to tradiční jazykolamy — jsou to věty složené pro tuhle stránku, každá na jeden konkrétní jev. Zkuste je třikrát za sebou a zrychlujte.'
+      :'These are not traditional tongue twisters — they were written for this page, each targeting one specific feature. Say each one three times, faster every round.'}</p>
+    ${PRON_TWIST.filter(r=>!r.classic).map(item).join('')}
+  </div>
+  <p class="footer-note">${cs?'Když zvládnete Stebbiho, zvládnete cokoliv.':'If you can do Stebbi, you can do anything.'}</p>`;
 }
 
 /* ---- about ---- */
@@ -3773,6 +3923,7 @@ function nlViewParent(view){
   if(view==='basics')return P()?'map':'welcome';
   if(view==='dict')return P()?'map':'welcome';
   if(view==='pron')return P()?'map':'welcome';
+  if(view==='pronDeep'||view==='pronTwist')return 'pron';
   if(view==='about')return P()?'profile':'welcome';
   return null;
 }
