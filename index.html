@@ -134,6 +134,30 @@ input,select{font:inherit;color:var(--ink);background:var(--card);border:1.5px s
 table.stattbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 table.stattbl td{padding:7px 4px;border-bottom:1px solid var(--mist)}
 table.stattbl td:last-child{text-align:right;font-weight:700}
+/* pronunciation */
+table.prontbl{width:100%;border-collapse:collapse}
+table.prontbl td{padding:8px 4px;border-bottom:1px solid var(--mist);vertical-align:top}
+table.prontbl td:first-child{white-space:nowrap}
+table.prontbl td:last-child{text-align:right;color:var(--muted);font-size:.9rem}
+table.prontbl tr:last-child td{border-bottom:none}
+.re{font-weight:700}
+.ipa{color:var(--muted);font-size:.74rem;font-weight:400;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap}
+.pitem{padding:13px 0;border-bottom:1px solid var(--mist)}
+.pitem:last-child{border-bottom:none;padding-bottom:0}
+.pitem .phead{display:flex;align-items:baseline;gap:8px}
+.pitem .phead b{font-size:1.02rem}
+.pitem .phead .k{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-size:1.4rem;font-weight:700;flex:none}
+.pitem .phead small{color:var(--muted);flex:none}
+.pnum{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.75rem;font-weight:800;display:grid;place-items:center;margin-top:2px}
+.pdesc{font-size:.95rem;margin:4px 0 6px}
+.pex{font-size:.95rem;line-height:1.9}
+.pex .gloss{color:var(--muted)}
+.plead{color:var(--muted);font-size:.88rem;margin:0 0 4px}
+.twist{padding:14px 0;border-bottom:1px solid var(--mist)}
+.twist:last-child{border-bottom:none;padding-bottom:0}
+.twist .tw-is{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-size:1.12rem;line-height:1.5}
+.twist .tw-cs{color:var(--muted);font-size:.9rem;margin-top:5px}
+.twist .tw-tr{font-size:.82rem;margin-top:7px;color:var(--lupine);font-weight:700}
 .footer-note{color:var(--muted);font-size:.8rem;text-align:center;margin-top:36px}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -1164,6 +1188,7 @@ cs:{
  profStats:'Statistiky',totalXp:'Celkem XP',todayXp:'Dnešní XP',streakW:'Streak',doneL:'Dokončené lekce',weakW:'Slabá slovíčka',
  badgesT:'Odznaky',dataT:'Data',exportB:'⬇︎ Export progresu (JSON)',importB:'⬆︎ Import progresu',switchP:'Přepnout profil',delP:'Smazat tento profil',
  aboutB:'ℹ️ O aplikaci',basicsB:'📇 Základy',basicsTitle:'Základní slovíčka a obraty',langT:'Jazyk / Language',days:'dní',
+ pronB:'🗣 Výslovnost',pronTitle:'Výslovnost',
  dictB:'📖 Slovník',dictTitle:'Slovník',dictPH:'Islandsky, česky nebo anglicky…',dictHint:'Začněte psát pro vyhledání slova.',dictNone:'Nic nenalezeno.',dictInCourse:'Součást kurzu',dictMore:n=>`… a dalších ${n} — zpřesněte hledání.`,
  boardTitle:'🏆 Žebříček přátel',boardIntro:'Propojte se s přáteli a porovnávejte XP a streaky. Žebříček vidí <b>jen členové vaší skupiny</b> — kdo nezná kód, nevidí nic.',
  createGroup:'Vytvořit novou skupinu',joinPH:'Kód skupiny od kamaráda (NL-…)',join:'Připojit se',
@@ -1199,6 +1224,7 @@ en:{
  profStats:'Statistics',totalXp:'Total XP',todayXp:'Today’s XP',streakW:'Streak',doneL:'Lessons completed',weakW:'Weak words',
  badgesT:'Badges',dataT:'Data',exportB:'⬇︎ Export progress (JSON)',importB:'⬆︎ Import progress',switchP:'Switch profile',delP:'Delete this profile',
  aboutB:'ℹ️ About',basicsB:'📇 Basics',basicsTitle:'Essential words & phrases',langT:'Jazyk / Language',days:'days',
+ pronB:'🗣 Pronunciation',pronTitle:'Pronunciation',
  dictB:'📖 Dictionary',dictTitle:'Dictionary',dictPH:'Type in Icelandic, Czech, or English…',dictHint:'Start typing to look up a word.',dictNone:'No matches found.',dictInCourse:'Part of the course',dictMore:n=>`… and ${n} more — refine your search.`,
  boardTitle:'🏆 Friends leaderboard',boardIntro:'Connect with friends and compare XP and streaks. The leaderboard is visible <b>only to members of your group</b> — without the code, nobody sees anything.',
  createGroup:'Create a new group',joinPH:'Group code from a friend (NL-…)',join:'Join',
@@ -1365,6 +1391,106 @@ const BASICS=[
  {is:'tíu',cs:'deset',en:'ten'},
 ];
 const BASICS_JOKE={is:'Uppáhaldsbærinn minn á Íslandi er Blönduós.',cs:'Moje nejoblíbenější město na Islandu je Blönduós.',en:'My favorite town in Iceland is Blönduós.'};
+
+/* ---- pronunciation data ---- */
+/* re = český přepis (čti česky), reEn = anglický přepis, ipa = přesná IPA */
+const PRON_GOLD=[
+ {cs:'Přízvuk je vždy na první slabice',en:'Stress is always on the first syllable',
+  dcs:'Bez výjimky — i u přejatých slov a jmen. Čeština má přízvuk na prvním místě taky, takže tohle máte zdarma.',
+  den:'No exceptions — loanwords and names included. Handy if your language already stresses the first syllable.',
+  ex:{is:'hótel',re:'HOU-tel',ipa:'ˈhouːtɛl',cs:'hotel',en:'hotel'}},
+ {cs:'Á se nečte „á“, ale „au“',en:'Á is not a long “a” — it is “ow”',
+  dcs:'Čárka nad samohláskou <b>neznamená délku</b>, ale úplně jinou hlásku. Totéž platí pro <i>ó</i> („ou“) a <i>é</i> („je“).',
+  den:'The accent does <b>not</b> mark length — it marks a different vowel entirely. Same for <i>ó</i> (“oh-oo”) and <i>é</i> (“yeh”).',
+  ex:{is:'já',re:'jau',reEn:'yow',ipa:'jauː',cs:'ano',en:'yes'}},
+ {cs:'Þ a Ð jsou dvě různá „th“',en:'Þ and Ð are two different “th” sounds',
+  dcs:'<b>Þ</b> je neznělé (jako v anglickém <i>thing</i>) a stojí jen na začátku slova. <b>Ð</b> je znělé (jako v anglickém <i>the</i>) a na začátku slova nestojí nikdy. Ani jedno není „t“, „d“, „s“ ani „z“.',
+  den:'<b>Þ</b> is voiceless (as in <i>thing</i>) and only ever starts a word. <b>Ð</b> is voiced (as in <i>the</i>) and never starts one.',
+  ex:{is:'það',re:'thadh',ipa:'θaːð',cs:'to, ono',en:'it, that'}},
+ {cs:'LL se čte „tl“',en:'LL is pronounced “tl”',
+  dcs:'Nejtypičtější islandská vychytávka. Platí i uprostřed jmen — <i>Eyjafja<b>ll</b>ajökull</i>.',
+  den:'The most distinctively Icelandic quirk. It applies inside names too — <i>Eyjafja<b>ll</b>ajökull</i>.',
+  ex:{is:'fjall',re:'fjatl',reEn:'fyatl',ipa:'fjatl̥',cs:'hora',en:'mountain'}},
+ {cs:'Preaspirace: pp, tt, kk = „hp, ht, hk“',en:'Preaspiration: pp, tt, kk = “hp, ht, hk”',
+  dcs:'Krátké „h“ se vloží <b>před</b> souhlásku, ne za ni. V češtině nic takového není a je to slyšet na první dobrou.',
+  den:'A short “h” is inserted <b>before</b> the consonant, not after it. Most languages have nothing like it.',
+  ex:{is:'takk',re:'tahk',ipa:'tʰahk',cs:'díky',en:'thanks'}},
+ {cs:'B, D, G nejsou znělé',en:'B, D, G are not voiced',
+  dcs:'Vyslovují se jako české <b>p, t, k bez přídechu</b>. Naopak p, t, k na začátku slova mají přídech zřetelný (<i>taka</i> „tʰa-ka“ = brát).',
+  den:'They are <b>unaspirated p, t, k</b>. Conversely, initial p, t, k carry a clear puff of air (<i>taka</i> “tʰa-ka” = to take).',
+  ex:{is:'góður',re:'KOU-dhyr',ipa:'ˈkouːðʏr̥',cs:'dobrý',en:'good'}}
+];
+const PRON_LETTERS=[
+ {k:'Þ þ',nm:'þorn',dcs:'Neznělé „th“ jako v anglickém <i>thing</i>. Vyskytuje se <b>jen na začátku</b> slova.',den:'Voiceless “th” as in <i>thing</i>. Occurs <b>only word-initially</b>.',
+  ex:{is:'þrír',re:'thrír',reEn:'threer',ipa:'θriːr̥',cs:'tři',en:'three'}},
+ {k:'Ð ð',nm:'eð',dcs:'Znělé „th“ jako v anglickém <i>the</i>. Na začátku slova <b>nikdy</b> — najdete ho mezi samohláskami a na konci.',den:'Voiced “th” as in <i>the</i>. <b>Never</b> word-initial — it lives between vowels and word-finally.',
+  ex:{is:'maður',re:'MA-dhyr',ipa:'ˈmaːðʏr̥',cs:'muž, člověk',en:'man, person'}},
+ {k:'Æ æ',nm:'',dcs:'Čte se „aj“ — jako české <i>aj</i> v „ajaj“.',den:'Pronounced “eye”.',
+  ex:{is:'sæll',re:'sajtl',reEn:'sytl',ipa:'saitl̥',cs:'ahoj (muži)',en:'hello (to a man)'}},
+ {k:'Ö ö',nm:'',dcs:'Jako německé <i>ö</i> — zaoblené „e“. V přepisu níže píšeme <b>œ</b>.',den:'Like German <i>ö</i> — a rounded “e”. Written <b>œ</b> in the respellings below.',
+  ex:{is:'köttur',re:'KŒH-tyr',ipa:'ˈkʰœhtʏr̥',cs:'kočka',en:'cat'}},
+ {k:'Á á',nm:'',dcs:'Dvojhláska „au“.',den:'The diphthong “ow” as in <i>now</i>.',
+  ex:{is:'sár',re:'saur',reEn:'sowr',ipa:'sauːr̥',cs:'rána',en:'wound'}},
+ {k:'É é',nm:'',dcs:'Čte se „je“.',den:'Pronounced “yeh”.',
+  ex:{is:'hér',re:'hjer',reEn:'hyer',ipa:'hjɛːr̥',cs:'tady',en:'here'}},
+ {k:'Í í · Ý ý',nm:'',dcs:'Obě písmena znějí <b>úplně stejně</b> — jako české „í“. Stejně tak nepřehlásené <i>i</i> a <i>y</i> zní stejně (krátké „i“).',den:'Both letters sound <b>identical</b> — “ee”. The same goes for plain <i>i</i> and <i>y</i>.',
+  ex:{is:'vín',re:'vín',reEn:'veen',ipa:'viːn',cs:'víno',en:'wine'}},
+ {k:'Ó ó',nm:'',dcs:'Dvojhláska „ou“.',den:'The diphthong “oh-oo”.',
+  ex:{is:'sól',re:'soul',ipa:'souːl',cs:'slunce',en:'sun'}},
+ {k:'Ú ú',nm:'',dcs:'Čte se „ú“ — na rozdíl od nepřehlasovaného <i>u</i>, které je zaoblené mezi „u“ a „ö“.',den:'Pronounced “oo” — unlike plain <i>u</i>, which is rounded, between “u” and “ö”.',
+  ex:{is:'hús',re:'hús',reEn:'hoos',ipa:'huːs',cs:'dům',en:'house'}}
+];
+const PRON_VOWELS=[
+ {k:'a',cs:'„a“',en:'“a”',ex:{is:'taka',re:'TA-ka',cs:'brát',en:'to take'}},
+ {k:'á',cs:'„au“',en:'“ow”',ex:{is:'á',re:'au',reEn:'ow',cs:'na',en:'on'}},
+ {k:'e',cs:'„e“',en:'“e”',ex:{is:'hestur',re:'HEST-yr',cs:'kůň',en:'horse'}},
+ {k:'é',cs:'„je“',en:'“yeh”',ex:{is:'hér',re:'hjer',reEn:'hyer',cs:'tady',en:'here'}},
+ {k:'i · y',cs:'krátké „i“ (mezi i a e)',en:'short “i” (between i and e)',ex:{is:'fiskur',re:'FIS-kyr',cs:'ryba',en:'fish'}},
+ {k:'í · ý',cs:'„í“',en:'“ee”',ex:{is:'ís',re:'ís',reEn:'ees',cs:'led, zmrzlina',en:'ice, ice cream'}},
+ {k:'o',cs:'„o“',en:'“o”',ex:{is:'opna',re:'OHP-na',cs:'otevřít',en:'to open'}},
+ {k:'ó',cs:'„ou“',en:'“oh-oo”',ex:{is:'róa',re:'ROU-a',cs:'veslovat',en:'to row'}},
+ {k:'u',cs:'mezi „u“ a „ö“ (něm. ü) — v přepisu <b>y</b>',en:'between “u” and “ö”, rounded — written <b>ü</b>',ex:{is:'upp',re:'yhp',reEn:'üHP',cs:'nahoru',en:'up'}},
+ {k:'ú',cs:'„ú“',en:'“oo”',ex:{is:'út',re:'út',reEn:'oot',cs:'ven',en:'out'}},
+ {k:'ö',cs:'německé „ö“ — v přepisu <b>œ</b>',en:'German “ö” — written <b>œ</b>',ex:{is:'öl',re:'œl',cs:'pivo',en:'beer'}},
+ {k:'æ',cs:'„aj“',en:'“eye”',ex:{is:'bær',re:'bajr',reEn:'byr',cs:'statek, městečko',en:'farm, town'}},
+ {k:'au',cs:'„öi“ — <b>ne</b> české „au“!',en:'“öy” — <b>not</b> “ow”!',ex:{is:'auga',re:'ŒI-ɣa',cs:'oko',en:'eye'}},
+ {k:'ei · ey',cs:'„ej“',en:'“ay”',ex:{is:'einn',re:'ejtn',reEn:'aytn',cs:'jeden',en:'one'}}
+];
+const PRON_CONS=[
+ {k:'ll → „tl“',dcs:'Platí i tam, kde to nečekáte. <b>Výjimka:</b> přejatá slova a domácí přezdívky si drží obyčejné „l“ (<i>halló</i>, <i>milljón</i>, <i>Palli</i>). A před <i>s</i> zůstává „ls“ — <i>Snæfellsnes</i>.',
+  den:'Applies almost everywhere. <b>Exception:</b> loanwords and nicknames keep a plain “l” (<i>halló</i>, <i>milljón</i>, <i>Palli</i>). Before <i>s</i> it stays “ls” — <i>Snæfellsnes</i>.',
+  exs:[{is:'bíll',re:'pítl',reEn:'peetl',ipa:'pitl̥',cs:'auto',en:'car'},{is:'Hallgrímur',re:'HATL-krímyr',ipa:'ˈhatlkrimʏr̥',cs:'mužské jméno',en:'a man’s name'}]},
+ {k:'nn → „tn“',dcs:'Ale <b>jen po dlouhé samohlásce nebo dvojhlásce</b>. Po krátké samohlásce a v členu <i>-inn</i> zůstává obyčejné „n“ — <i>finna</i> „FIN-na“, <i>hesturinn</i> „HEST-yr-in“.',
+  den:'But <b>only after a long vowel or a diphthong</b>. After a short vowel and in the article <i>-inn</i> it stays “n” — <i>finna</i>, <i>hesturinn</i>.',
+  exs:[{is:'steinn',re:'stejtn',reEn:'staytn',ipa:'steitn̥',cs:'kámen',en:'stone'},{is:'brúnn',re:'prútn',reEn:'prootn',ipa:'pruːtn̥',cs:'hnědý',en:'brown'}]},
+ {k:'rl → „rtl“ · rn → „rtn“',dcs:'Stejný jev jako u <i>ll</i> a <i>nn</i>, jen s <i>r</i> na začátku.',den:'The same phenomenon as <i>ll</i> and <i>nn</i>, with an <i>r</i> in front.',
+  exs:[{is:'karl',re:'kartl',ipa:'kʰartl̥',cs:'muž, chlapík',en:'man, fellow'},{is:'barn',re:'partn',ipa:'partn̥',cs:'dítě',en:'child'}]},
+ {k:'hv → „kv“',dcs:'Všechna tázací slova tak začínají — a znějí jako s „k“.',den:'All the question words start this way — and sound as if spelled with a “k”.',
+  exs:[{is:'hvað',re:'kvadh',ipa:'kvað',cs:'co',en:'what'},{is:'hvítur',re:'KVÍ-tyr',reEn:'KVEE-tür',ipa:'ˈkviːtʏr̥',cs:'bílý',en:'white'}]},
+ {k:'fn → „pn“ · fl → „pl“',dcs:'F se před <i>n</i> a <i>l</i> mění na „p“.',den:'F turns into “p” before <i>n</i> and <i>l</i>.',
+  exs:[{is:'nafn',re:'napn',ipa:'napn̥',cs:'jméno',en:'name'},{is:'Höfn',re:'hœpn',ipa:'hœpn̥',cs:'přístav (i jméno města) — jedna slabika!',en:'harbour (also a town) — one syllable!'}]},
+ {k:'f mezi samohláskami → „v“',dcs:'Na začátku slova je f obyčejné „f“, uvnitř mezi samohláskami se změkčí na „v“.',den:'Word-initially f is “f”; between vowels it softens to “v”.',
+  exs:[{is:'hafa',re:'HA-va',cs:'mít',en:'to have'},{is:'lofa',re:'LO-va',cs:'slíbit',en:'to promise'}]},
+ {k:'g — chameleon',dcs:'Podle okolí zní čtyřmi způsoby: na začátku „k“ (<i>gata</i> „KA-ta“ = ulice), mezi samohláskami slabé „ɣ“ blízké českému „h“ (<i>saga</i> „SA-ɣa“), před <i>i</i> a <i>j</i> jako „j“ (<i>segja</i> „SEJ-ja“ = říct), na konci nebo před <i>t</i> jako „ch“ (<i>sagt</i> „sacht“ = řečeno).',
+  den:'It has four faces: initial “k” (<i>gata</i> = street), a soft “ɣ” between vowels (<i>saga</i>), a “y” sound before <i>i</i>/<i>j</i> (<i>segja</i> = to say), and a “ch” finally or before <i>t</i> (<i>sagt</i> = said).',
+  exs:[{is:'saga',re:'SA-ɣa',ipa:'ˈsaːɣa',cs:'příběh, sága',en:'story, saga'},{is:'segja',re:'SEJ-ja',reEn:'SAY-ya',ipa:'ˈsɛija',cs:'říct',en:'to say'}]},
+ {k:'hj, hl, hn, hr',dcs:'H se opravdu vysloví a následující souhláska je <b>neznělá</b> — jako byste do ní jen vydechli.',den:'The h really is pronounced and the following consonant is <b>voiceless</b> — as if you only breathed into it.',
+  exs:[{is:'hnífur',re:'HNÍ-vyr',reEn:'HNEE-vür',ipa:'ˈn̥iːvʏr̥',cs:'nůž',en:'knife'},{is:'hlaupa',re:'HLŒI-pa',ipa:'ˈl̥œyːpa',cs:'běžet',en:'to run'}]},
+ {k:'x → „chs“',dcs:'Jediné písmeno, dva zvuky.',den:'One letter, two sounds.',
+  exs:[{is:'lax',re:'lachs',reEn:'lahks',ipa:'laxs',cs:'losos',en:'salmon'}]},
+ {k:'-r na konci je neznělé',dcs:'Koncovka <i>-ur</i>, <i>-ir</i>, <i>-ar</i> končí jen vydechnutým „r“, ne plným kmitem.',den:'The endings <i>-ur</i>, <i>-ir</i>, <i>-ar</i> end in a breathy, voiceless “r”.',
+  exs:[{is:'hestur',re:'HEST-yr',reEn:'HEST-ür',ipa:'ˈhɛstʏr̥',cs:'kůň',en:'horse'}]}
+];
+const PRON_PREASP=[
+ {is:'takk',re:'tahk',ipa:'tʰahk',cs:'díky',en:'thanks'},
+ {is:'ekki',re:'EH-ki',ipa:'ˈɛhkɪ',cs:'ne, není',en:'not'},
+ {is:'upp',re:'yhp',reEn:'ühp',ipa:'ʏhp',cs:'nahoru',en:'up'},
+ {is:'köttur',re:'KŒH-tyr',ipa:'ˈkʰœhtʏr̥',cs:'kočka',en:'cat'},
+ {is:'epli',re:'EHP-li',ipa:'ˈɛhplɪ',cs:'jablko',en:'apple'},
+ {is:'vakna',re:'VAHK-na',ipa:'ˈvahkna',cs:'probudit se',en:'to wake up'},
+ {is:'opna',re:'OHP-na',ipa:'ˈɔhpna',cs:'otevřít',en:'to open'},
+ {is:'vatn',re:'vahtn',ipa:'vahtn̥',cs:'voda',en:'water'}
+];
 function nlNorm(s){return s.toLowerCase().replace(/þ/g,'th').replace(/ð/g,'d').replace(/æ/g,'ae').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 const DICTIONARY=[
 {is:'af hverju',cs:'proč',en:'why',pos:'adv'},
@@ -3494,6 +3620,7 @@ function render(){
   if(v==='about')return vAbout();
   if(v==='basics')return vBasics();
   if(v==='dict')return vDict();
+  if(v==='pron')return vPron();
 }
 
 /* ---- basics (quick reference) ---- */
@@ -3535,6 +3662,69 @@ function vBasics(){
   <div class="card" style="margin-top:14px">
     <span class="eyebrow">${cs?'A jedna k dobru':'And one for fun'}</span>
     <table class="stattbl" style="margin-top:8px">${row(BASICS_JOKE)}</table>
+  </div>`;
+}
+
+/* ---- pronunciation ---- */
+function pronRe(w){const cs=lang()==='cs';const re=cs?w.re:(w.reEn||w.re);return cs?`„${esc(re)}“`:`“${esc(re)}”`;}
+function pronEx(w){const cs=lang()==='cs';
+  return `<div class="pex"><span class="is">${esc(w.is)}</span> ${speakBtn(w.is)} <span class="re">${pronRe(w)}</span>${w.ipa?` <span class="ipa">[${esc(w.ipa)}]</span>`:''} <span class="gloss">— ${esc(cs?w.cs:w.en)}</span></div>`;}
+function pronTblRow(w){const cs=lang()==='cs';
+  return `<tr><td class="is">${esc(w.is)} ${speakBtn(w.is)}</td><td><span class="re">${pronRe(w)}</span>${w.ipa?`<br><span class="ipa">[${esc(w.ipa)}]</span>`:''}</td><td>${esc(cs?w.cs:w.en)}</td></tr>`;}
+function pronLegend(){const cs=lang()==='cs';
+  return cs?`<p class="plead">Přepis ve „uvozovkách“ čtěte <b>česky</b>; <b>VELKÁ</b> slabika nese přízvuk. <b>th</b> = neznělé th (angl. <i>thing</i>), <b>dh</b> = znělé th (angl. <i>the</i>), <b>œ</b> = německé ö, <b>y</b> = islandské u (mezi u a ö), <b>ɣ</b> = slabé „h“. V hranatých závorkách je přesná IPA.</p>`
+  :`<p class="plead">Read the respelling in “quotes” as English; the <b>CAPS</b> syllable takes the stress. <b>dh</b> = voiced th (as in <i>the</i>), <b>œ</b> = German ö, <b>ü</b> = Icelandic u, <b>ɣ</b> = a soft “h”. Exact IPA in brackets.</p>`;}
+function vPron(){
+  const cs=lang()==='cs';
+  const back=P()?'map':'welcome';
+  $('#app').innerHTML=`
+  <div class="topbar"><button class="btn quiet" onclick="go('${back}')">←</button><span class="brand">${T('pronTitle')}</span></div>
+  <div class="tip">
+    <span class="eyebrow">${cs?'Než začnete':'Before you start'}</span>
+    <p style="margin:6px 0 0;font-size:.95rem">${cs
+      ?'Islandský pravopis je téměř dokonale pravidelný — jen se čte úplně jinak, než by Čech čekal. Když si osvojíte šest pravidel níže, budete srozumitelní.'
+      :'Icelandic spelling is almost perfectly regular — it just is not read the way you would guess. Master the six rules below and you will be understood.'}</p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?'1 · Zlatá pravidla':'1 · The golden rules'}</span>
+    ${pronLegend()}
+    ${PRON_GOLD.map((r,i)=>`<div class="pitem">
+      <div class="phead"><span class="pnum">${i+1}</span><b>${cs?r.cs:r.en}</b></div>
+      <div class="pdesc">${cs?r.dcs:r.den}</div>
+      ${pronEx(r.ex)}</div>`).join('')}
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?'2 · Písmena, která čeština nemá':'2 · Letters you may not know'}</span>
+    <p class="plead">${cs?'Islandská abeceda naopak nemá <b>c, q, w</b> ani <b>z</b> — to se zrušilo pravopisnou reformou v roce 1973.':'The Icelandic alphabet has no <b>c, q, w</b> or <b>z</b> — the latter was abolished by the 1973 spelling reform.'}</p>
+    ${PRON_LETTERS.map(r=>`<div class="pitem">
+      <div class="phead"><span class="k">${esc(r.k)}</span>${r.nm?`<small>${esc(r.nm)}</small>`:''}</div>
+      <div class="pdesc">${cs?r.dcs:r.den}</div>
+      ${pronEx(r.ex)}</div>`).join('')}
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?'3 · Samohlásky a dvojhlásky':'3 · Vowels and diphthongs'}</span>
+    <p class="plead">${cs?'Dvě nejčastější chyby: <b>au</b> není české „au“, ale „öi“ — a <b>u</b> není české „u“.':'Two commonest slips: <b>au</b> is not “ow” but “öy” — and <b>u</b> is a rounded vowel, not “oo”.'}</p>
+    <table class="prontbl">${PRON_VOWELS.map(r=>`<tr>
+      <td><span class="k" style="font-size:1.2rem;font-weight:700">${esc(r.k)}</span></td>
+      <td>${cs?r.cs:r.en}</td>
+      <td style="text-align:right"><span class="is">${esc(r.ex.is)}</span> ${speakBtn(r.ex.is)}<br><span class="re" style="font-size:.86rem">${pronRe(r.ex)}</span> <span class="gloss">${esc(cs?r.ex.cs:r.ex.en)}</span></td></tr>`).join('')}</table>
+    <p class="plead" style="margin:12px 0 0"><b>${cs?'Délka:':'Length:'}</b> ${cs
+      ?'přízvučná samohláska je <b>dlouhá</b>, když za ní stojí nejvýš jedna souhláska (<i>taka</i>, <i>vera</i>), a <b>krátká</b> před dvěma a více (<i>hestur</i>, <i>lampi</i>). Výjimka: před <i>p, t, k, s</i> + <i>v, j, r</i> zůstává dlouhá (<i>titra</i>, <i>vökva</i>).'
+      :'a stressed vowel is <b>long</b> when at most one consonant follows (<i>taka</i>, <i>vera</i>) and <b>short</b> before two or more (<i>hestur</i>, <i>lampi</i>). Exception: it stays long before <i>p, t, k, s</i> + <i>v, j, r</i> (<i>titra</i>, <i>vökva</i>).'}</p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?'4 · Souhláskové pasti':'4 · Consonant traps'}</span>
+    ${PRON_CONS.map(r=>`<div class="pitem">
+      <div class="phead"><b>${cs?r.k:r.k}</b></div>
+      <div class="pdesc">${cs?r.dcs:r.den}</div>
+      ${r.exs.map(pronEx).join('')}</div>`).join('')}
+  </div>
+  <div class="card" style="margin-top:14px">
+    <span class="eyebrow">${cs?'5 · Preaspirace':'5 · Preaspiration'}</span>
+    <p class="plead">${cs
+      ?'Nejcharakterističtější rys islandštiny a pro Čecha nejcizejší: před <b>pp, tt, kk</b> a před <b>p, t, k stojící před l nebo n</b> se vloží krátké „h“. Ne přídech <i>po</i> souhlásce, ale dech <b>před</b> ní.'
+      :'The most characteristic Icelandic feature: a short “h” is inserted before <b>pp, tt, kk</b> and before <b>p, t, k standing before l or n</b>. Not a puff <i>after</i> the consonant, but breath <b>before</b> it.'}</p>
+    <table class="prontbl">${PRON_PREASP.map(pronTblRow).join('')}</table>
   </div>`;
 }
 
@@ -3582,6 +3772,7 @@ function nlViewParent(view){
   if(view==='result'||view==='board'||view==='profile')return 'map';
   if(view==='basics')return P()?'map':'welcome';
   if(view==='dict')return P()?'map':'welcome';
+  if(view==='pron')return P()?'map':'welcome';
   if(view==='about')return P()?'profile':'welcome';
   return null;
 }
@@ -3620,6 +3811,7 @@ function vWelcome(){
       <span><span class="t">${esc(store.profiles[id].name)}</span>
       <small>${store.profiles[id].xp} XP · 🔥 ${streakLive(store.profiles[id])}</small></span></button>`).join('')}
     <button class="btn" onclick="go('newProfile')">${T('newProfile')}</button>
+    <button class="btn quiet" onclick="go('pron')">${T('pronB')}</button>
     <button class="btn quiet" onclick="go('basics')">${T('basicsB')}</button>
     <button class="btn quiet" onclick="go('dict')">${T('dictB')}</button>
     <button class="btn quiet" onclick="go('about')">${T('aboutB')}</button>
@@ -3722,6 +3914,7 @@ function vMap(){
     <button class="btn ghost tight" style="flex:1" onclick="go('board')">${T('board')}</button>
   </div>
   <div class="row" style="margin-top:10px">
+    <button class="btn ghost tight" style="flex:1" onclick="go('pron')">${T('pronB')}</button>
     <button class="btn ghost tight" style="flex:1" onclick="go('basics')">${T('basicsB')}</button>
     <button class="btn ghost tight" style="flex:1" onclick="go('dict')">${T('dictB')}</button>
   </div>
