@@ -4389,7 +4389,9 @@ function deleteProfile(){
 
 /* ---- init ---- */
 if(store.active&&P()){migrateP(P());go('map');}else go('welcome');
-if(store.lastSeenVersion!==APP_VERSION)showChangelog();
+/* prvni spusteni bez profilu: changelog nema co ukazovat, jen si verzi tise poznacime */
+if(!store.lastSeenVersion&&!Object.keys(store.profiles).length){store.lastSeenVersion=APP_VERSION;save();}
+else if(store.lastSeenVersion!==APP_VERSION)showChangelog();
 </script>
 <script>
 if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(()=>{});});}
